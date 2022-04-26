@@ -1,0 +1,15 @@
+ll mod=1000000007;
+ll fast_pow(ll a,ll n) {
+  ll res = 1;
+  while (n) {
+    if(n%2==0){
+      a=(a*a)%mod;
+      n/=2;
+    }
+    else{
+      res=(res*a)%mod;
+      n--;
+    }
+  }
+  return res;
+}

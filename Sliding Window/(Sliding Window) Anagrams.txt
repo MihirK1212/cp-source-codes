@@ -1,0 +1,76 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function template for C++
+class Solution{
+public:
+	int search(string pat, string txt) 
+	{
+	    unordered_map<char,int> freq;
+        unordered_map<char,bool> exists; 
+        
+        int n = txt.size() , m = pat.size();
+        int ans = 0;
+        
+        for(auto c : pat){freq[c]++; exists[c]=true;}
+        int count = freq.size();
+        int tmp = count;
+        
+        int start=0,end=0;
+        
+        while(start<n && !exists[txt[start]]){start++;}
+        if(start==n){return 0;}
+        
+        end=start;
+        freq[txt[start]]--;
+        if(freq[txt[start]]==0){count--;}
+        
+        while(start<=end && start<n && end<n)
+        {
+            if(count==0 && (end-start+1)==m){ans++;}
+            
+            if((end-start+1)<=m)
+            {
+                if((end+1)>=n){break;}
+                if(exists[txt[end+1]])
+                {
+                    freq[txt[end+1]]--;
+                    if(freq[txt[end+1]]==0){count--;}
+                }
+                end++;
+            }
+            else
+            {
+                if(exists[txt[start]])
+                {
+                    freq[txt[start]]++;
+                    if(freq[txt[start]]==1){count++;}
+                }
+                start++;
+            }
+        }
+        
+        return ans;
+        
+	}
+
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        string pat, txt;
+        cin >> txt >> pat;
+        Solution ob;
+        auto ans = ob.search(pat, txt);
+        cout << ans << "\n";
+    }
+    return 0;
+}  // } Driver Code Ends

@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+bool place_queens(vector<vll>&board,ll n,ll N,ll col,vll &left_diag,vll &right_diag,vll &is_row_free)
+{
+    if(n==0)
+    {
+        return true;
+    }
+    ll row;
+    for(row=0;row<N;row++)
+    {
+        if(left_diag[row-col+N-1]==0 && right_diag[row+col]==0 && is_row_free[row]==0)
+        {
+            board[row][col]=1;
+            left_diag[row-col+N-1]=1;
+            right_diag[row+col]=1;
+            is_row_free[row]=1;
+        }
+        else{continue;}
+        
+        if(place_queens(board,n-1,N,col+1,left_diag,right_diag,is_row_free))
+        {
+            return true;
+        }
+        else
+        {
+            board[row][col]=0;
+        }
+    }
+    return false;
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll n,i,j;
+    cin>>n;
+    
+    vll left_diag((2*n)-1+(n*n)),right_diag((2*n)-1+(n*n)),is_row_free(n);
+    
+    vector<vll> board(n,vll (n,0));
+    
+    if(place_queens(board,n,n,0,left_diag,right_diag,is_row_free))
+    
+        for(i=0;i<n;i++)
+        {
+            for(j=0;j<n;j++){cout<<board[i][j]<<" ";}
+            cout<<"\n";
+        }
+    }
+    
+    else
+    {
+        cout<<"Not possible\n";
+    }
+    return 0;
+}

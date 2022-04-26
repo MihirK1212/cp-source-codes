@@ -1,0 +1,151 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+struct Node
+{
+    int data;
+    Node *next;
+    Node *prev;
+};
+
+int main()
+{
+    Node *head_address=NULL,second_address=NULL,third_address=NULL;
+    
+    head_address=new Node();
+    second_address=new Node();
+    third_address=new Node();
+    
+    head_address->data=5;
+    head_address->prev=NULL;
+    head_address->next=second_address;
+    
+    second_address->data=13;
+    second_address->prev=head_address;
+    second_address->next=third_address;
+    
+    third_address->data=-11;
+    third_address->prev=second_address;
+    third_address->next=NULL;
+    
+    return 0;
+}
+
+//Insert node at correct position in a sorted Doubly Linked List
+
+DoublyLinkedListNode* sortedInsert(DoublyLinkedListNode *head_address, int data) 
+{
+    DoublyLinkedListNode *address=NULL,*next_address=NULL,*prev_address=NULL;
+    address=head_address;
+    while(address!=NULL)
+    {
+        if((address->next)!=NULL && data>=(address->data) && data<=((address->next)->data))
+        {
+            DoublyLinkedListNode *generate_address=NULL;
+            generate_address=new DoublyLinkedListNode(data);
+            
+            next_address=address->next;
+            
+            address->next=generate_address;
+            generate_address->next=next_address;
+            
+            next_address->prev=generate_address;
+            generate_address->prev=address;
+            
+            break;
+        }
+        else if((address->prev)!=NULL && data<(address->data))
+        {
+            DoublyLinkedListNode *generate_address=NULL;
+            generate_address=new DoublyLinkedListNode(data);
+            
+            prev_address=address->prev;
+            
+            address->prev=generate_address;
+            
+            generate_address->next=address;
+            generate_address->prev=prev_address;
+            
+            prev_address->next=generate_address;
+        
+            break;
+        }
+        else if((address->prev)==NULL && data<(address->data))
+        {
+            DoublyLinkedListNode *generate_address=NULL;
+            generate_address=new DoublyLinkedListNode(data);
+            
+            prev_address=address->prev;
+            
+            address->prev=generate_address;
+            
+            generate_address->next=address;
+            generate_address->prev=prev_address;
+            
+            head_address=generate_address;
+        
+            break;
+        }
+        else if((address->next)==NULL && data>=(address->data))
+        {
+            DoublyLinkedListNode *generate_address=NULL;
+            generate_address=new DoublyLinkedListNode(data);
+            
+            next_address=address->next;
+            
+            address->next=generate_address;
+            generate_address->next=next_address;
+            
+            generate_address->prev=address;
+            
+            break;
+        }
+    }
+    
+    if(head_address==NULL)
+    {
+        DoublyLinkedListNode *generate_address=NULL;
+        generate_address=new DoublyLinkedListNode(data);
+        
+        head_address=generate_address;
+        head_address->prev=NULL;
+        head_address->next=NULL;
+    }
+    
+    return head_address;
+}
+
+
+//Reverse the linked List
+Node* Reverse(Node* head)
+{
+     Node *temp = NULL;  
+     Node *current = head;
+
+
+     while (current !=  NULL)
+     {
+       temp = current->prev;
+       current->prev = current->next;
+       current->next = temp;              
+       current = current->prev;
+     }      
+    if(temp != NULL )
+        head = temp->prev;
+
+    return head;
+
+}

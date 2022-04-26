@@ -1,0 +1,54 @@
+https://www.interviewbit.com/problems/hotel-service/
+vector<int> Solution::nearestHotel(vector<vector<int> > &A, vector<vector<int> > &B) 
+{
+    queue<pair<int,int>> q;
+    
+    int N = A.size() , M = A[0].size();
+
+    vector<vector<int>> dist(N,vector<int>(M,INT_MAX));
+
+    for(int i=0;i<N;i++)
+    {
+        for(int j=0;j<M;j++)
+        {
+            if(A[i][j]==0){continue;}
+
+            q.push({i,j});
+            dist[i][j] = 0;
+        }
+    }
+
+    vector<pair<int,int>> moves = {{0,1},{1,0},{0,-1},{-1,0}};
+
+    while(!q.empty())
+    {
+        int s = q.size();
+        while(s--)
+        {
+            int x = (q.front()).first , y = (q.front()).second;  q.pop();
+            
+            
+            for(auto it : moves)
+            {
+                int px = x+it.first , py = y+it.second;
+                if(!(px>=0 && px<N && py>=0 && py<M)){continue;}
+                
+                if(dist[px][py]>(dist[x][y]+1))
+                {
+                    dist[px][py] = dist[x][y]+1;
+                    q.push({px,py});
+                }
+            }
+        }
+    }
+
+    vector<int> ans;
+
+    for(auto p : B)
+    {
+        int px = p[0]-1 , py = p[1]-1;
+        ans.push_back(dist[px][py]);
+    }
+
+    return ans;
+}

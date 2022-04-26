@@ -1,0 +1,129 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+struct Node
+{
+    int data;
+    Node *next;
+};
+
+Node *top_address=NULL;
+
+void push(int data)
+{
+    Node *new_address;
+    new_address = new Node();
+ 
+    if (!new_address)
+    {
+        cout <<"\nHeap Overflow";
+        exit(1);
+    }
+ 
+    new_address->data = data;
+ 
+    new_address->next = top_address;
+ 
+    top_address = new_address;
+}
+
+bool isEmpty()
+{
+    return top_address == NULL;
+}
+
+int top()
+{
+    if (!isEmpty())
+    {
+        return top_address->data;
+    }    
+    else
+    {
+        cout<<"Stack is Empty...Cannot Return top element\n";
+    }    
+}
+
+void pop()
+{
+    struct Node* temp;
+ 
+    if (isEmpty())
+    {
+        cout<<"Stack is Empty...Cannot pop the top element\n";
+    }  
+    else
+    {
+        
+        Node *temp_address = top_address;
+ 
+        top_address = top_address->next;
+ 
+        temp_address->next = NULL;
+        
+        free(temp_address);
+    }
+}
+
+void display_stack()
+{
+    Node *address;
+ 
+    if (isEmpty())
+    {
+        cout<<"Stack is Empty...Cannot display the stack\n";
+    }
+    else
+    {
+        cout<<"The stack elements are:\n";
+        address = top_address;
+        while (address!=NULL)
+        {
+            cout << address->data << "\n";
+            address = address->next;
+        }
+    }
+}
+
+int main()
+{
+    push(11);
+    push(22);
+    push(33);
+    push(44);
+    
+ 
+    display_stack();
+ 
+    cout <<"\nTop element is "<< top() <<"\n";
+ 
+    pop();
+    pop();
+    
+    cout<<"\n";
+    display_stack();
+    
+    cout <<"\nTop element is "<< top() <<"\n";
+    
+    pop();
+    push(45);
+    // pop();
+    
+    cout<<"\n";
+    display_stack();
+          
+    return 0;
+}

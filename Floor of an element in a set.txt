@@ -1,0 +1,8 @@
+int getLowValue(set<int>& lowValue, int& n)
+{
+    auto it = lowValue.lower_bound(n);
+    --it;
+    return (*it);
+}
+
+lowValue.insert(INT_MIN)

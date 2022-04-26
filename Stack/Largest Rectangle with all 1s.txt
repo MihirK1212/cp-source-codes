@@ -1,0 +1,85 @@
+class Solution {
+public:
+    void findRight(vector<int>&A,vector<int>&rightMostGeq)
+    {
+        stack<int> s;
+        for(int i=0;i<A.size();i++)
+        {
+            while(!s.empty() && A[i]<A[s.top()])
+            {
+                rightMostGeq[s.top()]=max(rightMostGeq[s.top()],i-1);
+                s.pop();
+            }
+            s.push(i);
+        }
+
+        while(!s.empty()){rightMostGeq[s.top()]=A.size()-1; s.pop();}
+    }
+    void findLeft(vector<int>&A,vector<int>&leftMostGeq)
+    {
+        stack<int> s;
+        for(int i=A.size()-1;i>=0;i--)
+        {
+            while(!s.empty() && A[i]<A[s.top()])
+            {
+                leftMostGeq[s.top()]=min(leftMostGeq[s.top()],i+1);
+                s.pop();
+            }
+            s.push(i);
+        }
+
+        while(!s.empty()){leftMostGeq[s.top()]=0; s.pop();}
+    }
+
+    int largestRectangleArea(vector<int> &A) 
+    {
+        vector<int> rightMostGeq(A.size());
+        vector<int> leftMostGeq(A.size());
+
+        for(int i=0;i<A.size();i++){rightMostGeq[i]=leftMostGeq[i]=i;}
+
+        findRight(A,rightMostGeq);
+        findLeft(A,leftMostGeq);
+
+        int ans = -1;
+
+        for(int i=0;i<A.size();i++)
+        {
+            ans=max(ans,((i-leftMostGeq[i]+1)+(rightMostGeq[i]-i+1)-1)*A[i]);
+        }
+        return ans;
+    }
+    int maximalRectangle(vector<vector<char>>& A) 
+    {
+        int i,j;
+        int m = A.size();
+        int n = A[0].size();
+        
+        vector<int> colSum(n,0);
+        
+        
+        for(j=0;j<n;j++)
+        {
+            colSum[j]=(A[0][j]=='1');
+        }
+        
+        
+        int ans = -1;
+        
+        ans  = max(ans,largestRectangleArea(colSum));
+        
+        for(i=1;i<m;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                if(A[i][j]=='1'){colSum[j]++;}
+                else{colSum[j]=0;}
+            }
+            
+            ans  = max(ans,largestRectangleArea(colSum));
+        }
+        
+        return max(0,ans);
+        
+    }
+};

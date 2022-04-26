@@ -1,0 +1,19 @@
+ int ans = -1;
+    
+    int findDepth(TreeNode* root)
+    {
+        if(root==NULL){return 0;}
+        
+        int l_d  = findDepth(root->left);
+        int r_d = findDepth(root->right);
+        
+        ans = max(ans,l_d+r_d);
+        
+        return (max(l_d,r_d)+1);
+    }
+    
+    int diameterOfBinaryTree(TreeNode* root)
+    {
+        findDepth(root);
+        return ans;
+    }

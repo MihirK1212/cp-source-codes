@@ -1,0 +1,33 @@
+1) Method1 (//Refer to https://www.interviewbit.com/problems/excel-column-title/)
+
+vector<int> find_vect(int n)
+{
+    vector<int> num;
+    while(n!=0)
+    {
+        if((n%26)==0){num.push_back(26); n-=26;}
+        else{num.push_back(n%26);}
+        n/=26;
+    }
+    reverse(num.begin(),num.end());
+    return num;
+}
+
+2) Method2
+
+bool checkBase(ll n,ll b,vector<bool>&taken)
+{
+    ll i=0;
+    
+    while(n!=0)
+    {
+        if(n%b && !taken[i]){taken[i]=true;}
+        else if(n%b && taken[i]){return false;}
+        
+        n/=b;
+        i++;
+    }
+    return true;
+}
+
+3) Method 3

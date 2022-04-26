@@ -1,0 +1,45 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+#include<string>
+#include<vector>
+#include<cmath>
+using namespace std;
+
+int main()
+{
+    int m,n,t,i,j;
+    string str1,str2;
+    cout<<"Enter two strings:\n";
+    cin>>str1;
+    cin>>str2;
+    m=str1.length();
+    n=str2.length();
+   	
+    int D[m+1][n+1];
+    memset(D,0,sizeof(D))
+    
+    for(i=1;i<=m;i++)
+    {
+        for(j=1;j<=n;j++)
+        {
+            if(str1[i-1]==str2[j-1])
+            {
+                D[i][j]=D[i-1][j-1]+1;
+            }
+            else
+            {
+                D[i][j]=max(D[i-1][j],D[i][j-1]);
+            }
+        }
+    }
+    
+    cout<<"Length of longest common subsequence is: "<<D[m][n];
+    return 0;
+}

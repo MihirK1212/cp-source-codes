@@ -1,0 +1,87 @@
+// { Driver Code Starts
+//Initial template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function template for C++
+
+class Solution
+{
+  public:
+    //Function to find maximum of each subarray of size k.
+    vector <int> max_of_subarrays(int *arr, int n, int k)
+    {
+        vector<int> ans;
+        deque<int> dq;
+        unordered_map<int,bool> exists;
+        
+        for(int i=0;i<k;i++)
+        {
+            while(!dq.empty() && arr[i]>=arr[dq.back()])
+            {
+                exists[dq.back()]=false;
+                dq.pop_back();
+            }
+            
+            dq.push_back(i);
+            exists[dq.back()]=true;
+        }
+        
+        int start=0,end=k-1;
+        
+        while(start<=end)
+        {
+            while(!dq.empty() && !exists[dq.front()]){dq.pop_front();}
+            
+            ans.push_back(arr[dq.front()]);
+            
+            if((end+1)>=n){break;}
+            
+            exists[start]=false;
+            
+            while(!dq.empty() && (arr[end+1]>=arr[dq.back()] || !exists[dq.back()]))
+            {
+                exists[dq.back()]=false;
+                dq.pop_back();
+            }
+            
+            dq.push_back(end+1);
+            exists[end+1]=true;
+            
+            start++;
+            end++;
+        }
+        
+        
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+	
+	int t;
+	cin >> t;
+	
+	while(t--){
+	    
+	    int n, k;
+	    cin >> n >> k;
+	    
+	    int arr[n];
+	    for(int i = 0;i<n;i++) 
+	        cin >> arr[i];
+	    Solution ob;
+	    vector <int> res = ob.max_of_subarrays(arr, n, k);
+	    for (int i = 0; i < res.size (); i++) 
+	        cout << res[i] << " ";
+	    cout << endl;
+	    
+	}
+	
+	return 0;
+}  // } Driver Code Ends

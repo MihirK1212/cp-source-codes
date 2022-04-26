@@ -1,0 +1,16 @@
+/*Problem
+There are  bags and each bag contains some coin(s). Your task is to select an integer  and remove all the bags in which the number of coins is equal to . Divide the remaining bags into two non-empty groups such that:
+
+ The number of coin(s) in each bag of the first group is strictly smaller than .
+The number of coin(s) in each bag of the second group is strictly larger than .
+The total number of coins of one group is equal to the other.
+Input Format:
+
+The first line contains an integer  denoting the number of bags.
+The second line contains  space-separated integers, denoting the number of coins in  bags. The  integer denotes the values of .
+
+Output Format:
+
+Print , if it is possible to divide the bags into two groups, else print .
+https://www.hackerearth.com/practice/algorithms/searching/binary-search/practice-problems/algorithm/bags-of-coins-7b1d612c/
+*/

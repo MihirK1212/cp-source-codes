@@ -1,0 +1,47 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int findRootInd(vector<int>&arr,int x)
+{
+    int lb = 0 , ub = arr.size()-1;
+    while(lb<=ub)
+    {
+        int mid = lb + (ub-lb)/2;
+        if(arr[mid]==x){return mid;}
+        if(x>arr[mid]){lb=mid+1;}
+        else{ub=mid-1;}
+    }
+    return -1;
+}
+TreeNode* build(vector<int>&inorder,vector<int>&preorder,int inLB,int inUB,int preLB,int preUB)
+{
+    if(inLB>inUB || preLB>preUB){return NULL;}
+    
+    int rootVal = preorder[preLB];
+    TreeNode* root = new TreeNode(rootVal);
+    
+    int rootInd = findRootInd(inorder,rootVal);
+    
+    int leftSize = (rootInd-inLB);
+    int rightSize = (inUB-rootInd);
+    
+    root->left = build(inorder,preorder,inLB,rootInd-1,preLB+1,preLB+leftSize);
+    root->right = build(inorder,preorder,rootInd+1,preUB,preLB+leftSize+1,preUB);
+    
+    return root;
+}
+TreeNode* Solution::constructBST(vector<int> &preorder) 
+{
+    vector<int> inorder = preorder;
+    sort(inorder.begin(),inorder.end());
+
+    int n = preorder.size();
+
+    return build(inorder,preorder,0,n-1,0,n-1);
+}

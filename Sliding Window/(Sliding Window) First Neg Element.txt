@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll n,i,k;
+    cin>>n>>k;
+    vll a(n);
+    input(a);
+    
+    map<ll,bool> freq_neg;
+    queue<ll> q;
+    
+    for(i=0;i<k;i++)
+    {
+        if(a[i]<0){q.push(i);}
+    }
+    
+    ll start=0,end=k-1;
+    
+    while(end<n)
+    {
+        if(!q.empty())
+        {
+            cout<<a[q.front()]<<" ";
+        }
+        if(start==q.front())
+        {
+            q.pop();
+        }
+        
+        if((end+1)<n && a[end+1]<0){q.push(end+1);}
+        
+        start++;
+        end++;
+    }
+    
+    
+    
+    
+    
+    
+    
+    return 0;
+}

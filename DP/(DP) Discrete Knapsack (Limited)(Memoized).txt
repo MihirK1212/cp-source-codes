@@ -1,0 +1,41 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+
+class Solution
+{
+    
+    public:
+    
+    int dp[1001][1001];
+    
+    int solve(int wt[], int val[],int w,int i)
+    {
+        //Decide for ith item  ... i = 1,2,3,....,n
+        
+        if(i==0 || w==0){return 0; dp[w][i]=0;}
+        
+        if(dp[w][i]!=-1){return dp[w][i];}
+        
+        else
+        {
+            int v1 = -1 , v2 = -1;
+            if(w>=wt[i-1]){v1 = solve(wt,val,w-wt[i-1],i-1) + val[i-1];}
+            v2 = solve(wt,val,w,i-1);
+        
+            dp[w][i] = max(v1,v2);
+            return dp[w][i];
+        }
+        
+    }
+    
+    //Function to return max value that can be put in knapsack of capacity W.
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+        memset(dp,-1,sizeof(dp));  
+        return solve(wt,val,W,n);
+    }
+};

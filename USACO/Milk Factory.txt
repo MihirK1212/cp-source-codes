@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+
+/*
+To try and improve efficiency, Farmer John installs a conveyor belt in each of its walkways. Unfortunately, he realizes too late that each conveyor belt only moves one way, so now travel along each walkway is only possible in a single direction! Now, it is no longer the case that one can travel from any station to any other station.
+
+However, Farmer John thinks that all may not be lost, so long as there is at least one station i such that one can eventually travel to station i from every other station. Note that traveling to station i from another arbitrary station j may involve traveling through intermediate stations between i and j. Please help Farmer John figure out if such a station i exists.
+
+INPUT FORMAT (file factory.in):
+The first line contains an integer N, the number of processing stations. Each of the next N−1 lines contains two space-separated integers ai and bi with 1≤ai,bi≤N and ai≠bi. This indicates that there is a conveyor belt that moves from station ai to station bi, allowing travel only in the direction from ai to bi.
+OUTPUT FORMAT (file factory.out):
+If there exists a station i such that one can walk to station i from any other station, then output the minimal such i. Otherwise, output −1.
+SAMPLE INPUT:
+3
+1 2
+3 2
+SAMPLE OUTPUT:
+2
+*/
+
+void dfs(map<ll,vll> &graph,ll node,vector<bool> &visited)
+{
+    visited[node]=true;
+    for(auto subnode:graph[node])
+    {
+        dfs(graph,subnode,visited);
+    }
+    return;
+}
+
+void update(vector<bool> visited,vll &count)
+{
+    ll i;
+    for(i=1;i<visited.size();i++)
+    {
+        if(visited[i]){count[i]++;}
+    }
+    return;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll N,i;
+    cin>>N;
+    map<ll,vll> graph;
+    for(i=1;i<=(N-1);i++)
+    {
+        ll a,b; cin>>a>>b;
+        graph[a].pb(b);
+    }
+    
+    
+    
+    vll count(N+1,0); //so that indexing doesnt start from zero, size=N+1
+    
+    for(auto x:graph)
+    {
+        vector<bool> visited(N+1,false);
+        dfs(graph,x.f,visited); 
+        update(visited,count);
+    }
+    
+    for(i=1;i<count.size();i++)
+    {
+        if(count[i]>=(N))
+        {
+            cout<<i<<"\n";
+            break;
+        }
+    }
+    
+    return 0;
+}

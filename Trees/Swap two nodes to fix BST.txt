@@ -1,0 +1,35 @@
+class Solution {
+  public:
+    
+    void solve(Node* root,Node* &first,Node* &second,Node* &prev)
+    {
+        if(root==NULL){return;}
+        
+        solve(root->left,first,second,prev);
+        
+        if(prev!=NULL && (prev->data)>(root->data))
+        {
+            if(!first){first = prev;}
+            second = root;
+        }
+        
+        prev = root;
+        
+        solve(root->right,first,second,prev);
+    }
+    
+    
+    void correctBST( struct Node* root )
+    {
+        Node *first=NULL , *second=NULL , *prev=NULL;
+        
+        solve(root,first,second,prev);
+        
+        if(!first || !second){return;}
+        
+        int temp = first->data;
+        first->data = second->data;
+        second->data = temp;
+        
+    }
+};

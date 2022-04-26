@@ -1,0 +1,42 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution{
+
+	public:
+	int perfectSum(int a[], int n, int sum)
+	{
+        int dp[n+1][sum+1];
+        int i,s;
+        
+        memset(dp,0,sizeof(dp));
+        
+        
+        //dp[i][s] = number of subsets with sum 's' using first 'i' elements
+        
+        for(i=1;i<=n;i++)
+        {
+            for(s=1;s<=sum;s++)
+            {
+		if(i==0)
+               {
+                   if(s==0){dp[i][s]=1;}
+                   else{dp[i][s]=0;}
+		   continue;
+               }
+                int v1=0,v2=0;
+                
+                if(s>=a[i-1]){v1 = dp[i-1][s-a[i-1]];} //include ith element
+                v2 = dp[i-1][s];//dont include ith element
+            
+                dp[i][s] = v1+v2;
+            }
+        }
+        
+        return (dp[n][sum]);
+        
+	}
+	  
+};

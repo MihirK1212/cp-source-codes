@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+//Ascending Order
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll n,i;
+    cin>>n;
+    
+    vll a(n);
+    input(a);
+    
+    vll ans;
+    
+    for(i=1;i<=n;i++)
+    {
+        make_heap(a.begin(),a.end());
+        ll max_element;
+        max_element=a.front();
+        pop_heap(a.begin(),a.end()); //Pushes the root node to the end
+        a.pop_back();
+        ans.pb(max_element);
+    }
+    
+    reverse(ans);
+    printoneline(ans);
+    return 0;
+}

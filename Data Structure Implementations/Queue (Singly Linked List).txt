@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node 
+{
+	int data;
+	Node *next;
+};
+
+Node *head=NULL , *tail=NULL;
+
+void enQueue(int x)
+{
+    Node *new_address = new Node();
+	new_address->data=x;
+	new_address->next=NULL;
+
+	if (tail == NULL) 
+	{
+		head = tail = new_address;
+		return;
+	}
+	else
+	{
+	    tail->next = new_address;
+	    tail = new_address;   
+	}
+}
+
+void deQueue()
+{
+	
+	if(head == NULL)
+	{
+	    cout<<"Queue is empty...cannot deQueue\n";
+	    return;
+	}
+		
+    Node* temp_address = head;
+	head = head->next;
+
+	if (head == NULL)
+	{
+		tail=NULL;
+	}	
+
+	delete (temp_address);
+}
+
+void front()
+{
+    if(head==NULL){cout<<"Queue is empty...cannot print Front\n"; return;}
+    else
+    {
+        cout<<"Front of the queue contains "<<(head->data)<<"\n";
+    }
+}
+
+
+int main()
+{
+    enQueue(10);
+	enQueue(20);
+	deQueue();
+	deQueue();
+	front();
+	enQueue(30);
+	enQueue(40);
+	enQueue(50);
+	front();
+	deQueue();
+	front();
+	enQueue(70);
+	enQueue(80);
+	front();
+	deQueue();
+	front();
+}
+

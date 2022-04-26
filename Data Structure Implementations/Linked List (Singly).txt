@@ -1,0 +1,359 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+struct Node
+{
+    int data;
+    Node *next;
+};
+
+
+
+int main()
+{
+    //_adress stores the adress of the LOCATION of the ELEMENT of the linked list
+    
+    Node *head_address = NULL;
+    Node *second_address = NULL;
+    Node *third_address = NULL;
+    
+    head_address=new Node();
+    second_address=new Node();
+    third_address=new Node();
+    
+    head_address->data=1;
+    second_address->data=5;
+    third_address->data=-3;
+    
+    head_address->next=second_address;
+    second_address->next=third_address;
+    third_address->next= NULL;
+    
+     return 0;
+}
+
+//Printing the list
+void print_list(Node *address)
+{
+    while(address!=NULL)
+    {
+        cout<<(address->data)<<" ";
+        
+        address=address->next;
+    }
+    cout<<"\n";
+}
+print_list(head_address);
+
+//Adding a new element at the end (i.e after the last link of the current linked list)
+    Node *new_tail_address=NULL;
+    new_tail_address=new Node();
+    new_tail_address->data=13;
+    third_address->next=new_tail_address;
+    new_tail_address->next=NULL;
+    
+    //Adding a new element at the begining (i.e before the first link of the current linked list)
+    Node *new_head_adress=NULL;
+    new_head_adress=new Node();
+    new_head_adress->data=-21;
+    new_head_adress-->next=head_address;
+    head_address=new_head_adress;
+    
+    //Adding a new element at a specific position
+    //position=0 is first link, position=1 is second link and so on
+    Node *new_address=NULL;
+    new_address=new Node();
+    
+    new_address->data=32;
+        
+    Node *address=head_address,*prev_address=NULL,*next_address=NULL;
+        
+    prev_address=head_address;
+    next_address=prev_address->next;
+        
+    while(position!=0 && address!=NULL)
+    {
+        prev_address=address;
+        next_address=address->next;
+        address=next_address;
+        position--;           
+    }
+        
+    prev_address->next=new_address;
+    new_address->next=next_address;
+
+    //Reversing the LinkedList
+    SinglyLinkedListNode* reverse(SinglyLinkedListNode *head_address) 
+    {
+        SinglyLinkedListNode *address=NULL,*prev_address=NULL,*next_address=NULL;
+    
+        address=head_address->next;
+        head_address->next=NULL;
+        prev_address=head_address;
+    
+        while(address!=NULL)
+        {
+            next_address=address->next;
+            address->next=prev_address;
+            prev_address=address;
+            address=next_address;
+        }
+    
+        if(prev_address!=NULL){head_address=prev_address;}
+        return head_address;
+    }
+    
+    //Delete a node
+	SinglyLinkedListNode* deleteNode(SinglyLinkedListNode *head_address, int position) 
+	{
+        int i;
+        SinglyLinkedListNode *remove_address=NULL,*prev_address=NULL,*next_address=NULL;
+        remove_address=head_address;
+        for(i=1;i<=position;i++)
+        {
+            remove_address=remove_address->next;
+            if(i==(position-1)){prev_address=remove_address;}
+        }
+        
+        if(position==1)
+        {
+            prev_address=head_address;
+        }
+        
+        if(remove_address!=NULL && prev_address!=NULL)
+        {
+            next_address=remove_address->next;
+            prev_address->next=next_address;
+        }
+        else if(position==0)
+        {
+            head_address=head_address->next;
+        }
+        
+        return head_address;
+	}
+	
+	//Compare two lists
+	bool compare_lists(SinglyLinkedListNode* head_address1, SinglyLinkedListNode* head_address2) 
+    {
+        SinglyLinkedListNode *address1=NULL,*address2=NULL;
+        address1=head_address1;
+        address2=head_address2;
+        while(address1!=NULL && address2!=NULL)
+        {
+            if((address1->data)!=(address2->data)){return false;}
+            address1=address1->next;
+            address2=address2->next;
+            if((address1==NULL && address2!=NULL)||(address1!=NULL && address2==NULL))
+            {
+                return false;
+            }
+        }
+    
+        return true;
+    }
+    
+    //Merge two sorted linked lists
+    SinglyLinkedListNode* mergeLists(SinglyLinkedListNode *head_address1, SinglyLinkedListNode* head_address2) 
+    {
+        SinglyLinkedListNode *address_1=NULL,*address_2=NULL;
+        SinglyLinkedListNode *new_head_address=NULL, *new_address=NULL;
+        
+        address_1=head_address1;
+        address_2=head_address2;
+        
+        new_head_address=new SinglyLinkedListNode(1); 
+        
+        new_address=new_head_address;
+        
+        while(address_1!=NULL || address_2!=NULL)
+        {
+            if(address_1!=NULL && address_2!=NULL)
+            {
+                int data1=address_1->data;
+                int data2=address_2->data;
+                
+                if(data1<=data2)
+                {
+                    SinglyLinkedListNode *generate_address1=NULL,*generate_address2=NULL;
+                    
+                    generate_address1=new SinglyLinkedListNode(data1);
+                    new_address->next=generate_address1;
+                    new_address=generate_address1;
+                    
+                    address_1=address_1->next;
+                }
+                else
+                {
+                    SinglyLinkedListNode *generate_address1=NULL,*generate_address2=NULL;
+                    
+                    generate_address2=new SinglyLinkedListNode(data2);
+                    new_address->next=generate_address2;
+                    new_address=generate_address2;
+                    
+                    address_2=address_2->next;
+                }
+            }
+            else if(address_1!=NULL && address_2==NULL)
+            {
+                int data1=address_1->data;
+                
+                SinglyLinkedListNode *generate_address1=NULL;
+                    
+                generate_address1=new SinglyLinkedListNode(data1);
+                new_address->next=generate_address1;
+                new_address=generate_address1;
+                
+                address_1=address_1->next;
+            }
+            else if(address_1==NULL && address_2!=NULL)
+            {
+                int data2=address_2->data;
+                
+                SinglyLinkedListNode *generate_address2=NULL;
+                    
+                generate_address2=new SinglyLinkedListNode(data2);
+                new_address->next=generate_address2;
+                new_address=generate_address2;
+                
+                address_2=address_2->next;
+            }
+        }
+        
+        new_address->next=NULL;
+        new_head_address=new_head_address->next;
+        
+        return (new_head_address);
+    }
+    
+    //Value of node at given position from end
+    int getNode(SinglyLinkedListNode* head_address, int positionFromTail) 
+    {
+        SinglyLinkedListNode *address=NULL,*prev_address=NULL,*next_address=NULL;
+        
+        address=head_address->next;
+        head_address->next=NULL;
+        prev_address=head_address;
+        
+        while(address!=NULL)
+        {
+            next_address=address->next;
+            address->next=prev_address;
+            prev_address=address;
+            address=next_address;
+        }
+        
+        if(prev_address!=NULL){head_address=prev_address;}
+        
+        int last_data;
+        address=head_address;
+        
+        while(address!=NULL)
+        {
+            last_data=address->data;
+            if(positionFromTail==0){break;}
+            positionFromTail--;
+            address=address->next;
+        }
+        
+        return last_data;
+    }
+    
+    //Remove duplicate elements in sorted list
+    SinglyLinkedListNode* removeDuplicates(SinglyLinkedListNode *head_address) 
+    {
+        map<ll,ll> freq;
+        
+        SinglyLinkedListNode *address=NULL,*prev_address=NULL;
+        address=head_address;
+        
+        while(address!=NULL)
+        {
+            if(freq[address->data]==0)
+            {
+                freq[address->data]++;
+                prev_address=address;
+                address=address->next;
+            }
+            else
+            {
+                prev_address->next=(address->next);
+                address=address->next;
+            }
+        }
+        
+        return head_address;
+    }
+    
+    //Detect Loop in linked list (Method 1)
+    bool has_cycle(SinglyLinkedListNode *head_address) 
+    {
+        map<SinglyLinkedListNode*,ll> freq;
+        
+        SinglyLinkedListNode *address=NULL;
+        address=head_address;
+        
+        while(address!=NULL)
+        {
+            if(freq[address]!=0){return true;}
+            else
+            {
+                freq[address]++;
+                address=address->next;
+            }
+        }
+        
+        return false;
+    }
+    
+    //Detect Loop in linked list (Method 2 Floyd’s Cycle-Finding Algorithm)
+    bool has_cycle(Node *head) 
+    {
+        Node *fast = head;
+        Node *slow = head;
+        while(fast != NULL && slow != NULL && (fast->next)!=NULL) 
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+            if(fast == slow) 
+            {
+                return 1;
+            }
+        }
+        
+        return 0;
+    }
+
+    //Find merge point of two lists
+    int findMergeNode(SinglyLinkedListNode *head_address1, SinglyLinkedListNode *head_address2) 
+    {
+        SinglyLinkedListNode *address1=NULL,*address2=NULL;
+        address1=head_address1;
+        address2=head_address2;
+        
+        while(address1!=address2)
+        {
+            address1=address1->next;
+            address2=address2->next;
+            
+            if(address1==NULL){address1=head_address2;}
+            if(address2==NULL){address2=head_address1;}
+        }
+        
+        //Now address1=address2=merge point address
+    }
+
+

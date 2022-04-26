@@ -1,0 +1,60 @@
+// { Driver Code Starts
+// Initial Template for c++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    int dp[505][505];
+    bool isPalindrome(string&str,int lb,int ub)
+    {
+        int n = ub-lb+1;
+        for(int i=lb;i<=(lb+n/2-1);i++)
+        {
+            if(str[i]!=str[ub-(i-lb)]){return false;}
+        }
+        return true;
+    }
+    int solve(string&str,int i,int j)
+    {
+        if(dp[i][j]>=0){return dp[i][j];}
+        if(i>=j){return 0;} 
+        if(isPalindrome(str,i,j)){dp[i][j]=0; return 0;}
+        
+        int ans = INT_MAX;
+        
+        for(int k=i;k<j;k++)
+        {
+            int ans1 = (dp[i][k]==-1)?(solve(str,i,k)):dp[i][k];
+            int ans2 = (dp[k+1][j]==-1)?(solve(str,k+1,j)):dp[k+1][j];
+            ans = min(ans,ans1+ans2+1);
+        }
+        dp[i][j]=ans;
+        return ans;
+    }
+    int palindromicPartition(string str)
+    {
+        memset(dp,-1,sizeof(dp));
+        int len = str.length();
+        return solve(str,0,len-1);
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string str;
+        cin>>str;
+        
+        Solution ob;
+        cout<<ob.palindromicPartition(str)<<"\n";
+    }
+    return 0;
+}  // } Driver Code Ends

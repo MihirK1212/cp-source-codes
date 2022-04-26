@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+
+int main()
+{
+    ll n,t,money,m,i,numcoins;
+    cout<<"Enter number of different types of coins availaible:\n";
+    cin>>n;
+    vll coins(n);
+    
+    cout<<"Enter the "<<n<<" different types of coins:\n";
+    for(i=0;i<n;i++)
+    {
+        cin>>coins[i];
+    }
+    
+    cout<<"Enter total amount:\n";
+    cin>>money;
+    
+    vll mincoins(money+1);
+    mincoins[0]=0;
+    
+    map<ll,ll> just_before;
+    
+    for(m=1;m<=money;m++)
+    {
+        mincoins[m]=1e15;
+        
+        for(i=0;i<n;i++)
+        {
+            if(m>=coins[i])
+            {
+                numcoins=mincoins[m-coins[i]]+1;
+                if(numcoins<=mincoins[m]){mincoins[m]=numcoins; just_before[m]=i;}
+            }
+        }
+    }
+    
+   
+    if(mincoins[money]!=1e15)
+    {
+        cout<<"Minimum number of coins required is: "<<mincoins[money]<<"\n";
+        cout<<"The coins used are:\n";
+     
+        ll curr_money=money;
+         
+        while(curr_money>0)
+        {
+            int use_coin = coins[just_before[curr_money]];
+            cout<<"Use "<<use_coin<<"\n";
+            curr_money-=use_coin;
+        }
+    }
+    else{cout<<"Not Possible\n";}
+    
+    
+    return 0;
+}

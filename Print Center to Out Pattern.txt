@@ -1,0 +1,37 @@
+vector<vector<int> > Solution::prettyPrint(int A) 
+{
+    int i,j;
+    vector<vector<int>> matrix(2*A-1);
+
+    int r=0;
+
+    for(i=A;i>=1;i--)
+    {
+        vector<int> row;
+        for(j=A;j>i;j--)
+        {
+            row.push_back(j);
+        }
+        for(j=1;j<=(2*i-1);j++)
+        {
+            row.push_back(i);
+        }
+        for(j=i+1;j<=A;j++)
+        {
+            row.push_back(j);
+        }
+        if(r<(A-1))
+        {
+            matrix[r]=matrix[2*A-1-r-1]=row;
+        }
+        if(r==(A-1))
+        {
+            matrix[r]=row;
+            break;
+        }
+        r++;
+    }
+
+    return matrix;
+    
+}

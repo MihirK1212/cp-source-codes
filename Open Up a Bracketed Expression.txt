@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+
+/*
+Here we have been given a string which represents an arithmetic expression
+the question marks can be any positive integer (it does not matter)
+We need to find out the sign (+ or -) for each ? , if we were to open up all the brackets i the expression
+eg:-
+(?-(?+?)) then the signs are + , - , - because the expression after opening up in ?-?-?
+?-(?+?)-? then the signs are + - - -
+*/
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    string S;
+    cin>>S;
+    
+    int len = S.length() , i;
+    
+    stack<bool> status;
+    
+    vector<bool> ans;
+    
+    bool flag=true;
+    
+    for(i=0;i<len;i++)
+    {
+        if(S[i]=='?')
+        {
+            ans.push_back(flag);
+        }
+        
+        else
+        {
+            if(S[i]=='-' && !status.empty())
+            {
+                flag = !(status.top());
+            }
+            if(S[i]=='+' && !status.empty())
+            {
+                flag = (status.top());
+            }
+            
+            if(S[i]=='+' && status.empty()){flag=true;}
+            if(S[i]=='-' && status.empty()){flag=false;}
+            
+            if(S[i]=='(')
+            {
+                status.push(flag);
+            }
+            
+            if(S[i]==')')
+            {
+                status.pop(); 
+                if(!status.empty()){flag=status.top();}
+                else{flag=true;}
+            }
+        }
+    }
+    
+    printoneline(ans);
+        
+    
+    
+    return 0;
+}

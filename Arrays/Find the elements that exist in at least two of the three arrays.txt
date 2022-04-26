@@ -1,0 +1,52 @@
+vector<int> findIntersection(vector<int>&A,vector<int>&B)
+{
+    vector<int> ans;
+    int n = A.size() , m = B.size();
+    int i=0,j=0;
+    while(i<n && j<m)
+    {
+        if(i>0 && A[i]==A[i-1]){i++; continue;}
+
+        if(A[i]<B[j]){i++;}
+        else if(A[i]>B[j]){j++;}
+        else{ans.push_back(A[i]); i++; j++;}
+    }
+    return ans;
+}
+vector<int> findUnion(vector<int>&A,vector<int>&B)
+{
+    vector<int> ans;
+    int n = A.size() , m = B.size();
+    int i=0,j=0;
+    while(i<n && j<m)
+    {
+        if(i>0 && A[i]==A[i-1]){i++; continue;}
+        if(j>0 && B[j]==B[j-1]){j++; continue;}
+
+        if(A[i]<B[j]){ans.push_back(A[i]); i++;}
+        else if(A[i]>B[j]){ans.push_back(B[j]); j++;}
+        else{ans.push_back(A[i]); i++; j++;}
+    }
+    while(i<n){if(i>0 && A[i]==A[i-1]){i++; continue;} ans.push_back(A[i]); i++;}
+    while(j<m){if(j>0 && B[j]==B[j-1]){j++; continue;} ans.push_back(B[j]); j++;}
+    return ans;
+
+}
+
+vector<int> Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C) 
+{
+    sort(A.begin(),A.end());
+    sort(B.begin(),B.end());
+    sort(C.begin(),C.end());
+    
+    vector<int> I1 = findIntersection(A,B);
+    vector<int> I2 = findIntersection(A,C);
+    vector<int> I3 = findIntersection(B,C);
+
+    vector<int> U1 = findUnion(I1,I2);
+    vector<int> ans = findUnion(U1,I3);
+
+
+
+    return ans;
+}

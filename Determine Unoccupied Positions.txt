@@ -1,0 +1,45 @@
+//We have a horizontal row of 'n' positions...'k' Tracks are laid on this row
+(Start points and end points of these tracks will be given)
+(Determine the number of positions where tracks have not been laid)
+
+
+bool comp(pair<ll,ll>&x,pair<ll,ll>&y)
+{
+    if(x.f==y.f)
+    {
+        return x.s>y.s;
+    }
+    return x.f<y.f;
+}
+
+vector<pair<ll,ll>> positions;
+
+//Input start and end points
+
+sort(positions.begin(),positions.end(),comp);
+        
+// for(i=0;i<k;i++)
+// {
+//     cout<<"start="<<positions[i].f<<" "<<"end="<<positions[i].s<<"\n";
+// }
+
+ll curr_start=positions[0].f;
+ll curr_end=positions[0].s;
+
+ll occupied = 0;
+ll unoccupied = n;
+
+for(i=1;i<(positions.size());i++)
+{
+    if(positions[i].f>curr_end)
+    {
+        occupied+= (curr_end-curr_start+1);
+        curr_start = positions[i].f;
+    }
+    curr_end=max(curr_end,positions[i].s);
+}
+
+occupied+=(curr_end-curr_start+1);
+
+unoccupied-=occupied;
+

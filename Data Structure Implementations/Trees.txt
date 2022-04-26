@@ -1,0 +1,384 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+struct Node
+{
+    ll data;
+    Node *left;
+    Node *right;
+    Node(int data)
+    {
+        this->data = data;
+        left=right=NULL;
+    }
+};
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    Node *root=new Node(10);
+    
+    root->left=new Node(20);
+    root->right=new Node(30);
+    root->left->left=new Node(40);
+    root->left->right=new Node(50);
+    root->right->left=new Node(60);
+    root->right->right=new Node(70);
+    
+    return 0;
+}
+
+
+//PreOrder Traversal= First root then left then right
+void preOrder(Node *address) 
+{
+    if(address==NULL){return;}
+    else
+    {
+        cout<<(address->data)<<" ";
+        preOrder(address->left);
+        preOrder(address->right);
+    }
+}
+preOrder(root_address);
+
+//PostOrder Traversal= First left then right then root
+void postOrder(Node *address) 
+{
+    if(address==NULL){return;}
+    else
+    {
+        postOrder(address->left);
+        postOrder(address->right);
+        cout<<(address->data)<<" ";
+    }
+}
+postOrder(root_address);
+
+//InOrder Traversal= First left then root then right
+void inOrder(Node *address) 
+{
+    if(address==NULL){return;}
+    else
+    {
+        inOrder(address->left);
+        cout<<(address->data)<<" ";
+        inOrder(address->right);
+    }
+}
+inOrder(root_address);
+
+//Maximum depth of tree
+int find_height(Node *address)
+{
+    if(address==NULL){return 0;}
+    else
+    {
+        return max((find_height(address->left)+1),(find_height(address->right)+1));
+    }
+}
+int height(Node *root) 
+{
+    int h=find_height(root); //This function finds the maximum number of continuous nodes
+    return (h-1);  //So height is one less than number of nodes
+}
+
+
+//Level Order Traversal
+void levelOrder(Node *root) 
+{
+    map<Node*,bool> visited;
+    
+    queue<Node*> q;
+    q.push(root);
+    
+    while(!q.empty())
+    {
+        Node *address=q.front();
+        q.pop();
+        if(!visited[address])
+        {
+            cout<<(address->data)<<" ";
+            visited[address]=true;
+            if((address->left)!=NULL && !visited[address->left]){q.push(address->left);}
+            if((address->right)!=NULL && !visited[address->right]){q.push(address->right);}
+        }
+    }
+
+}
+
+//Inserting Node into BST
+Node* insert(Node *root, int data) 
+    {
+        if(root==NULL)
+        {
+            root=new Node(data);
+            return root;    
+        }
+        
+        Node *address=NULL,*prev_address=NULL;
+        address=root;
+        int check=0;
+        
+        while(address!=NULL)
+        {
+            prev_address=address;
+            int r_data=address->data;
+            if(data<=r_data)
+            {
+                address=address->left;
+                check=-1;
+            }
+            else 
+            {
+                address=address->right;
+                check=1;
+            }
+        }
+        
+        if(check==-1)
+        {
+            prev_address->left=new Node(data);
+        }
+        if(check==1)
+        {
+            prev_address->right=new Node(data);
+        }
+
+        //display_tree(root);
+        return root;
+    }
+
+
+//Vertical Order Traversal
+    static bool comp(tuple<int,int,int>&x,tuple<int,int,int>&y)
+    {
+        if((get<2>(x)==get<2>(y))){return (get<0>(x))<(get<0>(y));}
+        return (get<2>(x)<get<2>(y));
+    }
+    void print_top_view(TreeNode *root,vector<tuple<int,int,int>> &ranking)
+    {
+        map<TreeNode*,bool> visited;
+    
+        queue<TreeNode*> q_address;
+        queue<int> q_dist;
+        queue<int> q_vert;
+        q_address.push(root);
+        q_dist.push(0);
+        q_vert.push(0);
+        
+    
+        while(!q_address.empty())
+        {
+            TreeNode *address=q_address.front();
+            int hd=q_dist.front();
+            int vd=q_vert.front();
+            q_address.pop();
+            q_dist.pop();
+            q_vert.pop();
+            
+            if(!visited[address])
+            {
+                ranking.pb({address->val,hd,vd});
+                visited[address]=true;
+                
+                
+                if((address->left)!=NULL && !visited[address->left])
+                {
+                    q_address.push(address->left);
+                    q_dist.push(hd-1);
+                    q_vert.push(vd+1);
+                }
+                if((address->right)!=NULL && !visited[address->right])
+                {
+                    q_address.push(address->right);
+                    q_dist.push(hd+1);
+                    q_vert.push(vd+1);
+                }
+            }
+        }
+    }
+    vector<vector<int>> verticalTraversal(TreeNode* root) 
+    {
+        vector<tuple<int,int,int>> ranking;
+        print_top_view(root,ranking);
+        vector<vector<int>> vertical_order;
+        map<int,vector<int>> m;
+        sort(ranking.begin(),ranking.end(),comp);
+        for(auto x:ranking)
+        {
+            (m[get<1>(x)]).pb(get<0>(x));    
+        }
+        for(auto x:m)
+        {
+            vertical_order.pb(x.s);
+        }
+        
+        return vertical_order;
+    }
+
+
+//Top View of a tree
+void print_top_view(Node *root,vector<pair<int,int>> &ranking)
+{
+    map<Node*,bool> visited;
+    
+    queue<Node*> q_address;
+    queue<int> q_dist;
+    q_address.push(root);
+    q_dist.push(0);
+        
+    
+    while(!q_address.empty())
+    {
+        Node *address=q_address.front();
+        int hd=q_dist.front();
+        q_address.pop();
+        q_dist.pop();
+            
+        if(!visited[address])
+        {
+            ranking.pb({address->data,hd});
+            visited[address]=true;
+               
+                
+            if((address->left)!=NULL && !visited[address->left])
+            {
+                q_address.push(address->left);
+                q_dist.push(hd-1);
+            }
+            if((address->right)!=NULL && !visited[address->right])
+            {
+                q_address.push(address->right);
+                q_dist.push(hd+1);
+            }
+        }
+    }
+}
+void topView(Node * root) 
+{
+    vector<pair<int,int>> ranking;
+    print_top_view(root,ranking);
+    vector<vector<int>> vertical_order;
+    map<int,vector<int>> m;
+    for(auto x:ranking)
+    {
+        (m[x.s]).pb(x.f);    
+    }
+    for(auto x:m)
+    {
+        vertical_order.pb(x.s);
+    }
+    for(auto x:vertical_order)
+    {
+        cout<<x[0]<<" ";
+    }
+}
+
+//Lowest Common Ancestor of two nodes of BST
+Node *lca(Node *root, int v1,int v2) 
+    {
+        Node *address=root,*prev_address=root;
+        while(address!=NULL)
+        {
+            int val=address->data;
+            if(val==v1 || val==v2){return address;}
+            if(((v1<val) && (v2>val)) || ((v1>val) && (v2<val)))
+            {
+                return address;
+            }
+            else if(v1>val && v2>val)
+            {
+                prev_address=address;
+                address=address->right;
+            }
+            else if(v1<val && v2<val)
+            {
+                prev_address=address;
+                address=address->left;
+            }
+        }
+        
+        return prev_address;
+    }
+
+//Check if a given tree is a Binary Search tree
+    void inOrder(Node *address,vector<int>&nodes)
+    {
+        if(address==NULL){return;}
+        inOrder(address->left,nodes);
+        nodes.push_back(address->data);
+        inOrder(address->right,nodes);
+    }
+	bool checkBST(Node* root) 
+    {
+        vector<int> nodes;
+        inOrder(root,nodes);
+        
+        int i;
+        int s=nodes.size();
+        
+        for(i=1;i<s;i++)
+        {
+            if(nodes[i-1]>=nodes[i]){return false;}
+        }
+        
+        return true;
+		
+	}
+
+//Balanced Tree: in this tree for each node: (abs(height of left subtree-height of right subtree))<=1
+
+//Check if tree is Balanced
+int find_height(Node *address)
+{
+    if(address==NULL){return 0;}
+    else
+    {
+        return max((find_height(address->left)+1),(find_height(address->right)+1));
+    }
+}
+bool check_if_balance(node *address)
+{
+    if (address==NULL){return true;}
+    else
+    {
+        int left_height=find_height(address->left);
+        int right_height=find_height(address->right);
+        
+        if((abs(left_height-right_height))>=1){return false;}
+        else{return check_if_balance(address->left) && check_if_balance(address->right);}
+    }
+}
+check_if_balance(root)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

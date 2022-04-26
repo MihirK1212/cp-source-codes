@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr,a,b) for(long long i=a;i<=b;i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll N,i;
+    cin>>N;
+    vll a(N);
+    for(i=0;i<N;i++){cin>>a[i];}
+    
+    a[0]=0;
+
+    ll mincount=0,maxcount=0;
+    
+    for(i=N-1;i>=0;i--)
+    {
+        if(a[i]>0)
+        {
+            a[i-1]=a[i]-1;
+        }
+        
+        if(a[i]==-1 || a[i]==0){maxcount++;}
+    }
+    
+    bool situation=false;
+    
+    for(i=N-1;i>=0;i--)
+    {
+        if(a[i]==-1)
+        {
+            a[i]=a[i-1]+1;
+        }
+        if(a[i]==0){mincount++;}
+    }
+    
+    
+    
+    cout<<mincount<<"\n";
+    cout<<maxcount<<"\n";
+    
+    
+    return 0;
+}

@@ -1,0 +1,135 @@
+Algorithm getHeight(address)
+{
+    if(address==NULL){return -1;}
+    else { return address->height;}
+}
+
+Algorithm getBalance(address)
+{
+    return getHeight(address->left) - getHeight(address->right);
+}
+
+Algorithm leftRotate(root)
+{
+    n1 = root
+    n2 = n1->right
+    T = n2->left
+    
+    n2->left = n1 
+    n1->right = T
+    
+    return n2
+}
+
+Algorithm rightRotate(root)
+{
+    n1 = root
+    n2 = n1->left
+    T = n2->right
+    
+    n2->right = n1
+    n1->left = T
+    
+    return n2
+}
+
+Algorithm AVL_Insertion(root,data)
+{
+    if(root==NULL){return new Node(data);}
+    
+    if(data<(root->key)){root->left = AVL_Insertion(root->left,data);}
+    if(data>(root->key)){root->right = AVL_Insertion(root->right,data);}
+    
+    root-> height = max(getHeight(root->left),getHeight(root->right)) + 1;
+    
+    balance = getBalance(root)
+    
+    if(balance>1 && data<(root->left->key)) //Left Left
+    {
+        root = rightRotate(root)
+    }
+    if(balance>1 && data>(root->left->key)) //Left Right
+    {
+        root->left = leftRotate(root->left)
+        root = rightRotate(root)
+    }
+    if(balance<-1 && data>(root->right->key)) //Right Right
+    {
+        root = leftRotate(root)
+    }
+    if(balance<-1 && data<(root->right->key)) //Right Left
+    {
+        root->right = rightRotate(root->right)
+        root = leftRotate(root)
+    }
+    
+    return root
+}
+
+Algorithm findSuccessor(address)
+{
+    while(address->left!=NULL)
+    {
+        address = address->left;
+    }
+    return address;
+}
+
+Algorithm AVL_Deletion(root,data)
+{
+    if(data<(root->key)){root->left = AVL_Deletion(root->left,data);}
+    else if(data>(root->key)){root->right = AVL_Deletion(root->right,data);}
+    
+    else
+    {
+        if(root->left == NULL && root->right == NULL)
+        {
+            delete(root);
+        }
+        else if(root->left!=NULL && root->right==NULL)
+        {
+            root->key = root->left->key;
+            root->left = NULL
+            delete(root->left);
+        }
+        else if(root->left==NULL && root->right!=NULL)
+        {
+            root->key = root->right->key;
+            root->right = NULL
+            delete(root->right);
+        }
+        else
+        {
+            successor = findSuccessor(root->right);
+            root->key = successor->key;
+            root->right = AVL_Deletion(root->right,successor->key);
+        }
+    }
+    
+    if(root==NULL){return root;}
+    
+    root->height = max(getHeight(root->left),getHeight(root->right)) + 1;
+    
+    balance = getBalance(root);
+    
+    if(balance>1 && getBalance(root->left)>=0) //Left-Left Case
+    {
+       root =  rightRotate(root);
+    }
+    else if(balance<-1 && getBalance(root->right)<=0) //Right-Right Case
+    {
+        root =  leftRotate(root);
+    }
+    else if(balance>1 && getBalance(root->left)<0) //Left-Right Case
+    {
+        root->left = leftRotate(root->left);
+        root =  rightRotate(root);
+    }
+    else if(balance<-1 && getBalance(root->right)>0) //Right-Left Case
+    {
+        root->right = rightRotate(root->right);
+        root =  leftRotate(root);
+    }
+    
+    return root
+}

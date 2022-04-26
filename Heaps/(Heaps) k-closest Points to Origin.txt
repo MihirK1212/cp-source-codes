@@ -1,0 +1,49 @@
+typedef pair<int,double> pid;
+
+class Compare{
+    public:
+    bool operator()(pid &x,pid &y)
+    {
+        return x.second<y.second;
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) 
+    {
+        vector<pid> ind_dist;
+        for(int i=0;i<(points.size());i++)
+        {
+            int x=points[i][0], y=points[i][1]; 
+            double dist = (double)((double)x*x + (double)y*y);
+            dist = sqrt(dist);
+            ind_dist.push_back({i,dist});
+        }
+        
+        int temp_k = k;
+        priority_queue <pid,vector<pid>,Compare> max_h;
+        
+        for(int i=0;i<(ind_dist.size());i++)
+        {
+            max_h.push(ind_dist[i]);
+            k--;
+            
+            if(k<0){max_h.pop(); k++;}
+        }
+        
+        k=temp_k;
+        vector<vector<int>> ans(k);
+        int iter=0;
+        
+        while(max_h.size()!=0)
+        {
+            int x = points[((max_h.top()).first)][0];
+            int y = points[((max_h.top()).first)][1];
+            ans[iter].push_back(x); ans[iter].push_back(y); iter++;
+            max_h.pop();
+        }
+        
+        return ans;
+    }
+};

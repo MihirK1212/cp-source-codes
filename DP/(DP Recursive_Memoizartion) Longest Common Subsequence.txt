@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll solve(string &s1,string &s2,ll end1, ll end2,vector<vll>&dp)
+{
+    if(end1<0 || end2<0){dp[end1+1][end2+1]=0; return 0;}
+    
+    if(s1[end1]==s2[end2])
+    {
+        if(dp[end1][end2]!=-1){return dp[end1][end2] + 1;}
+        else{return solve(s1,s2,end1-1,end2-1,dp) + 1;}
+    }
+    else
+    {
+        ll v1,v2;
+        if(dp[end1+1][end2]!=-1){v1=dp[end1+1][end2];}
+        else{v1=solve(s1,s2,end1,end2-1,dp);}
+        
+        if(dp[end1][end2+1]!=-1){v2=dp[end1][end2+1];}
+        else{v2=solve(s1,s2,end1-1,end2,dp);}
+        
+        return max(v1,v2);
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    string s1,s2;
+    cin>>s1;
+    cin>>s2;
+    
+    ll n = s1.length();
+    ll m = s2.length();
+    
+    vector<vll> dp(n+1,vll(m+1));
+    
+    for(ll i=0;i<=n;i++)
+    {
+        for(ll j=0;j<=m;j++)
+        {
+            if(i==0 || j==0){dp[i][j]=0;}
+            else{dp[i][j]=-1;}
+        }
+    }
+    
+    ll end1=n-1,end2=m-1;
+    
+    ll ans = solve(s1,s2,n-1,m-1,dp);
+    
+    cout<<ans<<"\n";
+    
+    return 0;
+}

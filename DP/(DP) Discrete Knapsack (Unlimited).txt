@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ll N,W,i,w;
+    
+    cout<<"Enter number of different kinds of items\n";
+    cin>>N;
+    vll weight(N,0),value(N,0);
+    cout<<"Enter weights and values of the "<<N<<" kinds of items\n";
+    for(i=0;i<N;i++)
+    {
+        cin>>weight[i]>>value[i];
+    }
+    
+    cout<<"Enter maximum capacity of bag\n";
+    cin>>W;
+    
+    vll max_value(W+1,0);
+
+    //max_value[w]=maximum value we can obtain for total capacity of 'w'
+    
+    
+    for(w=1;w<=W;w++)
+    {
+        for(i=0;i<N;i++)
+        {
+            if(w>=weight[i])
+            {
+                max_value[w]=max(max_value[w],max_value[w-weight[i]]+value[i]);
+            }
+        }
+    }
+    
+    cout<<max_value[W]<<"\n";
+
+    
+    
+    return 0;
+}

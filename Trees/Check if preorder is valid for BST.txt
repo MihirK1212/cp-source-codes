@@ -1,0 +1,22 @@
+bool check(vector<int>&A,int lb,int ub)
+{
+    if(lb>ub){return true;}
+
+    int rootVal = A[lb];
+    int breakInd = lb;
+    
+    while((breakInd+1)<=ub && A[breakInd+1]<=rootVal)
+    {
+        breakInd = breakInd + 1;
+    }
+
+    for(int i=breakInd+1;i<=ub;i++){if(A[i]<=rootVal){return false;}}
+
+    return check(A,lb+1,breakInd) && check(A,breakInd+1,ub);
+}
+
+int Solution::solve(vector<int> &A) 
+{
+    int n = A.size();
+    return check(A,0,n-1);
+}

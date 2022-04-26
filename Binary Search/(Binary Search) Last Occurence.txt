@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+ll inf=std::numeric_limits<long long>::max();
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+
+    ll n,srch_num;
+    
+    cin>>n;
+    vll a(n);
+    input(a);
+    
+    cin>>srch_num;
+    
+    ll lb=0,ub=n-1,mid;
+    ll ans=inf;
+    
+    while(lb<=ub)
+    {
+        mid = lb+(ub-lb)/2;
+        
+        if(srch_num<a[mid])
+        {
+            ub=mid-1;
+        }
+        else if(srch_num>a[mid])
+        {
+            lb=mid+1;
+        }
+        else
+        {
+            ans = min(ans,mid);
+            lb=mid+1;
+        }
+    }
+    
+    
+    if(ans!=inf){cout<<ans<<"\n";}
+    else{cout<<-1<<"\n";}
+    
+    
+    return 0;
+}

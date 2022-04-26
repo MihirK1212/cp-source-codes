@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+ll inf=std::numeric_limits<long long>::max();
+
+int solve()
+{    
+    int n;
+    cin>>n;
+    
+    vector<int> arr(n);
+    input(arr);
+    
+    int lb=0,ub=n-1,mid;
+    
+    if(n==1)
+    {
+        return arr[0];
+    }
+    
+    while(lb<=ub)
+    {
+        mid = lb + (ub-lb)/2 ;
+        
+        if(mid==0 && arr[mid]<arr[mid+1])
+        {
+            return arr[0];
+        }
+        
+        if(mid==(n-1) && arr[mid]>arr[mid-1])
+        {
+            return arr[n-1];
+        }
+        
+        if(arr[mid]!=arr[max(0,mid-1)] && arr[mid]!=arr[min(n-1,mid+1)])
+        {
+            return arr[mid];
+        }
+        
+        //Now we have ensured that mid is not the single element so now we go to some half
+        
+        int curr=mid; //arr[mid] occurs twice in the array and this is  one of the occurence's index
+        int other; //this is the index of the other occurence of arr[mid]
+        
+        if((mid>0) && arr[mid]==arr[mid-1]){other=mid-1;}
+        else{other=mid+1;}
+        
+        ll size_left = min(curr,other); //this is the size of the left half
+        
+        //The half which contains the single element will be odd in size
+        
+        if((size_left%2)!=0)
+        {
+            ub=min(curr,other)-1;
+        }
+        else
+        {
+            lb=max(curr,other)+1;
+        }
+    }    
+}    
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    cout<<solve()<<"\n"; 
+    
+    
+    return 0;
+}

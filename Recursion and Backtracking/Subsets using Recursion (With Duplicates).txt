@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> ans;
+    
+    void findSubsets(vector<int>&nums,vector<int>&s,int j)
+    {
+        if(s.size()>nums.size()){return;}
+        
+        ans.push_back(s);
+        
+        for(int i=j;i<(nums.size());i++)
+        {
+            if(i>j && nums[i]==nums[i-1]){continue;} //Skip duplicates
+            
+            s.push_back(nums[i]);
+            findSubsets(nums,s,i+1);
+            s.pop_back();
+        }
+        
+    }
+    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) 
+    {
+        sort(nums.begin(),nums.end());
+        vector<int> s;
+        findSubsets(nums,s,0);
+        return ans;    
+    }
+};

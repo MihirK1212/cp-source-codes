@@ -1,0 +1,44 @@
+// https://www.interviewbit.com/problems/4-sum/
+
+vector<vector<int>> findPairs(vector<int>&A,int sum,int low)
+{
+    vector<vector<int>> ans;
+    int p1=low,p2=A.size()-1;
+    while(p1<p2)
+    {
+        if((A[p1]+A[p2])==sum)
+        {
+            ans.push_back({p1,p2});
+            do{p1++;}while(A[p1]==A[p1-1] && p1<p2);
+            do{p2--;}while(A[p2]==A[p2+1]&&p1<p2);
+        }
+        
+        else if((A[p1]+A[p2])<sum){p1++;}
+        else{p2--;}    
+    }
+    return ans;
+}
+vector<vector<int> > Solution::fourSum(vector<int> &A, int B) 
+{
+    sort(A.begin(),A.end());
+    int n = A.size();
+    
+    vector<vector<int>> ans;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(i>0 && A[i]==A[i-1]){continue;}
+        for(int j=i+1;j<n;j++)
+        {
+            if(j>(i+1) && A[j]==A[j-1]){continue;}
+            vector<vector<int>> pairs = findPairs(A,B-A[i]-A[j],j+1);
+            for(auto p : pairs)
+            {
+                ans.push_back({A[i],A[j],A[p[0]],A[p[1]]});
+            }
+        }
+    }
+    
+    
+    return ans;
+}

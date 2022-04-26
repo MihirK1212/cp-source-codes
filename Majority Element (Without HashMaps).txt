@@ -1,0 +1,35 @@
+  public int majorityElement(int[] arr) {
+//         using moore vooting algorithm
+        
+        int val=arr[0];
+        int count=1;
+                   for(int i=1 ;i < arr.length;i++){
+            
+            if(arr[i]==val)count++;
+            else{
+                if(count>0)count--;
+                else{
+                    val=arr[i];
+                    count=1;
+                }
+            }
+            
+        }
+        
+//         possible candidate is last ans and check its validity
+        
+        int ans=val;
+        int tempc=0;
+        if(count>0){
+            for(int i=0;i < arr.length ;i++){
+                if(arr[i]==val)tempc++;
+                
+            }
+        }
+        
+        
+        if(tempc>arr.length/2)return ans;
+        else return -1;
+        
+    }
+}

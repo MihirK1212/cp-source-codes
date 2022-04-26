@@ -1,0 +1,55 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+#include <string>
+#include<math.h>
+using namespace std;
+
+int main()
+{
+    int N,i,j;
+    cin>>N;
+    string up[N],down[N];
+    for(i=0;i<N;i++)
+    {
+        cin>>up[i]>>down[i];
+    }
+    
+    int arr[26]={0};
+    
+    for(i=0;i<N;i++)
+    {
+        int arru[26]={0},arrd[26]={0};
+        
+        int lenu=up[i].length();
+        int lend=down[i].length();
+        
+        for(j=0;j<lenu;j++)
+        {
+            arru[(int)up[i][j]-97]++;
+        }
+        for(j=0;j<lend;j++)
+        {
+            arrd[(int)down[i][j]-97]++;
+        }
+        
+        for(j=0;j<26;j++)
+        {
+            arr[j]=arr[j]+(max(arru[j],arrd[j]));
+        }
+    }
+    
+    for(i=0;i<26;i++)
+    {
+        cout<<arr[i]<<"\n";
+    }
+    
+    
+    return 0;
+}

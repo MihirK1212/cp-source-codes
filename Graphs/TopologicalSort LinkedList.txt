@@ -1,0 +1,33 @@
+
+Algorithm insertHead(L,u)
+{
+    if(L->head == NULL){L->head = new Node(u); return;}
+    else
+    {
+        newAddress = new Node(u);
+        newAddress->next = L->head
+        L->head = newAddress
+    }
+}
+
+Algorithm DFS(G,u)
+{
+    color[u] = GRAY
+    
+    for v in adj[u]:
+        if color[v]==WHITE:
+            DFS(v)
+    
+    color[u]=BLACK
+    insertHead(L,u);
+}
+
+Algorithm Driver(G)
+{
+    for all u in V[G]:
+        color[u] = WHITE
+    
+    for all u in V[G]:
+        if color[u]==WHITE:
+            DFS(G,u)
+}

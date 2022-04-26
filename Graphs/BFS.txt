@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+/*
+#Point to Remember: Queue follows Fisrt In First Out Policy
+
+BFS Algorithm
+1)We begin by visiting a 'start' node (this node is at 0 distance from itself)
+2)We now add all nodes at distance 1 from this 'start' node into a queue
+3)Now we go into the queue and visit the node at the front of the queue (this node is at distance 1 from 'start')
+4)Let this node in the previous step be node 'x'
+5)Now we add all adjacent nodes of node 'x' into the queue...these added nodes will be visited after all the nodes 
+  in step 2 have been visited
+6)Queue follows Fisrt In First Out Policy,thus nodes added later to the queue will be visited later  
+7)Thus, the visiting order will be:
+
+i)Visit starting node
+ii)Visit all nodes adjacent to starting node
+iii)Visit all unvisited nodes adjacent to all the nodes in step ii
+iv)Visit all unvisited nodes adjacent to all the nodes in step iii
+...Continue the process
+*/
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr,a,b) for(long long i=a;i<=b;i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+
+void bfs(map<ll,vll> &graph,ll start)
+{
+    vector<bool> visited(graph.size(),false);
+    queue<ll> q;
+    
+    q.push(start);
+    
+    while(!q.empty())
+    {
+        ll u=q.front();
+        q.pop();
+        if(!visited[u])
+        {
+            cout<<"Visited "<<u<<"\n";
+            visited[u]=true;
+            for(auto x:graph[u])
+            {
+                if(!visited[x]){q.push(x);}
+	    	}
+        }
+    }
+    return;
+}
+
+
+int main()
+{
+    map<ll,vll> graph;
+    
+    
+    graph[0]={1,4,5};
+    graph[1]={0,2,3,4};
+    graph[2]={1};
+    graph[3]={1,4};
+    graph[4]={0,1,3};
+    graph[5]={0,6,9};
+    graph[6]={5,9};
+    graph[7]={8};
+    graph[8]={7};
+    graph[9]={5,6};
+    
+    ll start;
+    
+    cout<<"BFS...\n";
+    cout<<"Enter starting node\n";
+    cin>>start;
+    
+    bfs(graph,start);
+    
+    return 0;
+}

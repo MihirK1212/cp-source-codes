@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll T;T=1;
+    while(T--)
+    {
+        ll n,m,i,j;
+        
+        cin>>n>>m;
+        
+        vll a(n);
+        vll b(m);
+        
+        input(a);
+        input(b);
+        
+        ll dp[n+1][m+1];
+        
+        memset(dp,0,sizeof(dp));
+        
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=m;j++)
+            {
+                if(a[i-1]==b[j-1]){dp[i][j]=dp[i-1][j-1] + 1;}
+                else
+                {
+                    dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        
+        i=n;
+        j=m;
+        
+        vll ans;
+        
+        while(i>0 && j>0)
+        {
+            if(a[i-1]==b[j-1])
+            {
+                ans.pb(a[i-1]);
+                i--;
+                j--;
+            }
+            else
+            {
+                if(dp[i-1][j]>dp[i][j-1]){i--;}
+                else{j--;}
+            }
+        }
+        
+        reverse(ans);
+        printoneline(ans);
+        
+        
+    }
+    
+    return 0;
+}

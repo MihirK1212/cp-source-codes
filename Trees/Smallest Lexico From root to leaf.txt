@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+https://leetcode.com/problems/smallest-string-starting-from-leaf/submissions/
+
+class Solution {
+public:
+    
+   string lexSmallest(TreeNode* root,string y)
+    {
+        if(root==NULL){return "{";}
+        
+        y=(char)(root->val+'a') + y ;
+        
+        if((root->left)==NULL && (root->right)==NULL){return y;}
+        
+        string L = lexSmallest(root->left,y);
+        string R = lexSmallest(root->right,y);
+        
+        if(L<=R)
+        {
+            return L;
+        }
+        else
+        {
+            return R;
+        }
+        
+        return "";
+    }
+
+    string smallestFromLeaf(TreeNode* root)
+    {
+        string ans = lexSmallest(root,"");
+        return ans;
+    }
+};

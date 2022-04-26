@@ -1,0 +1,41 @@
+long long gcd(long long a, long long b)
+{
+    if (a == 0)
+        return b;
+    else if (b == 0)
+        return a;
+    if (a < b)
+        return gcd(a, b % a);
+    else
+        return gcd(b, a % b);
+}
+ 
+// Function to convert decimal to fraction
+void decimalToFraction(double number)
+{
+    // Fetch integral value of the decimal
+    double intVal = floor(number);
+ 
+    // Fetch fractional part of the decimal
+    double fVal = number - intVal;
+ 
+    // Consider precision value to
+    // convert fractional part to
+    // integral equivalent
+    const long pVal = 1000000000;
+ 
+    // Calculate GCD of integral
+    // equivalent of fractional
+    // part and precision value
+    long long gcdVal
+        = gcd(round(fVal * pVal), pVal);
+ 
+    // Calculate num and deno
+    long long num
+        = round(fVal * pVal) / gcdVal;
+    long long deno = pVal / gcdVal;
+ 
+    // Print the fraction
+    cout << (intVal * deno) + num
+         << "/" << deno << endl;
+}

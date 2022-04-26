@@ -1,0 +1,59 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+long long fast_pow(long long a,long long n) {
+  long long res = 1;
+  while (n) {
+    if(n%2==0){
+      a=(a*a)%1003;
+      n/=2;
+    }
+    else{
+      res=(res*a)%1003;
+      n--;
+    }
+  }
+  return res;
+}
+int findValue(vector<long long>&num)
+{
+    int n = num.size();
+    long long ans = 0;
+    for(int i=0;i<n;i++)
+    {
+        ans+= ((num[i])*(fast_pow(10,n-i-1)))%1003;
+    }
+    return ans%1003;
+} 
+void solve(TreeNode* A,vector<long long>&num,long long&sum)
+{
+    if(A==NULL){return;}
+
+    long long x = A->val;
+    num.push_back(x);
+
+    solve(A->left,num,sum);
+    solve(A->right,num,sum);
+
+    if(!(A->left) && !(A->right)){sum+=findValue(num);}
+
+    if(num.size()>0){num.pop_back();}
+}
+
+int Solution::sumNumbers(TreeNode* A) 
+{
+    if(!A){return 0;}
+
+    vector<long long> num;
+    long long sum = 0;
+    
+    solve(A,num,sum);
+
+    return sum%1003;
+}

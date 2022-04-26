@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    
+    int n,srch_num,i;
+    cin>>n;
+    
+    vector<int> arr(n);
+    
+    for(i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    
+    cin>>srch_num;
+    
+    int lb=0,ub=n-1,mid;
+    int ind = -1;
+
+    while(lb<=ub)
+    {
+        mid= lb + (ub-lb)/2;
+        
+        if(arr[mid]==srch_num)
+        {
+            ind = mid;
+            break;
+        }
+        
+        if(arr[max(0,mid-1)]==srch_num)
+        {
+            ind = max(0,mid-1);
+            break;
+        }
+        
+        if(arr[min(n-1,mid+1)]==srch_num)
+        {
+            ind = min(n,mid+1);
+            break;
+        }
+        
+        if(srch_num<arr[mid])
+        {
+            ub = mid-2;
+        }
+        
+        else
+        {
+            lb = mid + 2;
+        }
+    }
+    
+    cout<<ind<<"\n";
+
+    return 0;
+}

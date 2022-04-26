@@ -1,0 +1,116 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll T;cin>>T;
+    while(T--)
+    {
+       ll n,i,j;
+       cin>>n;
+       
+       vll a(n);
+       input(a);
+       
+       ll max_a=-1;
+       
+       for(i=0;i<n;i++)
+       {
+           max_a=max(max_a,a[i]);
+       }
+       
+       vll mex_first(n+1),mex_last(n+1);
+       mex_first[0]=-1;
+       mex_last[0]=-1;
+       
+       map<ll,ll> freq_first,freq_last;
+       
+       if(a[0]==0){mex_first[1]=1;}
+       else{mex_first[1]=0;}
+       
+       if(a[n-1]==0){mex_last[1]=1;}
+       else{mex_last[1]=0;}
+       
+       freq_first[a[0]]++;
+       freq_last[a[n-1]]++;
+       
+       for(i=1;i<n;i++)
+       {
+            if(a[i]==mex_first[i])
+            {
+                freq_first[a[i]]++;
+                for(j=(a[i]+1);j<=(max_a+1);j++)
+                {
+                    if(freq_first[j]==0)
+                    {
+                        mex_first[i+1]=j;
+                        break;
+                    }
+                }
+            }    
+            else
+            {
+                freq_first[a[i]]++;
+                mex_first[i+1]=mex_first[i];
+            }
+        }
+        
+        for(i=(n-2);i>=0;i--)
+        {
+            if(a[i]==mex_last[n-i-1])
+            {
+                freq_last[a[i]]++;
+                for(j=(a[i]+1);j<=(max_a+1);j++)
+                {
+                    if(freq_last[j]==0)
+                    {
+                        mex_last[n-i]=j;
+                        break;
+                    }
+                }
+            }    
+            else
+            {
+                freq_last[a[i]]++;
+                mex_last[n-i]=mex_last[n-i-1];
+            }
+        }
+       
+       //printoneline(mex_first);
+       //printoneline(mex_last);
+       
+       //mex_first[i]=mex of first 'i' elements of array
+       //mex_last[i]=mex of last 'i' elements of array
+       
+       ll ind=100000000;
+       
+       for(i=1;i<=(n-1);i++)
+       {
+           if(mex_first[i]==mex_last[n-i])
+           {
+               ind=min(ind,i);
+           }
+       }
+       
+       if(ind==100000000){cout<<-1<<"\n";}
+       else{cout<<ind<<"\n";}
+       
+    }
+    return 0;
+}

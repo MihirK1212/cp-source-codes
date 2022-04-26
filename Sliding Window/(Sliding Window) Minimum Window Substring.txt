@@ -1,0 +1,50 @@
+string Solution::minWindow(string S, string T) 
+{
+    map<char,int> freq_S;
+    map<char,int> freq_T;
+
+    int n = S.size();
+
+    int count=0;
+    for(auto c : T){freq_T[c]++; count+=(freq_T[c]==1);}
+    
+
+    if(freq_T.find(S[0])!=freq_T.end())
+    {
+        freq_T[S[0]]--; if(freq_T[S[0]]==0){count--;}
+    }
+
+    int ansStart=-1,ansEnd=-1;
+    int minLen=INT_MAX;
+
+    int start=0,end=0;
+
+    while(start<=end)
+    {
+        if(count==0 && (end-start+1)<minLen){minLen=(end-start+1); ansStart=start; ansEnd=end;}
+
+        if(count==0)
+        {
+            if(freq_T.find(S[start])!=freq_T.end())
+            {
+                freq_T[S[start]]++; if(freq_T[S[start]]==1){count++;}
+            }
+            start++;
+        }
+        else if((end+1)<n)
+        {
+            if(freq_T.find(S[end+1])!=freq_T.end())
+            {
+                freq_T[S[end+1]]--; if(freq_T[S[end+1]]==0){count--;}
+            }
+            end++;
+        }
+        else{break;}
+    }
+
+    string ans="";
+    if(ansStart<0 || ansEnd<0){return ans;}
+
+    for(int i=ansStart;i<=ansEnd;i++){ans+=S[i];}
+    return ans;
+}

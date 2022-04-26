@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+//we want the three-tuples (a,b,c) to be sorted in ascending order w.r.t 'b'
+
+struct sorting
+{
+    ll a,b,c;
+};
+
+bool comp(const sorting &ob1, const sorting &ob2)
+{
+    return (ob1.b<ob2.b); 
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll n,i; 
+    
+    cin>>n;
+    vector<sorting> v;
+    
+    for(i=0;i<n;i++)
+    {
+        ll a,b,c;
+        cin>>a>>b>>c;
+        v.pb({a,b,c});
+    }
+
+    
+    sort(v.begin(),v.end(),comp);
+    
+    for(auto o:v)
+    {
+        cout<<o.a<<" "<<o.b<<" "<<o.c<<"\n";
+    }
+    
+    return 0;
+}

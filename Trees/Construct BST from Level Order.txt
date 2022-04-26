@@ -1,0 +1,101 @@
+// { Driver Code Starts
+//Initial Template for C++
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* right;
+    Node* left;
+    
+    Node(int x){
+        data = x;
+        right = NULL;
+        left = NULL;
+    }
+};
+
+void preorderTraversal(Node* root)
+{
+	if (!root)return;
+	cout << root->data << " ";
+	preorderTraversal(root->left);
+	preorderTraversal(root->right); 
+}
+
+Node* constructBst(int arr[], int n);
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int arr[n];
+        for(int i=0; i<n; i++)cin>>arr[i];
+        Node *root = constructBst(arr, n);
+        preorderTraversal(root);
+        cout<<endl;
+    }
+	return 0; 
+}// } Driver Code Ends
+
+
+//User function Template for C++
+
+//Function to construct the BST from its given level order traversal.
+Node* constructBst(int level[], int n)
+{
+    if(n==0){return NULL;}
+    
+    Node* root = new Node(level[0]);
+    
+    queue<Node*> nodes;
+    queue<pair<int,int>> limits;
+    
+    nodes.push(root);
+    limits.push({INT_MIN,INT_MAX});
+    
+    int i = 1;
+    
+    while(!nodes.empty() && i<n)
+    {
+        Node* u = nodes.front(); nodes.pop();
+        int low = (limits.front()).first;
+        int high = (limits.front()).second;
+        limits.pop();
+        
+        int leftLow = low , leftHigh = u->data-1;
+        int rightLow = u->data + 1 , rightHigh = high; 
+        
+        if(level[i]>=leftLow && level[i]<=leftHigh)
+        {
+            u->left = new Node(level[i]);
+            nodes.push(u->left);
+            limits.push({leftLow,leftHigh});
+            i++;
+        }
+        else
+        {
+            u->left = NULL;
+        }
+        
+        if(level[i]>=rightLow && level[i]<=rightHigh)
+        {
+            u->right = new Node(level[i]);
+            nodes.push(u->right);
+            limits.push({rightLow,rightHigh});
+            i++;
+        }
+        else
+        {
+            u->right = NULL;
+        }
+        
+        
+    }
+    
+    return root;
+}

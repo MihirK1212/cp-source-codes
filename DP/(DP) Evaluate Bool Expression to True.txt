@@ -1,0 +1,111 @@
+// { Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    int dp[205][205][2];
+    int mod = 1003;
+    
+    //https://practice.geeksforgeeks.org/problems/boolean-parenthesization5610/1#
+    
+    int solve(string&S,int i,int j,char c)
+    {
+        
+        if(i>j){return 0;}
+        if(i==j){dp[i][j][c=='T']=(S[i]==c); return dp[i][j][c=='T'];}
+        if(dp[i][j][c=='T']>=0){return dp[i][j][c=='T'];}
+        
+        int ans = 0;
+        
+        for(int k=i;k<j;k++)
+        {
+            if(S[k]!='T' && S[k]!='F'){continue;}
+            
+            char op = S[k+1];
+            
+            if(op=='T' || op=='F'){continue;}
+            
+            int v1_T = (dp[i][k][1]==-1)?(solve(S,i,k,'T')):dp[i][k][1];
+            int v1_F = (dp[i][k][0]==-1)?(solve(S,i,k,'F')):dp[i][k][0];
+            
+            int v2_T = (dp[k+2][j][1]==-1)?(solve(S,k+2,j,'T')):dp[k+2][j][1];
+            int v2_F = (dp[k+2][j][0]==-1)?(solve(S,k+2,j,'F')):dp[k+2][j][0];
+            
+            
+            if(op=='|')
+            {
+                if(c=='T')
+                {
+                    ans+=((v1_T%mod)*(v2_T%mod))%mod;
+                    ans+=((v1_T%mod)*(v2_F%mod))%mod;
+                    ans+=((v1_F%mod)*(v2_T%mod))%mod;
+                }
+                else
+                {
+                    ans+=((v1_F%mod)*(v2_F%mod))%mod;
+                }
+                
+            }
+            else if(op=='&')
+            {
+                if(c=='T')
+                {
+                    ans+=((v1_T%mod)*(v2_T%mod))%mod;
+                }
+                else
+                {
+                    ans+=((v1_T%mod)*(v2_F%mod))%mod;
+                    ans+=((v1_F%mod)*(v2_T%mod))%mod;
+                    ans+=((v1_F%mod)*(v2_F%mod))%mod;
+                }
+                
+            }
+            else if(op=='^')
+            {
+                if(c=='T')
+                {
+                    ans+=((v1_T%mod)*(v2_F%mod))%mod;
+                    ans+=((v1_F%mod)*(v2_T%mod))%mod;
+                }
+                else
+                {
+                    ans+=((v1_T%mod)*(v2_T%mod))%mod;
+                    ans+=((v1_F%mod)*(v2_F%mod))%mod;
+                }
+                
+            }
+        }
+        
+        dp[i][j][c=='T']=ans%mod;
+        
+        return ans%mod;
+    }
+    
+    int countWays(int N, string S){
+        memset(dp,-1,sizeof(dp));
+        solve(S,0,N-1,'T');
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int N;
+        cin>>N;
+        string S;
+        cin>>S;
+        
+        Solution ob;
+        cout<<ob.countWays(N, S)<<"\n";
+    }
+    return 0;
+}  // } Driver Code Ends

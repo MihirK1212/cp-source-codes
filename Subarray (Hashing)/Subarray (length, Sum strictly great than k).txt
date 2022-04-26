@@ -1,0 +1,138 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define ll long long 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+ 
+ 
+bool comp_psum(pair<ll,ll> &x,pair<ll,ll> &y)
+{
+    if(x.f!=y.f)
+    {
+       return(x.f<y.f); 
+    }
+    else
+    {
+        return(x.s<y.s);
+    }
+}
+
+ll find_index_sum_less(ll x,vector<pair<ll,ll>> &p_sum_ind,ll n)
+{
+    
+    // we want to find the index i.e 0,1,2 of p_sum_ind upto and including which the p_sum p.f is <(-x)  
+    
+    /*Linear Search approach
+    ll ind=0;
+    
+    for(auto p:p_sum_ind)
+    {
+        if(p.f<(-x))
+        {
+            ind++;
+        }
+    }
+    return (ind-1);
+    */
+    
+    /*Binary Search approach
+    We want the lower bound(lb) (index UPTO which)
+    so lb=(min_possible-1) ub=(max_possible)
+    
+    and we want p.f<(-x)
+    */
+    
+    ll lb=-1,ub=n-1;
+    ll mid;
+    
+    while((ub-lb)>1)
+    {
+        mid=(lb+ub)/2;
+        if((p_sum_ind[mid].f)>=(-x))
+        {
+            ub=mid;
+        }
+        else
+        {
+            lb=mid;
+        }
+    }
+    
+    return lb;
+}
+
+void initialize_minInd(vll &minInd,vector<pair<ll,ll>> &p_sum_ind)
+{
+    ll i=0,curr_min=100000000000000;
+    for(auto p:p_sum_ind)
+    {
+        minInd[i]=min(curr_min,p.s);
+        curr_min=minInd[i];
+        i++;
+    }
+    return;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll n,k,i;
+    cin>>n>>k;
+    vll a(n);
+    input(a);
+    
+    vector<pair<ll,ll>> p_sum_ind;
+    
+    ll sum=0;
+    
+    for(i=0;i<n;i++)
+    {
+        sum+=a[i];
+        p_sum_ind.pb({sum,i});
+    }
+    
+    sort(p_sum_ind.begin(),p_sum_ind.end(),comp_psum);
+    
+    vll minInd(n);
+    initialize_minInd(minInd,p_sum_ind);
+    
+    sum=0;
+    ll max_len=-1;
+    
+    for(i=0;i<n;i++)
+    {
+        sum+=a[i];
+        
+        if(sum>k){max_len=max(max_len,(i+1));}
+        
+        else
+        {
+            ll x=k-sum;
+            //from sum,we can subtract less than to -x to obtain (subarray sum) >k 
+            ll ind=find_index_sum_less(x,p_sum_ind,n);
+            ll j;
+            
+            if(ind>=0){j=minInd[ind];}
+            else{continue;}
+            
+            if(j>i){continue;}
+            else
+            {
+                max_len=max(max_len,(i-j));
+            }
+        }
+    }
+    
+    cout<<max_len<<"\n";
+    
+    
+    return 0;
+}

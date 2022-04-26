@@ -1,0 +1,139 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr,a,b) for(long long i=a;i<=b;i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+
+vll add(vll &a,vll &b)
+{
+    ll i,j,carry=0,len,sum;
+    vll c;
+    ll a_size=a.size();
+    ll b_size=b.size();
+    reverse(a);
+    reverse(b);
+    len=min(a.size(),b.size());
+    for(i=0;i<len;i++)
+    {
+        sum=a[i]+b[i]+carry;
+        carry=(sum/10);
+        c.pb(sum%10);
+    }
+    
+    if(a.size()>len)
+    {
+        for(i=len;i<a.size();i++)
+        {
+            sum=a[i]+carry;
+            carry=(sum/10);
+            c.pb(sum%10);
+        }
+    }
+    
+    if(b.size()>len)
+    {
+        for(i=len;i<b.size();i++)
+        {
+            sum=b[i]+carry;
+            carry=(sum/10);
+            c.pb(sum%10);
+        }
+    }
+    
+    while(carry>0)
+    {
+        c.pb(carry%10);
+        carry/=10;
+    }
+    
+    reverse(a);
+    reverse(b);
+    reverse(c);
+    return c;
+}
+
+
+vll multiply(vll &a,vll &b)
+{
+    //we are assuming len(a)>len(b)
+    ll i,j,carry=0;
+    vll result,currentresult;
+    ll a_size=a.size();
+    ll b_size=b.size();
+    reverse(a);
+    reverse(b);
+    result.pb(0);
+    for(i=0;i<b_size;i++)
+    {
+        for(j=0;j<i;j++)
+        {
+            currentresult.pb(0);
+        }
+        for(j=0;j<a_size;j++)
+        {
+            currentresult.pb(((b[i]*a[j])+carry)%10);
+            carry=((b[i]*a[j])+carry)/10;
+        }
+        while(carry!=0)
+        {
+            currentresult.pb(carry%10);
+            carry=carry/10;
+        }
+        reverse(currentresult);
+        result=add(result,currentresult);
+        currentresult.clear();
+    }
+
+    reverse(a);
+    reverse(b);
+    return result;
+}
+
+
+vll vectorize(ll n)
+{
+    vll a;
+    while(n!=0)
+    {
+        a.pb(n%10);
+        n=n/10;
+    }
+    reverse(a);
+    return a;
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll n,i;
+    cin>>n;
+    
+    vll fact;
+    fact.pb(1);
+    
+    for(i=2;i<=n;i++)
+    {
+        vll num;
+        num=vectorize(i);
+        fact=multiply(fact,num);
+    }
+    
+    ll f_size=fact.size();
+    
+    for(i=0;i<f_size;i++)
+    {
+        cout<<fact[i];
+    }
+    cout<<"\n";
+    return 0;
+}

@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    
+    int n,i;
+    cin>>n;
+    
+    vector<int> arr(n);
+    
+    for(i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    
+    int lb=0,ub=n-1,mid;
+
+    int min_ind;
+
+    while(lb<=ub)
+    {
+        mid= lb + (ub-lb)/2;
+        
+        if((mid>lb && arr[mid-1]>arr[mid]))
+        {
+            min_ind=mid;
+            break;
+        }
+
+        else if(mid<ub && arr[mid+1]<arr[mid])
+        {
+            min_ind=mid+1;
+            break;
+        }
+        
+        else if(lb==ub)
+        {
+            min_ind=lb;
+            break;
+        }
+
+        if(arr[ub]<arr[mid])
+        {
+            lb=mid+1; 
+        }
+        else
+        {
+            ub=mid-1;
+        }
+    }
+
+    
+    cout<<"The array is rotated "<<min_ind<<" times"<<"\n";
+    cout<<arr[min_ind]<<"\n";
+    
+    
+    return 0;
+}

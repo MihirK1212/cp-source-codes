@@ -1,0 +1,32 @@
+int Solution::solve(string str) 
+{
+    int n = str.length();
+
+    int ans = INT_MAX;
+
+    for(int j=0;j<26;j++)
+    {
+        char c = char('a'+j);
+        int p1=0,p2=n-1;
+        int count=0;
+        bool check=true;
+        while(p1<n && p2>=0 && p1<p2)
+        {
+            if(str[p1]==str[p2]){p1++; p2--;}
+            else
+            {
+                if(str[p1]==c){count++; p1++;}
+                else if(str[p2]==c){count++; p2--;}
+                else{check=false; break;}
+            }
+        }
+        
+        if(check)
+        {
+            ans=min(ans,count);
+        }
+    }
+    
+    
+    return (ans == 1) || (ans==0 && n&1);
+}

@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+
+int main()
+{
+    ll N,i,sum=0;
+    
+    //p_sum[k]=a0+a1+a2+.....ak
+    //r_sum[k1 to k2]=ak1+....+ak2
+    
+    cin>>N;
+    vll a(N),p_sum;
+    
+    for(i=0;i<N;i++)
+    {
+        cin>>a[i];
+        sum+=a[i];
+        p_sum.pb(sum);
+    }
+    
+    ll k1,k2;
+    cout<<"Enter k1 and k2\n";
+    cin>>k1>>k2;
+    
+    cout<<"a"<<k1<<" + ..... + a"<<k2<<" =\n";
+    
+    ll r_sum;
+    if(k1==0){r_sum=p_sum[k2];}
+    else{r_sum=p_sum[k2]-p_sum[k1-1];}
+    
+    cout<<r_sum<<"\n";
+    
+    return 0;
+}

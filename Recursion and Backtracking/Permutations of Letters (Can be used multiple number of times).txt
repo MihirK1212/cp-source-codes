@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void show(vector<char> &s)
+{
+    long long i;
+    for(i=0;i<s.size();i++)
+    {
+        cout<<s[i];
+    }
+    cout<<"\n";
+}
+
+void print(vector<char> &ch,long long k,vector<char> &s)
+{
+    long long i;
+    if(s.size()==k)
+    {
+        show(s);
+        return;
+    }
+    
+    for(i=0;i<ch.size();i++)
+    {
+        s.push_back(ch[i]);
+        print(ch,k,s);
+        s.pop_back();
+    }
+    
+    return;
+}
+
+int main()
+{
+    long long n,k,i; 
+    cin>>n;
+    vector<char> ch(n);
+    for(i=0;i<n;i++){cin>>ch[i];}
+    
+    cin>>k;
+    vector<char> s;
+    
+    print(ch,k,s);
+    return 0;
+}

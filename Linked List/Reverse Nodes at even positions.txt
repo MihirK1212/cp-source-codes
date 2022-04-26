@@ -1,0 +1,73 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* revList(ListNode* head)
+{
+    ListNode *curr=head,*prev=NULL;
+    while(curr)
+    {
+        ListNode* next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    return prev;
+}
+ListNode* merge(ListNode* oddHead,ListNode* evenHead)
+{
+    ListNode *p1=oddHead , *p2=evenHead;
+
+    while(p1 && p2)
+    {
+        ListNode    *next1 = p1->next , *next2 = p2->next;
+        p1->next = p2;
+        p2->next = next1;
+
+        p1=next1; p2=next2;
+    }
+
+    return oddHead;
+}
+ListNode* Solution::solve(ListNode* A) 
+{
+    if(A==NULL || (A->next)==NULL){return A;}
+
+    bool currOdd = true;
+    
+    ListNode* curr = A;
+    ListNode *odd=NULL,*even=NULL;
+
+    ListNode *oddHead=A , *evenHead=A->next;
+
+    while(curr)
+    {
+        if(currOdd)
+        {
+            if(!odd){odd=curr;}
+            else{odd->next=curr; odd=odd->next;}            
+        }
+        else
+        {
+            if(!even){even=curr;}
+            else{even->next=curr; even=even->next;}
+        }
+
+        curr = curr->next;
+
+        if(odd){odd->next = NULL;}
+        if(even){even->next = NULL;}
+
+
+        currOdd=!currOdd;
+    }
+
+    evenHead = revList(evenHead);
+
+    return merge(oddHead,evenHead);
+}

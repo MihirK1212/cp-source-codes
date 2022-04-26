@@ -1,0 +1,47 @@
+/*
+    Given n, find the number of ways to represent the number n 
+    Eg, for n=4, ways are 8:
+    1+1+1+1
+    2+2
+    ...
+    4
+    
+    In general, we can write:
+    n=1+(n-1)
+    n=2+(n-2)
+    n=3+(n-3)
+    ...
+*/
+
+    
+#include <bits/stdc++.h>
+using namespace std; 
+
+int f(int n)
+{
+    long long ways=0,i;
+    if(n==1){return 1;}
+    else
+    {
+        for(i=1;i<n;i++)
+        {
+          ways+=f(i);
+        }
+    }
+    return (ways+1);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    long long n,ways=0,i;
+    cin>>n;
+    for(i=1;i<n;i++)
+    {
+        ways+=f(i);
+    }
+    ways++;
+    cout<<ways<<"\n";
+    return 0;
+}

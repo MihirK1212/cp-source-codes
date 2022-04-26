@@ -1,0 +1,52 @@
+// https://leetcode.com/problems/sort-array-by-increasing-frequency/
+
+typedef pair<int,int> pii;
+
+class Compare{
+    public:
+    bool operator()(pii &x,pii &y)
+    {
+        if(x.first==y.first){return x.second<y.second;} //For same frequency, we want larger numbers at the top
+                                                        //So we put smaller numbers at the bottom
+        else
+        {
+           return x.first>y.first; //Put the condition here that you want to go at the bottom of the heap
+           //In this question, we want according to increasing frequency, so we put higher frequency at
+           //the bottom
+        }   
+    }
+};
+    
+class Solution {
+public:
+    
+    vector<int> frequencySort(vector<int>& nums) {
+        map<int,int> freq;
+        for(int i=0;i<(nums.size());i++)
+        {
+            freq[nums[i]]++;
+        }
+        vector<pair<int,int>> arr;
+        for(auto x:freq)
+        {
+            arr.push_back({x.second,x.first});
+        }
+        
+        vector<int> ans;
+        
+        priority_queue <pii,vector<pii>,Compare> min_h;
+        
+        for(int i=0;i<(arr.size());i++)
+        {
+            min_h.push(arr[i]);
+        }
+        
+        while((min_h.size())>0)
+        {
+            for(int i=0;i<((min_h.top()).first);i++){ans.push_back((min_h.top()).second);}
+            min_h.pop();
+        }
+        
+        return ans;
+    }
+};

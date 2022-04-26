@@ -1,0 +1,154 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    Node* left;
+    Node* right;
+    int key;
+    int height;
+};
+
+int getHeight(Node *node)
+{
+    if(node==NULL){return -1;}
+    else{return node->height;}
+}
+
+
+Node* newNode(int key)
+{
+    Node* node = new Node();
+    node->key = key;
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 0;
+    
+    return node;
+}
+
+
+Node* rightRotate(Node* n1)  ///Refer to Class Notebook
+{
+    Node* n2 = n1->left;
+    Node* T = n2->right;
+    
+    n2->right = n1;
+    n1->left = T;
+    
+    n1->height = max(getHeight(n1->left),getHeight(n1->right)) + 1;
+    n2->height = max(getHeight(n2->left),getHeight(n2->right)) + 1;
+    
+    return n2;
+}
+
+Node* leftRotate(Node* n1) //Refer to class Notebook
+{
+    Node* n2 = n1->right;
+    Node* T = n2->left;
+    
+    n2->left = n1;
+    n1->right = T;
+    
+    n1->height = max(getHeight(n1->left),getHeight(n1->right)) + 1;
+    n2->height = max(getHeight(n2->left),getHeight(n2->right)) + 1;
+    
+    return n2;
+}
+
+int getBalance(Node* node)
+{
+	if (node == NULL)
+		return 0;
+		
+	int l_height,r_height;
+		
+	if((node->left)==NULL){l_height=-1;}
+	else{l_height=(node->left->height);}
+	
+	if((node->right)==NULL){r_height=-1;}
+	else{r_height=(node->right->height);}
+		
+		
+	return (l_height-r_height);
+}
+
+
+
+Node* insert(Node* root,int key)
+{
+    if(root==NULL)
+    {
+        return newNode(key);
+    }
+    
+    if(key<(root->key))
+    {
+        root->left = insert(root->left,key);
+    }
+    else if(key>(root->key))
+    {
+        root->right = insert(root->right,key);
+    }
+    else
+    {
+        return root;
+    }
+    
+    
+    root->height = max(getHeight(root->left),getHeight(root->right)) + 1;
+    
+    int balance = getBalance(root);
+    
+    if(balance>1 && key<(root->left->key)) //Left-Left Case
+    {
+        return rightRotate(root);
+    }
+    else if(balance<-1 && key>(root->right->key)) //Right-Right Case
+    {
+        return leftRotate(root);
+    }
+    else if(balance>1 && key>(root->left->key)) //Left-Right Case
+    {
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+    else if(balance<-1 && key<(root->right->key)) //Right-Left Case
+    {
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+    
+    return root;
+    
+}
+
+
+void preOrder(Node* address)
+{
+    if(address!=NULL)
+    {
+        cout<<address->key<<" ";
+        preOrder(address->left);
+        preOrder(address->right);
+    }
+    else
+    {
+        return;
+    }
+}
+
+int main()
+{
+    Node *root = NULL;
+    root = insert(root, 10);
+	root = insert(root, 20);
+	root = insert(root, 30);
+	root = insert(root, 40);
+	root = insert(root, 50);
+	root = insert(root, 25);
+    preOrder(root);
+    
+
+    return 0;
+}

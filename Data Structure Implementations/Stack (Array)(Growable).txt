@@ -1,0 +1,107 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int max_size=3;
+vector<int> arr(max_size);
+
+class Stack 
+{
+	int top_ind;
+	
+	public:
+	
+    Stack() {top_ind=-1;}
+	void push(int x);
+	void pop();
+	int top();
+	bool isEmpty();
+};
+
+void Stack::push(int x)
+{
+	if (top_ind>=(max_size-1)) 
+	{
+	   max_size=max_size*2;
+		
+		vector<int> temp_arr(max_size);
+        for(int i=0;i<=top_ind;i++)
+		{
+		    temp_arr[i]=arr[i];
+		}
+		temp_arr[top_ind+1]=x;
+		top_ind++;
+		
+		arr.resize(max_size);
+		arr=temp_arr;
+		
+		cout << x << " pushed into stack\n";
+		
+		return;
+	}
+	else 
+	{
+	    arr[top_ind+1] = x;
+		top_ind++;
+        cout << x << " pushed into stack\n";
+		return;
+	}
+}
+
+void Stack::pop()
+{
+	if (top_ind<0) 
+	{
+		cout <<"Stack Underflow\n";
+		return;
+	}
+	else
+	{
+	   // cout<<arr[top_ind]<<" popped from stack\n";
+	    top_ind--;
+	}
+}
+int Stack::top()
+{
+	if (top_ind<0) 
+	{
+		cout << "Stack is Empty\n";
+		return 0;
+	}
+	else 
+	{
+		int x = arr[top_ind];
+		return x;
+	}
+}
+
+bool Stack::isEmpty()
+{
+	return (top_ind<0);
+}
+
+int main()
+{
+	Stack s;
+	s.push(1);
+	s.push(2);
+	s.push(3);
+	s.push(4);
+    s.push(5);
+    s.push(6);
+	s.push(7);
+	s.push(8);
+	s.push(9);
+    s.push(10);
+    s.push(11);
+	s.push(12);
+    s.push(13);
+    // s.pop();
+    cout<<"Elements present in stack :\n";
+	while(!s.isEmpty())
+	{
+		cout<<s.top()<<"\n";
+	    s.pop();
+	}
+
+	return 0;
+}

@@ -1,0 +1,60 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    long long int count(int S[], int m, int n) {
+
+	//m number of coints
+	//total value n
+    
+        long long int num_ways[m+1][n+1];
+        memset(num_ways,0,sizeof(num_ways));
+        
+        long long int i,money;
+        
+        for(i=0;i<=m;i++)
+        {
+            for(money=0;money<=n;money++)
+            {
+                if(i==0)
+                {
+                    if(money!=0){num_ways[i][money]=0;}
+                    else{num_ways[i][money]=1;}
+                    continue;
+                }
+                
+                long long int v1=0,v2=0;
+                
+                //If we use 'i' then we always use i
+                if(money>=S[i-1]){v1=num_ways[i][money-S[i-1]];}
+                
+                //If we dont use 'i' then we never use i
+                v2 = num_ways[i-1][money];
+                
+                num_ways[i][money]=v1+v2;
+                
+            }
+        }
+        
+        return num_ways[m][n];
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int arr[m];
+        for (int i = 0; i < m; i++) cin >> arr[i];
+        Solution ob;
+        cout << ob.count(arr, m, n) << endl;
+    }
+
+    return 0;
+}  // } Driver Code Ends

@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+/* Given n boxes wtih Length,Width and Heights [L1,W1,H1],[L2,W2,H2],....[LN,WN,HN]
+Find the height of the tallest possible stack (You may or may not use all boxes)
+A box j can be stacked on top of a box i only if it can be placed without any rotation i.e L parallel to L and W parallel to W
+For this L[i]>L[j] and W[i]>W[j]
+*/
+
+int main()
+{
+    int n,i,j,maxh=-10;
+    cout<<"Enter number of boxes\n";
+    cin>>n;
+    int L[n],W[n],H[n];
+    vector<tuple<int,int,int>> dimensions;
+    cout<<"Enter lengths,widths and heights for "<<n<<" boxes\n";
+    for(i=0;i<n;i++)
+    {
+        cin>>L[i]>>W[i]>>H[i];
+        dimensions.push_back({L[i],W[i],H[i]});
+    }
+    
+    sort(dimensions.begin(),dimensions.end());
+    
+    int maxheightbeg[n]; //stores maximum height of a stack with a particular block at the bottom
+    
+    for(i=0;i<n;i++)
+    {
+        maxheightbeg[i]=get<2>(dimensions[i]);
+    }
+    
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            if(i!=j && (get<0>(dimensions[i]))>(get<0>(dimensions[j])) && (get<1>(dimensions[i]))>(get<1>(dimensions[j])))
+            {
+                maxheightbeg[i]=max(maxheightbeg[i],((get<2>(dimensions[i]))+maxheightbeg[j]));
+            }
+        }
+        maxh=max(maxh,maxheightbeg[i]);
+    }
+    
+    cout<<maxh<<"\n";
+    return 0;
+}

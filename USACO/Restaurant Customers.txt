@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+/*
+You are given the arrival and leaving times of n customers in a restaurant.
+
+What was the maximum number of customers?
+
+Input
+
+The first input line has an integer n: the number of customers.
+
+After this, there are n lines that describe the customers. Each line has two integers a and b: the arrival and leaving times of a customer.
+
+You may assume that all arrival and leaving times are distinct.
+
+Output
+
+Print one integer: the maximum number of customers.
+
+Constraints
+1≤n≤2⋅105
+1≤a<b≤109
+Example
+
+Input:
+3
+5 8
+2 4
+3 9
+
+Output:
+2
+*/
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll n,i;
+    cin>>n;
+    
+    ll last_day=-10;
+    
+    vector<pair<ll,ll>> t;
+    
+    for(i=0;i<n;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        t.pb({a,b});
+        last_day=max(last_day,b);
+    }
+    
+   
+    vll more_than_prev((last_day+2),0);
+    
+    more_than_prev[0]=0;
+    
+    for(auto p:t)
+    {
+        more_than_prev[p.f]++;
+        more_than_prev[p.s+1]--;
+    }
+    
+    printoneline(more_than_prev);
+    
+    ll curr_cust=0,max_cust=-10;
+    
+    for(auto delta: more_than_prev)
+    {
+        curr_cust+=delta;
+        max_cust=max(max_cust,curr_cust);
+    }
+    
+    cout<<max_cust<<"\n";
+    
+    
+    return 0;
+}

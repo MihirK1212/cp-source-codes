@@ -1,0 +1,103 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr,a,b) for(long long i=a;i<=b;i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+
+bool allowed(pair<ll,ll> p,vector<vll> &grid,ll m,ll n)
+{
+    ll x=p.f;
+    ll y=p.s;
+    
+    return (x>=0 && y>=0 && x<m && y<n && grid[x][y]==0);
+}
+
+
+vector<pair<ll,ll>> neighbours(vector<vll> &grid,pair<ll,ll> p,ll m,ll n)
+{
+    ll x=p.f;
+    ll y=p.s;
+    
+    ll i,j;
+    
+    vector<pair<ll,ll>> verified;
+    
+    for(i=-1;i<=1;i++)
+    {
+        for(j=-1;j<=1;j++)
+        {
+            if(i==0 && j==0){continue;}
+            if(allowed({x+i,y+j},grid,m,n))
+            {
+                verified.pb({x+i,y+j});
+            }
+        }
+    }
+    
+    return verified;
+}
+
+
+void fill(vector<vll> &grid,ll x0,ll y0,ll m,ll n) 
+{
+    map <pair<ll,ll>,bool> visited;
+    queue<pair<ll,ll>> q;
+    queue<ll> colour;
+    
+    q.push({x0,y0});
+    colour.push(0);
+    
+    while(!q.empty())
+    {
+        pair<ll,ll> curr_pos=q.front();
+        q.pop();
+        
+        ll col=colour.front();
+        colour.pop();
+        
+        if(!visited[curr_pos])
+        {
+            visited[curr_pos]=true;
+            ll x=curr_pos.f, y=curr_pos.s;
+            grid[x][y]=col;
+            
+            for(auto p:neighbours(grid,curr_pos,m,n))
+            {
+                q.push(p);
+                colour.push(col+1);
+            }
+        }
+    }
+    
+    return;
+}
+
+
+int main()
+{
+    ll m,n,i,j,x0,y0;
+    
+    cin>>m>>n>>x0>>y0;
+    
+    vector<vll> grid(m,vll(n));
+    
+    fill(grid,x0,y0,m,n);
+    
+    for(i=0;i<m;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            cout<<grid[i][j]<<" ";
+        }
+        cout<<"\n";
+    }
+    
+    return 0;
+}

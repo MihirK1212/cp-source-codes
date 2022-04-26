@@ -1,0 +1,97 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{ 
+    int i,total,n,temp,j,left,k=0;
+    
+    cout<<"Enter total value:\n";
+    cin>>total;
+    
+    cout<<"Enter number of denominations available:\n";
+    cin>>n;
+    
+    int arr[n],ans[n];
+    
+    cout<<"Enter the denominations that are availaible in any order:\n";
+    for(i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    
+    for(i=0;i<n-1;i++)
+    {
+        for(j=0;j<n-i-1;j++)
+        {
+            if(arr[j]<arr[j+1])
+            {
+                temp=arr[j];
+                arr[j]=arr[j+1];
+                arr[j+1]=temp;
+            }
+        }
+    }
+    
+    for(i=0;i<n;i++)
+    {
+        
+        ans[i]=0;
+    }
+    
+     left=total;
+    while(left!=0)
+    {
+      for(i=0;i<n;i++)
+      {
+          if(arr[i]>left)
+          {
+              continue;
+          }
+          else
+          {
+            ans[i]=left/arr[i];
+            left=left-(ans[i]*arr[i]);
+          }
+    }
+      
+      if(left!=0)
+      {
+          k++;
+          break;
+      }
+      
+    }
+    
+    if(k==1)
+    {cout<<"Not possible\n";}
+    
+    
+    
+    
+    for(i=0;i<n;i++)
+    {
+        if(ans[i]!=0)
+        {cout<<"Number of notes of "<<arr[i]<<" are "<<ans[i]<<"\n";}
+        else
+        {continue;}
+    }
+    
+    return 0;
+}
+
+
+/*This algorithm will not work correctly everytime
+ Eg:- Total=40
+       Availaible=25,20,10,5
+
+Answer given by this algorithm=25+10+5
+Correct Answer=20+20

@@ -1,0 +1,180 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+bool compx(pll&p1,pll&p2)
+{
+    // if(p1.f==p2.f){return p1.s<p2.s;}
+    return p1.f<p2.f;
+}
+bool compy(pll&p1,pll&p2)
+{
+    // if(p1.s==p2.s){return p1.f<p2.f;}
+    return p1.s<p2.s;
+}
+
+ld dist(pll&p1,pll&p2)
+{
+    return sqrt((p1.f - p2.f)*(p1.f - p2.f)+(p1.s - p2.s)*(p1.s - p2.s));
+}
+
+vector<ld> bruteForce(vpll&points)
+{
+    ll n = points.size();
+    ld minDist = inf;
+    vector<ld> ans;
+    
+    for(ll i=0;i<n;i++)
+    {
+        for(ll j=i+1;j<n;j++)
+        {
+            ld curr = dist(points[i],points[j]);
+            if(curr<minDist)
+            {
+                ans = {(ld)points[i].f,(ld)points[i].s,(ld)points[j].f,(ld)points[j].s,curr};
+                minDist = curr;
+            }
+        }
+    }
+    return ans;
+}
+
+vector<ld> findStripAns(vpll&points,ld d)
+{
+    ll n = points.size();
+    ld minDist = d;
+    vector<ld> ans = {-1,-1,-1,-1,(ld)inf};
+    
+    for(ll i=0;i<n;i++)
+    {
+        for(ll j=i+1;j<n;j++)
+        {
+            if((points[j].s - points[i].s)>=minDist){break;}
+            
+            ld curr = dist(points[i],points[j]);
+            if(curr<minDist)
+            {
+                ans = {(ld)points[i].f,(ld)points[i].s,(ld)points[j].f,(ld)points[j].s,curr};
+                minDist = curr;
+            }
+        }
+    }
+    return ans;
+}
+
+ld findMin(ld x, ld y)
+{
+    return (x < y)? x : y;
+}
+
+vector<ld> solve(vpll&Px,vpll&Py,ll n)
+{
+    if(n<=3){return bruteForce(Px);}
+    
+    ll mid = n/2;
+    pll midPoint = Px[mid];
+    
+    vpll Pxl , Pyl; //points sorted acc to 'x' and 'y' that will be on the left half
+    vpll Pxr , Pyr; //points sorted acc to 'x' and 'y' that will be on the right half
+    
+    for(ll i=0;i<=mid;i++){Pxl.pb(Px[i]);}
+    for(ll i=mid+1;i<n;i++){Pxr.pb(Px[i]);}
+    
+    for(ll i=0;i<n;i++)
+    {
+        if(((Py[i].f<midPoint.f)||(Py[i].f==midPoint.f && Py[i].s<=midPoint.s)) && Pyl.size()<(mid+1))
+        {
+            Pyl.pb(Py[i]);
+        }
+        else
+        {
+            Pyr.pb(Py[i]);
+        }
+    }
+    
+    vector<ld> l_ans = solve(Pxl,Pyl,mid+1);
+    vector<ld> r_ans = solve(Pxr,Pyr,n-mid-1);
+    
+    ld d = findMin(l_ans[4],r_ans[4]);
+    
+    vpll Pstrip;
+    
+    for(auto p : Py)
+    {
+        if((abs(p.f - midPoint.f))<d){Pstrip.pb(p);}
+    }
+    
+    vector<ld> strip_ans = findStripAns(Pstrip,d);
+    
+    if(l_ans[4]<=r_ans[4] && l_ans[4]<=strip_ans[4]){return l_ans;}
+    else if(r_ans[4]<=l_ans[4] && r_ans[4]<=strip_ans[4]){return r_ans;}
+    return strip_ans;
+}
+
+int main()
+{
+    setIO("");
+    
+    ll n,i;
+    cin>>n;
+    
+    vpll Px , Py;
+    
+    map<pll,ll> index;
+    
+    for(i=0;i<n;i++)
+    {
+        ll a,b;
+        cin>>a>>b;
+        
+        Px.pb({a,b}); Py.pb({a,b});
+        index[{a,b}] = i;
+    }
+    
+	sort(Px.begin(),Px.end(),compx);
+	sort(Py.begin(),Py.end(),compy);
+	
+	vector<ld> res = solve(Px,Py,n);
+	
+	pll p1 = {res[0],res[1]};
+	pll p2 = {res[2],res[3]};
+	
+	
+	cout<<min(index[p1],index[p2])<<" "<<max(index[p1],index[p2])<<" ";
+	std::cout << std::setprecision (6) << (ld)res[4];
+	
+	ld iForm = (ll)res[4];
+	
+	if(iForm==res[4]){cout<<".000000";}
+	cout<<"\n";
+    
+    return 0;
+}

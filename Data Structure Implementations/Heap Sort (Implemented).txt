@@ -1,0 +1,72 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void heapify(vector<int>&arr, int size,int root)
+{
+	int smallest=root;
+	int l=2*root+1;
+	int r=2*root+2;
+
+	if(l<n && arr[l]<arr[smallest])
+	{
+		smallest=l;
+	}	
+
+	if (r<n && arr[r]<arr[smallest])
+	{
+		smallest = r;
+	}	
+
+	if (smallest!=root) 
+	{
+		swap(arr[root], arr[smallest]);
+        	heapify(arr, n, smallest);
+	}
+}
+
+void min_heap_construct(vector<int>&arr, int n)
+{
+    int i;
+    for (i=(n/2-1);i>=0;i--)
+    {
+		heapify(arr, n, i);
+    }
+}
+
+void heapSort(vector<int>&arr, int n)
+{
+    int i;
+    for(i=(n-1);i>=0;i--) 
+	{
+		swap(arr[0], arr[i]);
+		int curr_size = i;
+		heapify(arr, curr_size, 0);
+	}
+}
+
+int main()
+{
+	int n,i;
+	
+	cout<<"Enter the size of the array:\n";
+	cin>>n;
+	
+	vector<int> arr(n);
+	
+	cout<<"Enter the numbers for array:\n";
+	for(i=0;i<n;i++)
+	{
+	    cin>>arr[i];
+	}
+	
+	min_heap_construct(arr,n);
+    heapSort(arr, n);
+
+	cout << "The array after sorting is:\n";
+	for(i=0;i<n;i++)
+	{
+	    cout<<arr[i]<<" ";
+	}
+	cout<<"\n";
+}

@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+/*
+count_face_value[i]=Number of numbers in the array with the digit in their given place (ones or tens or hundreds or...) equal to i
+Now we modify count_face_value[i]=count_face_value[i-1]+1
+Now we go through the array 'a' (in reverse order) and find the digit in the given place of a[i] let this digit be place_digit
+In the sorted array for that pass (i.e for that radix), 
+sorted_place_a[count_face_value[place_digit]-1]=a[i]
+count_face_value[place_digit]--
+In this way, the a[i]s with place_digit=0 come first then come the a[i]s with place_digit=1 and so on till the a[i]s with place_digit=9
+*/
+
+void count_sort(vll &a,ll place)
+{
+    ll i;
+    vll count_face_value(10,0);
+    for(i=0;i<(a.size());i++)
+    {
+        count_face_value[(a[i]/place)%10]++;
+    }
+    for(i=1;i<=9;i++)
+    {
+        count_face_value[i]= count_face_value[i]+count_face_value[i-1];
+    }
+    
+    vll ans(a.size());
+    
+    for(i=((a.size())-1);i>=0;i--)
+    {
+        ans[(count_face_value[(a[i]/place)%10])-1]=a[i];
+        count_face_value[(a[i]/place)%10]--;
+    }
+    
+    for(i=0;i<a.size();i++)
+    {
+        a[i]=ans[i];
+    }
+    
+    
+}
+
+void radix_sort(vll &a,ll max_a)
+{
+    ll tens_place=1;
+    while(max_a>0)
+    {
+        count_sort(a,tens_place);
+        tens_place*=10;
+        max_a=max_a/10;
+    }
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll n,i;
+    cin>>n;
+    
+    vll a(n);
+    
+    ll max_a=-100000000000000000;
+    
+    for(i=0;i<n;i++)
+    {
+        cin>>a[i];
+        max_a=max(max_a,a[i]);
+    }
+    
+    
+    radix_sort(a,max_a);
+    
+    printoneline(a);
+    return 0;
+}

@@ -1,0 +1,43 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int i,j,temp,minpos;
+    int arr[5];
+    cout<<"Enter 5 numbers:\n";
+    for(i=0;i<5;i++)
+    {
+        cin>>arr[i];
+    }
+    int n=5;
+    
+    //For each i...find the minimum element in the array a[(i+1)....(n-1)] and swap a[i] with this minimum element
+    cout<<"\n";
+    
+    for(i=0;i<=(n-2);i++)
+    {
+        minpos=i;
+        for(j=i+1;j<n;j++)
+        {
+            if(arr[j]<arr[minpos])
+            {
+                minpos=j;
+            }
+            
+        }
+        temp=arr[i];
+        arr[i]=arr[minpos];
+        arr[minpos]=temp;
+    }
+    
+    for(i=0;i<5;i++)
+    {
+        cout<<arr[i]<<"\n";
+    }
+    
+    
+    
+    return 0;
+}

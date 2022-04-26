@@ -1,0 +1,64 @@
+// https://leetcode.com/problems/all-possible-full-binary-trees/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    map<int,vector<TreeNode*>> dp;
+    
+    vector<TreeNode*> findCompleteTrees(int n)
+    {
+        vector<TreeNode*> temp_list;
+        
+       if(n==0){return temp_list;}
+       if(n==1)
+       {
+           temp_list.push_back(new TreeNode(0));
+           return temp_list;
+       }
+       if(dp[n].size()>0)
+       {
+           return dp[n];
+       }
+       
+       vector<TreeNode*> curr_ans; 
+        
+       for(int L=0;L<=(n-1);L++)
+       {
+           int R = n-1-L;
+           vector<TreeNode*> leftTrees = findCompleteTrees(L);
+           vector<TreeNode*> rightTrees = findCompleteTrees(R);
+           
+           for(auto r_l : leftTrees)
+           {
+               for(auto r_r : rightTrees)
+               {
+                   TreeNode* newRoot = new TreeNode(0);
+                   newRoot->left = r_l;
+                   newRoot->right = r_r;
+                   curr_ans.push_back(newRoot);
+                }
+           }
+           
+        }
+        
+        dp[n] = curr_ans;
+        
+        return curr_ans;
+    }
+    
+    vector<TreeNode*> allPossibleFBT(int n) 
+    {
+        return findCompleteTrees(n);    
+    }
+};

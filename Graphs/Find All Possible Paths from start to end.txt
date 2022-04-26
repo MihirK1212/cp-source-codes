@@ -1,0 +1,44 @@
+https://leetcode.com/problems/all-paths-from-source-to-target/submissions/
+
+//Works for directed acyclic graph
+
+class Solution {
+public:
+    
+    vector<vector<int>> ans;
+    vector<int> path;
+    
+    int start,end;
+    
+    void dfs(vector<vector<int>>& graph,int node)
+    {
+        int n = graph.size();
+        
+        if(node==end)
+        {
+            path.push_back(end);
+            ans.push_back(path);
+            path.pop_back();
+            return;
+        }
+        
+       path.push_back(node);
+        
+        
+        
+        for(auto v: graph[node])
+        {
+           dfs(graph,v);
+        }
+        
+        path.pop_back();
+    }
+    
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph)
+    {
+        int n = graph.size();
+        
+        dfs(graph,start);
+        return ans;
+    }
+};

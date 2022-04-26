@@ -1,0 +1,71 @@
+class Solution {
+public:
+    int findOnes(vector<int>& nums)
+    {
+        int ans=0,cur=0;
+        
+        for(int i=0;i<(nums.size());i++)
+        {
+            if(nums[i]==1){cur++;}
+            else{ans=max(ans,cur); cur=0;}
+        }
+        ans= max(ans,cur);
+        return ans;
+    }
+    
+    int longestOnes(vector<int>& nums, int k) 
+    {
+        if(k==0)
+        {
+            return findOnes(nums);
+        }
+        
+        int zeroCount  = 0;
+        
+        int n = nums.size();
+        
+        int start=0,end=0;
+        
+        if(nums[0]==0)
+        {
+            zeroCount++;
+        }
+        
+        int ans = 0;
+        
+        while(start<=end && end<n)
+        {
+            if(zeroCount<=k){ans=max(ans,end-start+1);}
+            
+            if(zeroCount==k && (end+1)<n)
+            {
+                if(nums[end+1]==1)
+                {
+                    end++;
+                }
+                else if(nums[end+1]==0)
+                {
+                    if(nums[start]==0){zeroCount--;}
+                    start++;
+                }
+            }
+            
+            else if(zeroCount<k && (end+1)<n)
+            {
+                end++;
+                if(nums[end]==0){zeroCount++;}
+            }
+            else
+            {
+                if(nums[start]==0){zeroCount--;}
+                start++;   
+                if(start>end)
+                {
+                    end=start;}
+                    if(start<n && nums[start]==0){zeroCount=1;}
+            }
+        }
+        
+        return ans;
+    }
+};

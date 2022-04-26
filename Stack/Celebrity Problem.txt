@@ -1,0 +1,88 @@
+// { Driver Code Starts
+//Initial template for C++
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function template for C++
+
+class Solution 
+{
+    public:
+    //Function to find if there is a celebrity in the party or not.
+    bool check(vector<vector<int> >& M,int i)
+    {
+        int n = M.size();
+        if(i>=n){return false;}
+        
+        for(int r=0;r<n;r++)
+        {
+            if(r==i){continue;}
+            if(M[r][i]==0){return false;}
+        }
+        for(int c=0;c<n;c++)
+        {
+            if(M[i][c]==1){return false;}
+        }
+        
+        return true;
+    }
+    int celebrity(vector<vector<int> >& M, int n) 
+    {
+        stack<int> s;
+        
+        for(int i=0;i<n;i++){s.push(i);}
+        
+        while(!s.empty())
+        {
+            int x = s.top(); s.pop();
+            
+            if(s.empty() && check(M,x)){return x;}
+            if(s.empty()){return -1;}
+            
+            int y = s.top(); s.pop();
+            
+            if(M[x][y] && M[y][x]){continue;}
+            else if(M[x][y] && !M[y][x]){s.push(y);}
+            else if(!M[x][y] && M[y][x]){s.push(x);}
+            else{continue;}
+        }
+        
+        if(s.empty()){return -1;}
+        
+        while(!s.empty())
+        {
+            int x = s.top(); s.pop();
+            if(check(M,x)){return x;}
+        }
+        
+        return -1;
+        
+    }    
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        vector<vector<int> > M( n , vector<int> (n, 0));
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                cin>>M[i][j];
+            }
+        }
+        Solution ob;
+        cout<<ob.celebrity(M,n)<<endl;
+
+    }
+}
+  // } Driver Code Ends

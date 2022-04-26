@@ -1,0 +1,14 @@
+
+//Search an element in sorted array of infinite size
+
+initialize lb=0
+initialize ub=1
+
+while(srch_num>arr[ub])
+{
+    lb=ub;
+    ub*=2;
+}
+
+
+now we have start=lb and end=ub on which we can apply binary search

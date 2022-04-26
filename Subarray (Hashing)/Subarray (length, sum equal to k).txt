@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll n,k,i;
+    cin>>n>>k;
+    vll a(n);
+    input(a);
+    
+    
+    map<ll,ll> m;
+    
+    ll max_len=-1;
+    
+    ll sum=0;
+    
+    for(i=0;i<n;i++)
+    {
+        sum+=a[i];
+        if(sum==k)
+        {
+            if((i+1)>max_len)
+            {
+                max_len=i+1;
+                 cout<<"sum="<<sum<<" "<<i<<"\n";
+            }
+        }
+        
+        if(m.find(sum-k)!=m.end())
+        {
+            if((i-m[sum-k])>max_len)
+            {
+                max_len=i-m[sum-k];
+                cout<<"sum="<<sum<<" "<<i<<" "<<m[sum-k]<<"\n";
+            }
+        }
+        
+        if(m.find(sum)==m.end()){m[sum]=i;}
+    }
+    
+    cout<<max_len<<"\n";
+    
+    return 0;
+}

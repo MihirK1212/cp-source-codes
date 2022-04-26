@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+int max_len=-1;
+string lcs="";
+
+void solve(string &str1,string &str2,string &comp_str,int index1)
+{
+    int index_comp=0,index2=0;
+    while(index_comp!=comp_str.size() && index2!=str2.size())
+    {
+        if(comp_str[index_comp]==str2[index2]){index_comp++;index2++;}
+        else
+        {
+            index2++;
+        }
+    }
+    
+    if(index_comp==comp_str.size())
+    {
+        ll len_comp=comp_str.length();
+        if(len_comp>max_len){max_len=len_comp; lcs=comp_str;}
+    }
+    
+    if((index1)!=str1.size()){comp_str.push_back(str1[index1]);}
+    else{return;}
+    solve(str1,str2,comp_str,index1+1);
+    comp_str.pop_back();
+    solve(str1,str2,comp_str,index1+1);
+}
+
+int main()
+{
+    ll i;
+    string str1,str2;
+    cin>>str1;
+    cin>>str2;
+    ll len1=str1.length();
+    ll len2=str2.length();
+    
+    string comp_str="";
+    solve(str1,str2,comp_str,0);
+    
+    cout<<lcs<<"\n";
+    
+    return 0;
+}

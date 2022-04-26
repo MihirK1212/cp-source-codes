@@ -1,0 +1,100 @@
+// { Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+#include <string>
+
+using namespace std;
+
+
+ // } Driver Code Ends
+//User function Template for C++
+
+class Solution
+{
+    public:
+    //Function to find list of all words possible by pressing given numbers.
+    vector<char> findCandidates(int n)
+    {
+        switch(n)
+        {
+            case 2 : return {'a','b','c'};
+            break;
+            case 3 : return {'d','e','f'};
+            break;
+            case 4 : return {'g','h','i'};
+            break;
+            case 5 : return {'j','k','l'};
+            break;
+            case 6 : return {'m','n','o'};
+            break;
+            case 7 : return {'p','q','r','s'};
+            break;
+            case 8 : return {'t','u','v'};
+            break;
+            case 9 : return {'w','x','y','z'};
+            break;
+            default : return {' '};
+            break;
+        }
+        
+        return {' '};
+    }
+    void find(int *a,int N,string&curr,vector<string>&ans,int j)
+    {
+        if(curr.size()>N){return;}
+        
+        if(curr.size()==N){ans.push_back(curr);}
+        
+        for(int i=j;i<N;i++)
+        {
+            vector<char> candidates = findCandidates(a[i]);
+            
+            for(auto c : candidates)
+            {
+                curr.push_back(c);
+                find(a,N,curr,ans,i+1);
+                curr.pop_back();
+            }
+        }
+    }
+    
+    vector<string> possibleWords(int a[], int n)
+    {
+        string curr;
+        vector<string> ans;
+        
+        find(a,n,curr,ans,0);
+        return ans;
+    }
+};
+
+
+// { Driver Code Starts.
+
+int main() {
+  
+	int T;
+	
+	cin >> T; //testcases
+	
+	while(T--){ //while testcases exist
+	   int N;
+	    
+	   cin >> N; //input size of array
+	   
+	   int a[N]; //declare the array
+	   
+	   for(int i =0;i<N;i++){
+	       cin >> a[i]; //input the elements of array that are keys to be pressed
+	   }
+	   
+	   Solution obj;
+	   
+	  vector <string> res = obj.possibleWords(a,N);
+	  for (string i : res) cout << i << " ";
+	   cout << endl;
+	}
+	
+	return 0;
+}  // } Driver Code Ends

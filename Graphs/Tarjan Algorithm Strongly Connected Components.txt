@@ -1,0 +1,131 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function template for C++
+
+class Solution
+{
+	public:
+    //Function to return a list of lists of integers denoting the members 
+    //of strongly connected components in the given graph.
+    void dfs(vector<int>adj[],int u,vector<bool>&visited,
+            vector<int>&discTime,vector<int>&minChildTime,
+            stack<int>&stck,vector<bool>&inStack,vector<vector<int>>&ans,int&t)
+    {
+        visited[u]=true;
+        discTime[u]=minChildTime[u]=t;
+        t++;
+        stck.push(u);
+        inStack[u]=true;
+        
+        for(auto v : adj[u])
+        {
+            if(!visited[v])
+            {
+                dfs(adj,v,visited,discTime,minChildTime,stck,inStack,ans,t);
+                minChildTime[u]=min(minChildTime[u],minChildTime[v]);
+            }
+            else if(inStack[v])
+            {
+                minChildTime[u]=min(minChildTime[u],discTime[v]);
+            }
+        }
+        
+        
+        
+        if(minChildTime[u]==discTime[u])
+        {
+            vector<int> curr;
+            while(stck.top()!=u)
+            {
+                int val = stck.top();
+                stck.pop();
+                inStack[val]=false;
+                curr.push_back(val);
+            }
+            curr.push_back(stck.top());
+            stck.pop();
+            inStack[u]=false;
+            sort(curr.begin(),curr.end());
+            ans.push_back(curr);
+            // cout<<"Component is ";
+            // for(auto x : curr){cout<<x<<" ";}
+            // cout<<"\n";
+        }
+        
+       
+    }
+    vector<vector<int>> tarjans(int V, vector<int> adj[])
+    {
+        vector<bool> visited(V,false);
+        vector<int> discTime(V,-1);
+        vector<int> minChildTime(V,-1);
+        
+    
+        stack<int> stck;
+        vector<bool> inStack(V,false);
+        
+        
+        vector<vector<int>> ans;
+        
+        int t = 0;
+        
+        for(int u=0;u<V;u++)
+        {
+            if(!visited[u])
+            {
+                dfs(adj,u,visited,discTime,minChildTime,stck,inStack,ans,t);    
+            }
+        }
+        
+        sort(ans.begin(),ans.end());
+        
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+
+int main()
+{
+    
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int V, E;
+        cin >> V >> E;
+
+        vector<int> adj[V];
+
+        for(int i = 0; i < E; i++)
+        {
+            int u, v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+        }
+
+        Solution obj;
+        vector<vector<int>> ptr = obj.tarjans(V, adj);
+
+        for(int i=0; i<ptr.size(); i++)
+        {
+            for(int j=0; j<ptr[i].size(); j++)
+            {
+                if(j==ptr[i].size()-1)
+                    cout<<ptr[i][j];
+                else
+                    cout<<ptr[i][j]<<" ";
+            }
+            cout<<',';
+        }
+        cout<<endl;
+    }
+
+    return 0;
+}
+
+  // } Driver Code Ends

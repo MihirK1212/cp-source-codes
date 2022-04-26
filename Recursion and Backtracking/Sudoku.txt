@@ -1,0 +1,202 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define grid_size 9
+
+void take_input(vector<vector<int>> &grid)
+{
+    int i,j;
+    for(i=0;i<grid_size;i++)
+    {
+      for(j=0;j<grid_size;j++)
+      {
+        cin>>grid[i][j];
+      }
+    }
+}
+
+void input(vector<vector<int>> &grid)
+{
+grid[0][0]=-1;
+grid[0][1]=7;
+grid[0][2]=9;
+grid[0][3]=8;
+grid[0][4]=-1;
+grid[0][5]=2;
+grid[0][6]=-1;
+grid[0][7]=6;
+grid[0][8]=3;
+
+grid[1][0]=6;
+grid[1][1]=-1;
+grid[1][2]=-1;
+grid[1][3]=9;
+grid[1][4]=-1;
+grid[1][5]=-1;
+grid[1][6]=-1;
+grid[1][7]=1;
+grid[1][8]=-1;
+
+grid[2][0]=8;
+grid[2][1]=-1;
+grid[2][2]=3;
+grid[2][3]=-1;
+grid[2][4]=7;
+grid[2][5]=-1;
+grid[2][6]=-1;
+grid[2][7]=-1;
+grid[2][8]=2;
+
+grid[3][0]=-1;
+grid[3][1]=9;
+grid[3][2]=-1;
+grid[3][3]=-1;
+grid[3][4]=-1;
+grid[3][5]=-1;
+grid[3][6]=3;
+grid[3][7]=7;
+grid[3][8]=1;
+
+grid[4][0]=-1;
+grid[4][1]=6;
+grid[4][2]=8;
+grid[4][3]=7;
+grid[4][4]=-1;
+grid[4][5]=-1;
+grid[4][6]=-1;
+grid[4][7]=9;
+grid[4][8]=-1;
+
+grid[5][0]=-1;
+grid[5][1]=3;
+grid[5][2]=1;
+grid[5][3]=-1;
+grid[5][4]=2;
+grid[5][5]=-1;
+grid[5][6]=5;
+grid[5][7]=8;
+grid[5][8]=-1;
+
+grid[6][0]=2;
+grid[6][1]=8;
+grid[6][2]=6;
+grid[6][3]=5;
+grid[6][4]=-1;
+grid[6][5]=-1;
+grid[6][6]=1;
+grid[6][7]=3;
+grid[6][8]=-1;
+
+grid[7][0]=-1;
+grid[7][1]=-1;
+grid[7][2]=-1;
+grid[7][3]=-1;
+grid[7][4]=-1;
+grid[7][5]=-1;
+grid[7][6]=-1;
+grid[7][7]=-1;
+grid[7][8]=-1;
+
+grid[8][0]=9;
+grid[8][1]=-1;
+grid[8][2]=4;
+grid[8][3]=3;
+grid[8][4]=-1;
+grid[8][5]=-1;
+grid[8][6]=8;
+grid[8][7]=2;
+grid[8][8]=7;
+}
+
+bool filled(vector<vector<int>> &grid,int &i,int &j)
+{
+    for(i=0;i<grid_size;i++)
+    {
+      for(j=0;j<grid_size;j++)
+      {
+        if(grid[i][j]==-1){return false;}
+      }
+    }
+    
+    return true;
+}
+
+bool allowed(vector<vector<int>> &grid,int i,int j,int num)
+{
+    int p,q;
+    
+    if(grid[i][j]!=-1){return false;}
+    
+    for(p=0;p<grid_size;p++)
+    {
+        if(grid[i][p]==num || grid[p][j]==num){return false;}
+    }
+    
+    int k=(int)sqrt(grid_size);
+    
+    for(p=i-(i%k);p<=(i-(i%k)+k-1);p++)
+    {
+        for(q=j-(j%k);q<=(j-(j%k)+k-1);q++)
+        {
+            if(grid[p][q]==num){return false;}
+        }
+    }
+    
+    return true;
+}
+
+bool solve(vector<vector<int>> &grid)
+{
+    int r,c,k;
+    if(filled(grid,r,c))
+    {
+        return true;
+    }
+    
+    for(k=1;k<=grid_size;k++)
+    {
+        if(allowed(grid,r,c,k))
+        {
+            grid[r][c]=k;
+              
+            if(solve(grid))
+            {
+               return true;
+            }
+            grid[r][c]=-1;
+        } 
+    }
+    
+    return false;
+}
+
+int main()
+{
+    int i,j;
+    
+    vector<vector<int>> grid(grid_size,vector<int> (grid_size,0));
+    
+    input(grid); //predefined sudoku
+    
+    //take_input(grid)...for custom input
+    
+    if(solve(grid))
+    {
+      for(i=0;i<grid_size;i++)
+      {
+        for(j=0;j<grid_size;j++)
+        {
+            cout<<grid[i][j]<<" ";
+        }
+        cout<<"\n";
+      }
+    }
+    
+    else
+    {
+        cout<<"Unsolvable\n";
+    }
+    
+
+    return 0;
+}

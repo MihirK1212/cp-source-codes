@@ -1,0 +1,141 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+ll inf=std::numeric_limits<long long>::max();
+
+//to delete a key, 1)decrease key to -infinity 2) extract min
+
+ll n;
+
+void max_heapify(vll &arr,ll root,ll n)
+{
+    ll largest=root;
+    ll left=2*root+1;
+    ll right=2*root+2;
+    
+    if(left<n && arr[left]>arr[largest])
+    {
+        largest=left;
+    }
+    if(right<n && arr[right]>arr[largest])
+    {
+        largest=right;
+    }
+    
+    if(largest!=root)
+    {
+        swap(arr[root],arr[largest]);
+        max_heapify(arr,largest,n);
+    }
+}
+
+void construct_max_heap(vll &arr,ll n)
+{
+    ll i;
+    for(i=(n/2)-1;i>=0;i--)
+    {
+        max_heapify(arr,i,n);
+    }
+}
+
+void insert_element(vll &arr,ll key)
+{
+    arr.resize((arr.size())+1);
+    arr[(arr.size())-1]=key;
+    
+    n=arr.size();
+    ll i=n-1;
+    
+    while(i>0 && arr[(i-1)/2]<key)
+    {
+        arr[i]=arr[(i-1)/2];
+        i = (i-1)/2;
+    }
+    
+    arr[i]=key;
+}
+
+void pop_top(vll &arr)
+{
+    if(n<=0){cout<<"Cannot Pop\n"; return;}
+    
+    swap(arr[0],arr[n-1]);
+    arr.pop_back();
+    n--;
+    max_heapify(arr,0,n);
+}
+
+void increase_key(vll &arr,ll i, ll key)
+{
+    if(key<arr[i]){cout<<"Key is smaller than current element\n"; return;}
+    
+    arr[i]=key;
+    
+    while(i>0 && arr[(i-1)/2]<arr[i])
+    {
+        swap(arr[i],arr[(i-1)/2]);
+        i = (i-1)/2;
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll i;
+    cin>>n;
+    
+    vll arr(n);
+    
+    for(i=0;i<n;i++){cin>>arr[i];}
+    
+    construct_max_heap(arr,n);
+    for(i=0;i<n;i++){cout<<arr[i]<<" ";}
+    cout<<"\n";
+    
+    
+    // insert_element(arr,5);
+    // for(i=0;i<n;i++){cout<<arr[i]<<" ";}
+    // cout<<"\n";
+    
+    // insert_element(arr,1);
+    // for(i=0;i<n;i++){cout<<arr[i]<<" ";}
+    // cout<<"\n";
+    
+    // insert_element(arr,-1);
+    // for(i=0;i<n;i++){cout<<arr[i]<<" ";}
+    // cout<<"\n";
+    
+    // insert_element(arr,8);
+    // for(i=0;i<n;i++){cout<<arr[i]<<" ";}
+    // cout<<"\n";
+    
+    // pop_top(arr);
+    // for(i=0;i<n;i++){cout<<arr[i]<<" ";}
+    // cout<<"\n";
+    
+    // pop_top(arr);
+    // for(i=0;i<n;i++){cout<<arr[i]<<" ";}
+    // cout<<"\n";
+    
+    
+    increase_key(arr,3,5);
+    for(i=0;i<n;i++){cout<<arr[i]<<" ";}
+    cout<<"\n";
+    
+    
+    return 0;
+}

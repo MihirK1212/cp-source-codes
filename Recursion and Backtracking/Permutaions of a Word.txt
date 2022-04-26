@@ -1,0 +1,60 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution
+{
+	public:
+	    void solve(string&S,string&curr,vector<string>&ans,unordered_map<char,int> &freq)
+	    {
+	        if(curr.size()>S.size()){return;}
+	        if(curr.size()==S.size()){ans.push_back(curr); return;}
+	        
+	        for(auto p : freq)
+	        {
+	            if(p.second<=0){continue;}
+	            
+	            freq[p.first]--;
+	            curr.push_back(p.first);
+	            
+	            solve(S,curr,ans,freq);
+	            
+	            freq[curr.back()]++;
+	            curr.pop_back();
+	        }
+	    }
+		vector<string>find_permutation(string S)
+		{
+		    unordered_map<char,int> freq;
+		    for(auto c : S){freq[c]++;}
+		    
+		    string curr="";
+		    vector<string> ans;
+		    solve(S,curr,ans,freq);
+		    sort(ans.begin(),ans.end());
+		    return ans;
+		}
+};
+
+
+
+// { Driver Code Starts.
+int main(){
+    int t;
+    cin >> t;
+    while(t--)
+    {
+	    string S;
+	    cin >> S;
+	    Solution ob;
+	    vector<string> ans = ob.find_permutation(S);
+	    for(auto i: ans)
+	    {
+	    	cout<<i<<" ";
+	    }
+	    cout<<"\n";
+    }
+	return 0;
+}
+  // } Driver Code Ends

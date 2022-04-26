@@ -1,0 +1,65 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution
+{
+    public:
+    //Function to find minimum number of attempts needed in 
+    //order to find the critical floor.
+    
+    int dp[205][205];
+    
+    int solve(int n,int k)
+    {
+        if(k==0){return 0;}
+        if(k==1){return 1;}
+        if(n==1){return k;}
+        
+        
+        if(dp[n][k]>=0){return dp[n][k];}
+        
+        int ans = INT_MAX;
+        
+        for(int fl=1;fl<=k;fl++)
+        {
+            //Breaks on dropping from fl
+            int ans1 = (dp[n-1][fl-1]==-1)?solve(n-1,fl-1):dp[n-1][fl-1];
+            
+            //Does not break on dropping from fl
+            int ans2 = (dp[n][k-fl]==-1)?solve(n,k-fl):dp[n][k-fl];
+            
+            ans = min(ans,max(ans1,ans2));
+        }
+        
+        dp[n][k] = ans+1;
+        
+        return ans+1;
+    }
+    
+    int eggDrop(int n, int k) 
+    {
+        memset(dp,-1,sizeof(dp));
+        return solve(n,k);
+    }
+};
+
+// { Driver Code Starts.
+int main()
+{
+    //taking total testcases
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        //taking eggs and floors count
+        int n, k;
+        cin>>n>>k;
+        Solution ob;
+        //calling function eggDrop()
+        cout<<ob.eggDrop(n, k)<<endl;
+    }
+    return 0;
+}
+  // } Driver Code Ends

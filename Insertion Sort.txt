@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll n,i,j,temp,minpos;
+    cin>>n;
+    vll a(n);
+    input(a);
+    
+    //For each iteration of 'i', we ensure that a[i] i.e temp is in correct place in the array a[0...i]
+    
+    for(i=0;i<n;i++)
+    {
+        temp=a[i];
+        for(j=(i-1);j>=0;j--)
+        {
+            if(a[j]>temp)
+            {
+                a[j+1]=a[j];
+                a[j]=temp;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    
+    printoneline(a);
+    
+    return 0;
+}

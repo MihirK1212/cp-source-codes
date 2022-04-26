@@ -1,0 +1,28 @@
+// https://leetcode.com/problems/combination-sum/
+
+class Solution {
+public:
+    vector <vector<int>> ans;
+    
+    void findSubsets(vector<int>& candidates, vector<int>&s,int left,int j)
+    {
+        if(left<0){return;}
+        if(left==0){ans.push_back(s); return;}
+        
+        for(int i=j;i<(candidates.size());i++)
+        {
+            s.push_back(candidates[i]);
+            findSubsets(candidates,s,left-candidates[i],i);
+            s.pop_back();
+        }
+    }
+    
+    
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) 
+    {
+        vector<int> s;
+        findSubsets(candidates,s,target,0); 
+        return ans;
+    }
+};

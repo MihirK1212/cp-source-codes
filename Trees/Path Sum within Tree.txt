@@ -1,0 +1,47 @@
+// https://leetcode.com/problems/path-sum-iii/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    int ans=0;
+    
+    void countPaths(TreeNode* root , map<long long,int>&freqPSums,int currPSum,int targetSum)
+    {
+        if(root==NULL){return;}
+        
+        int x = root->val;
+        
+        currPSum+=x;
+        
+        ans+=freqPSums[currPSum - targetSum];
+        
+        freqPSums[currPSum]++;
+        
+        countPaths(root->left,freqPSums,currPSum,targetSum);
+        countPaths(root->right,freqPSums,currPSum,targetSum);
+        
+        freqPSums[currPSum]--;
+    }
+    
+    int pathSum(TreeNode* root, int targetSum) 
+    {
+        if(root==NULL){return 0;}
+        
+        map<long long,int> freqPSums;
+        
+        freqPSums[0] = 1;
+        
+        countPaths(root,freqPSums,0,targetSum);
+        return ans;
+    }
+};

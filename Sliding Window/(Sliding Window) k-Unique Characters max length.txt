@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    string str;
+    ll k;
+    
+    cin>>str;
+    ll len=str.length();
+    
+    cin>>k;
+    
+    map<char,ll> freq;
+    set<char> unique;
+    
+    ll start=0,end=0;
+    ll count=0;
+    
+    ll max_len=-1;
+    
+    while(start<=end && end<len)
+    {
+        while(count<=k && start<=end && end<len)
+        {
+            if(freq[str[end]]==0){count++;}
+            
+            freq[str[end]]++;
+            
+            if(count==k){max_len=max(max_len,end-start+1);}
+            
+            if(count<=k){end++;}
+        }
+        
+        while(count>k && start<=end && end<len)
+        {
+            if(freq[str[start]]==1){count--;}
+            freq[str[start]]--;
+            
+            start++;
+            
+            if(count==k){max_len=max(max_len,end-start+1);}
+        }
+        
+        end++;
+    }
+    
+    cout<<max_len<<"\n";
+    
+    return 0;
+}

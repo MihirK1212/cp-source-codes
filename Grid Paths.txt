@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr,a,b) for(long long i=a;i<=b;i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+
+ll grid_paths(ll m,ll n)
+{
+    if(m==1 || n==1){return 1;}
+    
+    return grid_paths(m,n-1)+grid_paths(m-1,n);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll m,n;
+    cin>>m>>n;
+    cout<<grid_paths(m,n)<<"\n";
+    
+    return 0;
+}

@@ -1,0 +1,64 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+class Solution{
+  public:
+    //Function to fill the array elements into a hash table 
+    //using Linear Probing to handle collisions.
+    vector<int> linearProbing(int hashSize, int arr[], int sizeOfArray)
+    {
+        vector<int> hashMap(hashSize,-1);
+        for(int i=0;i<sizeOfArray;i++)
+        {
+            int ind = (arr[i])%hashSize;
+            int count = hashSize;
+            bool found=false;
+            
+            while(hashMap[ind]!=-1 && count>0)
+            {
+                if(hashMap[ind]==arr[i]){found=true; break;}
+                count--;
+                ind=(ind+1)%hashSize;
+            }
+            
+            if(hashMap[ind]==-1 && !found){hashMap[ind] = arr[i];}
+        }
+        return hashMap;
+    }
+
+};
+
+// { Driver Code Starts.
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int hashSize;
+	    cin>>hashSize;
+	    
+	    int  sizeOfArray;
+	    cin>>sizeOfArray;
+	    int arr[sizeOfArray];
+	    
+	    for(int i=0;i<sizeOfArray;i++)
+	    cin>>arr[i];
+	    
+	    vector<int> hash;
+	    Solution obj;
+	    hash = obj.linearProbing( hashSize, arr, sizeOfArray);
+	    
+	    for(int i=0;i<hashSize;i++)
+	    cout<<hash[i]<<" ";
+	    
+	    cout<<endl;
+	    
+	    
+	}
+	return 0;
+}
+
+  // } Driver Code Ends

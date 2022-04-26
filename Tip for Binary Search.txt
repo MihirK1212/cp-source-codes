@@ -1,0 +1,12 @@
+For initializing lb and ub:
+Option 1)        lb=(min possible value)          ub=(max possible value)+1
+Option 2)        lb=(min possible value)-1      ub=(max possible value)
+
+while((ub-lb)>1)
+
+if().... lb=mid
+if()......ub=mid
+
+cout<<ub or cout<<lb or cout<<lb+1 or cout<<ub-1 or.....
+
+When we dont know the exact upper bound or lower bound use cout<<lb waala technique

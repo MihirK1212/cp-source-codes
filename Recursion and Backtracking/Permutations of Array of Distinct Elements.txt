@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<vector<int>> ans;
+    map<int,bool> used;
+    
+    void findPerms(vector<int>&nums,vector<int>&s)
+    {
+        if(s.size()==nums.size()){ans.push_back(s); return;}
+        
+        for(int i=0;i<nums.size();i++)
+        {
+            if(used[nums[i]]){continue;}
+            
+            s.push_back(nums[i]);
+            used[nums[i]]=true;
+            
+            findPerms(nums,s);
+            
+            used[s.back()]=false;
+            s.pop_back();
+        }
+    }
+    
+    
+    vector<vector<int>> permute(vector<int>& nums)
+    {
+        vector<int> s;
+        findPerms(nums,s);
+        return ans;
+    }
+};

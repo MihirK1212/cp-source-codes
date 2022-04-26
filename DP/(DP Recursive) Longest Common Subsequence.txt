@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+
+ll solve(string &s1,string &s2,ll end1, ll end2)
+{
+    if(end1<0 || end2<0){return 0;}
+    
+    if(s1[end1]==s2[end2]){return solve(s1,s2,end1-1,end2-1) + 1;}
+    else
+    {
+        return max(solve(s1,s2,end1,end2-1),solve(s1,s2,end1-1,end2));
+    }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    string s1,s2;
+    cin>>s1;
+    cin>>s2;
+    
+    ll n = s1.length();
+    ll m = s2.length();
+    
+    ll end1=n-1,end2=m-1;
+    
+    ll ans = solve(s1,s2,n-1,m-1);
+    
+    cout<<ans<<"\n";
+    
+    return 0;
+}

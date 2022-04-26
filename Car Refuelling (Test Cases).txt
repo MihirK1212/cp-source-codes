@@ -1,0 +1,129 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int t,p,i,n,left,D,max,freq=0;
+    cout<<"Enter number of test cases:\n";
+    cin>>t;
+    int ans[t]={0},num[t];
+    int pos[t][n];
+    cout<<"\n";
+    for(p=0;p<t;p++)
+    { 
+        cout<<"For test case number "<<p+1<<"\n";
+        cout<<"Enter distance between start and end:\n";
+        cin>>D;
+        cout<<"Enter number of stations:\n";
+        cin>>num[p];
+        n=num[p];
+        cout<<"Enter positions of "<<n<<" stations:\n";
+        for(i=0;i<n;i++)
+        {
+            cin>>pos[p][i];
+        }
+        cout<<"Enter maximum distance in one full tank\n";
+        cin>>max;
+        freq=0;
+        left=D;
+        int currentpos=0;
+        while(left!=0)
+        {
+            
+            for(i=0;i<n;i++)
+            {
+                
+                if((pos[p][i]-currentpos)==max)
+                {
+                    currentpos=pos[p][i];
+                    freq++;
+                    left=left-pos[p][i];
+                    pos[p][i]=-1;
+                    continue;
+                }
+                else if((D-currentpos)<=max)
+                { 
+                    ans[p]=freq;
+                    left=0;
+                    break;
+                    
+                }
+                else if((pos[p][i]-currentpos)<max && i<n-1 && (pos[p][i+1]-currentpos)<=max )
+                {
+                   continue;
+                }
+                else if((pos[p][i]-currentpos)<max && i<n-1 && (pos[p][i+1]-currentpos)>max )
+                {
+                    currentpos=pos[p][i];
+                    freq++;
+                    left=left-pos[p][i];
+                    pos[p][i]=-1;
+                    continue;
+                }
+                else if((pos[p][i]-currentpos)<max && i==n-1 && (D-currentpos)<=max )
+                {
+                    ans[p]=freq;
+                    left=0;
+                    break;
+                }
+                else if((pos[p][i]-currentpos)<max && i==n-1 && (D-currentpos)>max )
+                {
+                    currentpos=pos[p][i];
+                    freq++;
+                    left=left-pos[p][i];
+                    pos[p][i]=-1;
+                    continue;
+                }
+                
+                
+                
+                else
+                {
+                    ans[p]=-1;
+                    left=0;
+                    break;
+                }
+                
+            }
+            if(ans[p]!=-1)
+            {ans[p]=freq;}
+        }
+        cout<<"\n";
+    }
+    
+    for(p=0;p<t;p++)
+    {
+        cout<<"For test case number "<<p+1<<"\n";
+        
+        if(ans[p]==-1)
+        {
+            cout<<"Not possible\n\n";
+            continue;
+            
+        }
+        
+        cout<<"Number of stops required= "<<ans[p]<<"\n";
+        cout<<"Stopped at station numbers:\n";
+        for(i=0;i<num[p];i++)
+        {
+            if(pos[p][i]==-1)
+            {cout<<i+1<<"\n";}
+        }
+        cout<<"\n\n";
+    }
+
+    return 0;
+        
+        
+}
+
+

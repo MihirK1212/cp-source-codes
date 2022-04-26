@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll n,i,k;
+    cin>>n>>k;
+    vll a(n);
+    input(a);
+    
+    set<ll> subarr_elements;
+    map<ll,ll> freq;
+    
+    for(i=0;i<k;i++)
+    {
+        subarr_elements.insert(a[i]);
+        freq[a[i]]++;
+    }
+
+    ll start=0,end=k-1;
+    
+    while(end<n)
+    {
+        set<ll>::iterator it;
+        it=subarr_elements.end();
+        it--;
+        cout<<(*it)<<" ";
+        
+        freq[a[start]]--;
+        if(freq[a[start]]==0){subarr_elements.erase(a[start]);}
+        
+        if((end+1)<n)
+        {
+            freq[a[end+1]]++;
+            subarr_elements.insert(a[end+1]);
+        }
+        start++;
+        end++;
+    }
+    
+    cout<<"\n";
+    
+    return 0;
+}

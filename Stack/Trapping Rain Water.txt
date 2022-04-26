@@ -1,0 +1,84 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+
+using namespace std;
+
+
+ // } Driver Code Ends
+class Solution{
+
+    // Function to find the trapped water between the blocks.
+    public:
+    long long trappingWater(int heights[], int n)
+    {
+        vector<int> visibleUpto(n,-1);
+        stack<int> s;
+        int i,j;
+       
+        for(int i=0;i<n;i++)
+        {
+            while(!s.empty() && heights[i]>=heights[s.top()])
+            {
+                visibleUpto[s.top()]=max(visibleUpto[s.top()],i);
+                s.pop();
+            }
+            
+            if(!s.empty()){visibleUpto[s.top()]=max(visibleUpto[s.top()],i);}
+            
+            s.push(i);
+        }
+        
+        long long ans = 0;
+        
+        i=0;
+        while(i<n)
+        {
+            if(visibleUpto[i]>=0)
+            {
+                int maxHeight = min(heights[i],heights[visibleUpto[i]]);
+                
+                for(j=i+1;j<=visibleUpto[i]-1;j++)
+                {
+                    if(j<0 || j>=n){continue;}
+                    ans+=(long long)(max(0,(maxHeight-heights[j])));
+                }
+                i=visibleUpto[i];
+            }
+            else
+            {
+                i++;
+            }
+        }
+        
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    
+    int t;
+    //testcases
+    cin >> t;
+    
+    while(t--){
+        int n;
+        
+        //size of array
+        cin >> n;
+        
+        int a[n];
+        
+        //adding elements to the array
+        for(int i =0;i<n;i++){
+            cin >> a[i];            
+        }
+        Solution obj;
+        //calling trappingWater() function
+        cout << obj.trappingWater(a, n) << endl;
+        
+    }
+    
+    return 0;
+}  // } Driver Code Ends

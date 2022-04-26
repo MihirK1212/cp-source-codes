@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll partition(vll &arr,ll lb,ll ub)
+{
+    ll pivot,i,j,temp;
+    pivot=arr[lb];
+    j=lb;
+    for(i=lb+1;i<=ub;i++)
+    {
+        if(arr[i]<=pivot)
+        {
+            temp=arr[j+1];
+            arr[j+1]=arr[i];
+            arr[i]=temp;
+            j++;
+        }
+    }
+    temp=arr[lb];
+    arr[lb]=arr[j];
+    arr[j]=temp;
+    return j;
+}
+
+void quickSelect(vll&A,ll lb,ll ub,ll k)
+{
+  if(lb>ub){cout<<"Error\n"; return;}
+    
+    ll x = (lb+ub)/2;
+    swap(A[lb],A[x]);
+    ll m = partition(A,lb,ub);
+    
+    ll s1 = m-lb+1;
+    ll s2 = ub-m;
+    
+    if(k==s1){cout<<A[m]<<"\n"; return;}
+    else if(k>s1){quickSelect(A,m+1,ub,k-s1);}
+    else if(k<s1){quickSelect(A,lb,m-1,k);}
+    
+    return;
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll n,k,i;
+    cin>>n>>k;
+    vll A(n);
+    input(A);
+    
+    quickSelect(A,0,n-1,k);
+    
+    return 0;
+}

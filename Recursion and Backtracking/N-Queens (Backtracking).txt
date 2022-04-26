@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool allowed(int i,int j,vector<vector<int>> &board,int N)
+{
+    int p,q;
+    
+    for(p=0;p<N;p++)
+    {
+        if(board[i][p]==1){return false;}
+    }
+    
+    for(p=0;p<N;p++)
+    {
+        if(board[p][j]==1){return false;}
+    }
+    
+    for(p=0;p<N;p++)
+    {
+        for(q=0;q<N;q++)
+        {
+            if((p+q)==(i+j) && board[p][q]==1){return false;}
+            if((p-q)==(i-j) && board[p][q]==1){return false;}
+        }
+    }
+    
+    return true;
+}
+
+bool place_queens(vector<vector<int>> &board,int row,int N)
+{
+    if(row==N)
+    {
+        return true;
+    }
+    
+    for(int col=0;col<N;col++)
+    {
+        if(!allowed(row,col,board,N)){continue;}
+            
+        board[row][col]=1;
+        if(place_queens(board,row+1,N))
+        {
+            return true;
+        }
+        board[row][col]=0;
+        
+    }
+    return false;
+}
+
+
+int main()
+{
+    int n,i,j;
+    cin>>n;
+    vector<vector<int>> board(n,vector<int> (n,0));
+    
+    if(place_queens(board,0,n))
+    {
+      for(i=0;i<n;i++)
+      {
+         for(j=0;j<n;j++){cout<<board[i][j]<<" ";}
+        cout<<"\n";
+      }
+    }
+    
+    else
+    {
+        cout<<"Not possible\n";
+    }
+    return 0;
+}

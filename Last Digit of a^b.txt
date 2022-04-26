@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t;
+    long long a,b;
+    cin>>t;
+    while(t--)
+    {
+        cin>>a>>b;
+        
+        if(b==0){cout<<1<<"\n";}
+        else
+        {
+            int x;
+            if((b%4)!=0){x=(ceil)(pow((a%10),(b%4)));}
+            else{x=x=(ceil)(pow((a%10),4));}
+            cout<<x%10<<"\n";
+        }
+    }
+
+    return 0;
+}

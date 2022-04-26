@@ -1,0 +1,52 @@
+bool allowed(vector<int>&A, int B , int X)
+{
+    int curr_pages = 0;
+    int N = A.size() , i;
+    int left = B;
+
+    for(i=0;i<N;i++)
+    {
+        if(A[i]>X){return false;}
+        if((curr_pages+A[i])<=X){curr_pages+=A[i];}
+        else
+        {
+            curr_pages = A[i];
+            left--;
+        }
+    }
+
+    if(curr_pages>0 && curr_pages<=X){left--;}
+
+    return left>=0; //Using X we can satisfy the conditon of maximum X books for <=B number of students thereofre X is allowed 
+		    //Less number of students => More books on average per student
+    
+}
+int Solution::books(vector<int> &A, int B) 
+{
+    int N = A.size(), i ;
+
+    if(N<B){return -1;}
+
+    int sum=0;
+    for(i=0;i<N;i++){sum+=A[i];}
+
+    int lb=1,ub=sum,mid;
+    long long ans = 1e15;
+
+    while(lb<=ub)
+    {
+        mid = lb + (ub-lb)/2;
+        if(allowed(A,B,mid))
+        {
+            ans = min(ans,(long long)mid);
+            ub=mid-1;
+        }
+        else
+        {
+            lb=mid+1;
+        }
+    }
+
+    if(ans!=(1e15)){return ans;}
+    else{return -1;}
+}

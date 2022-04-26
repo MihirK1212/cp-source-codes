@@ -1,0 +1,27 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int a[]={11,22,33,44,55,66,77,88,99,110};
+    int srchnum;
+    cin>>srchnum;
+    int lb=0,jump,n=10;
+    for(jump=n/2;jump>=1;jump/=2)
+    {
+        while(lb+jump<n && a[lb+jump]<=srchnum){lb+=jump;}
+    }
+    
+    if(a[lb]==srchnum)
+    {
+        cout<<"Found at "<<lb<<"\n";
+    }
+    
+    else
+    {
+        cout<<"not found";
+    }
+
+    return 0;
+}

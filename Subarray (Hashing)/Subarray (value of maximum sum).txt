@@ -1,0 +1,42 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+int main()
+{
+    int n,i,maxsum;
+    cout<<"Enter number of elements in array:\n";
+    cin>>n;
+    vector <int> arr(n),localmaximum(n);
+    cout<<"Enter array:\n";
+    for(i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    
+    localmaximum[0]=arr[0];
+    maxsum=localmaximum[0];
+    
+    for(i=1;i<=n-1;i++)
+    {
+       localmaximum[i]=max(arr[i], localmaximum[i-1]+arr[i]);
+       
+       if(localmaximum[i]>maxsum)
+       {
+           maxsum=localmaximum[i];
+       }
+    }
+    
+    cout<<"Maximum sum of contiguous subarray is "<<maxsum<<"\n";
+    
+    return 0;
+}

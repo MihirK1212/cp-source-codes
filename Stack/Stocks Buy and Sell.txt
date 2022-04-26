@@ -1,0 +1,70 @@
+class Solution{
+public:
+    //Function to find the days of buying and selling stock for max profit.
+    vector<vector<int> > stockBuySell(vector<int> A, int n)
+    {
+        vector<vector<int>> ans;
+        
+        stack<int> smaller;
+        stack<int> greater;
+        
+        vector<int> smallerNearest(n,-1);
+        vector<int> greaterNearest(n,-1);
+        
+        for(int i=0;i<n;i++)
+        {
+            while(!smaller.empty() && A[i]<A[smaller.top()])
+            {
+                smallerNearest[smaller.top()]=i;
+                smaller.pop();
+            }
+            
+            smaller.push(i);
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            while(!greater.empty() && A[i]>=A[greater.top()])
+            {
+                greaterNearest[greater.top()]=i;
+                greater.pop();
+            }
+            
+            greater.push(i);
+        }
+        
+        int i=0;
+    
+        while(i<n)
+        {
+            int nextSmaller = smallerNearest[i];
+            int nextGreater = greaterNearest[i];
+            
+            if(nextSmaller==-1 && nextGreater==-1){break;}
+            
+            else if(nextSmaller==-1)
+            {
+                ans.push_back({i,nextGreater});
+                i = nextGreater;
+            }
+            
+            else if(nextGreater==-1)
+            {
+                i = nextSmaller; continue;
+            }
+        
+            else if(nextSmaller<nextGreater)
+            {
+                i = nextSmaller; continue;
+            }
+            
+            else
+            {
+                ans.push_back({i,nextGreater});
+                i = nextGreater; 
+            }
+        }
+        
+        return ans;
+    }
+};

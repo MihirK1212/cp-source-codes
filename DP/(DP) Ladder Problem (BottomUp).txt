@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ll N,n,i;
+    cout<<"Enter total height:\n";
+    cin>>N;
+    
+    vll no_of_ways(N+1,0);
+    no_of_ways[0]=1;  //There is only one way to stand on the ground
+    
+    vll step_size;
+    
+    cout<<"Enter possible step sizes (to stop enter -1)\n";
+    while(true)
+    {
+        ll ss; cin>>ss;
+        if(ss==-1){break;}
+        else{step_size.pb(ss);}
+    }
+    
+    for(n=1;n<=N;n++)
+    {
+        no_of_ways[n]=0;
+        for(i=0;i<(step_size.size());i++)
+        {
+            if(n>=step_size[i])
+            {
+                no_of_ways[n]+=no_of_ways[n-step_size[i]];
+            }
+        }
+    }
+    
+    cout<<(no_of_ways[N])<<"\n";
+    
+    
+    
+    return 0;
+}

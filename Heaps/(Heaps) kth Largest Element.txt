@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+typedef priority_queue<int> max_heap;
+typedef priority_queue<int,vector<int>,greater<int>> min_heap;
+ll inf=std::numeric_limits<long long>::max();
+
+
+//kth Smallest => Max_Heap
+//kth Largest => Min_Heap
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll n,i,k;
+    cin>>n>>k;
+    vll a(n);
+    input(a);
+    
+    ll temp_k=k;
+    
+    min_heap min_h;
+    
+    for(i=0;i<n;i++)
+    {
+        min_h.push(a[i]);
+        k--;
+        
+        if(k<0)
+        {
+            min_h.pop();
+            k++;
+        }
+    }
+    
+    k=temp_k;
+    
+    cout<<k<<"th largest element is "<<min_h.top()<<"\n";
+    return 0;
+}

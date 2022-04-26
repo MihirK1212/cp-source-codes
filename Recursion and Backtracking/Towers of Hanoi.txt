@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+void move(long long initial,long long final)
+{
+    cout<<"Move top disc of "<<initial<<" from "<<initial<<" to "<<final<<"\n";
+}
+void solve(long long n,long long initial,long long final)
+{
+    if(n==1)
+    {
+        move(initial,final);
+        return;
+    }
+    else
+    {
+        solve(n-1,initial,6-(initial+final)); //move top n-1 discs from initial to the position other than initial and final
+        move(initial,final); //move bottom disc of initial to final
+        solve(n-1,6-(initial+final),final); //move the n-1 discs that were temporarily kept at 6-(initial+final) to final
+    }
+    
+    return;
+    
+}
+int main()
+{
+    long long n,begin,end;
+    cin>>n>>begin>>end;
+    solve(n,begin,end);
+    return 0;
+}

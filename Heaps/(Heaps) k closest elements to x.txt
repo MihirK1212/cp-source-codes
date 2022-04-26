@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+ll inf=std::numeric_limits<long long>::max();
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    
+    ll n,i,k,x;
+    cin>>n>>x>>k;
+    vll a(n);
+    input(a);
+    
+    ll temp_k=k;
+    
+    priority_queue<pair<int,int>> max_h; //Ordering is by first value of pair
+    
+    for(i=0;i<n;i++)
+    {
+        max_h.push({abs(a[i]-x),a[i]});
+        k--;
+        
+        if(k<0)
+        {
+            max_h.pop();
+            k++;
+        }
+    }
+    
+    k=temp_k;
+    
+    cout<<k<<" closest elements to "<<x<<" are:\n";
+    
+    while(max_h.size()!=0)
+    {
+        cout<<(max_h.top()).s<<" ";
+        max_h.pop();
+    }
+    cout<<"\n";
+    
+    return 0;
+}
