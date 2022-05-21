@@ -1,0 +1,29 @@
+bool greaterPair(pair<int,int>&p1,pair<int,int>&p2)
+{
+    return p1.first>=p2.first && p1.second>=p2.second;
+}
+
+int Solution::uniquePathsWithObstacles(vector<vector<int> > &A) 
+{
+    int m = A.size() , n = A[0].size();
+
+    int i,j;
+
+    vector<vector<int>> dp(m+1,vector<int>(n+1,0));
+
+    if(A[0][0]==0){dp[1][1]=1;}
+
+    for(i=2;i<=m;i++){if(A[i-1][0]==0){dp[i][1]=dp[i-1][1];}}
+    for(j=2;j<=n;j++){if(A[0][j-1]==0){dp[1][j]=dp[1][j-1];}}
+
+    for(i=2;i<=m;i++)
+    {
+        for(j=2;j<=n;j++)
+        {
+            if(A[i-1][j-1]==0){dp[i][j] = (dp[i-1][j] + dp[i][j-1]);}
+        }
+    }
+
+    return dp[m][n];
+
+}

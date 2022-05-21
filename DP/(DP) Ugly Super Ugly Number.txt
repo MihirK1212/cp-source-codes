@@ -1,0 +1,35 @@
+/*
+A super ugly number is a positive integer whose prime factors are in the array primes.
+Given an integer n and an array of integers primes, return the nth super ugly number.
+*/
+
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) 
+    {
+        int s = primes.size();
+        
+        vector<int> dp;
+        vector<int> index(s,0);
+        
+        dp.push_back(1);
+        
+        while(dp.size()!=n)
+        {
+            int min_new_candidate = INT_MAX , new_cand_ind;
+            for(int i=0;i<s;i++)
+            {
+                int new_candidate = primes[i]*dp[index[i]]; 
+                if(new_candidate<min_new_candidate){min_new_candidate=new_candidate; new_cand_ind=i;}
+            }
+            for(int i=0;i<s;i++)
+            {
+                if((primes[i]*dp[index[i]])==min_new_candidate){index[i]++;}
+            }
+            
+            dp.push_back(min_new_candidate);
+        }
+        
+        return dp[n-1];
+    }
+};

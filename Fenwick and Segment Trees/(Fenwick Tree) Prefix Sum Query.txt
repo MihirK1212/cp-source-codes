@@ -1,0 +1,93 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll getSum(vll&bit,ll index)
+{
+    ll sum = 0;
+    
+    index++;
+    while(index>0)
+    {
+        sum+=bit[index];
+        index-=index&(-index);
+    }
+    
+    return sum;
+}
+
+ll update(vll&bit,ll n,ll index,ll val)
+{
+    index++;
+    while(index<=n)
+    {
+        bit[index]+=val;
+        index+=index&(-index);
+    }
+}
+
+void constructBIT(vll&a,vll&bit,ll n)
+{
+    for(ll i=0;i<n;i++)
+    {
+        update(bit,n,i,a[i]);
+    }
+    
+}
+
+int main()
+{
+    setIO("");
+    
+    
+    ll n;
+    cin>>n;
+    
+    vll a(n);
+    input(a);
+    
+    vll bit(n+1,0);
+    
+    constructBIT(a,bit,n);
+	
+	cout<<getSum(bit,3)<<"\n"; //gives sum a[0...3]
+	
+	update(bit,n,0,-2);
+	update(bit,n,2,3);
+	
+	cout<<getSum(bit,4)<<"\n"; //gives sum a[0...4]
+  
+    return 0;
+}

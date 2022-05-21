@@ -1,0 +1,80 @@
+/*
+https://www.interviewbit.com/problems/flip-array/
+Given an array of  positive elements, you have to flip the sign of 
+some of its elements such that the resultant sum of the elements of array
+ should be minimum non-negative(as close to zero as possible). 
+Return the minimum no. of elements whose sign needs to beflipped such that the resultant sum is minimum non-negative.
+*/
+
+int min_diff_partition(const vector<int>&A,int sum,int n)
+{
+    bool dp[sum+1][n+1];
+
+    for(int s=0;s<=sum;s++)
+    {
+        for(int i=0;i<=n;i++)
+        {
+            if(i==0 || s==0)
+            {
+                if(s==0){dp[s][i]=true;}
+                else{dp[s][i]=false;}
+                continue;
+            }
+
+            bool v1 = false , v2 = false;
+
+            if(s>=A[i-1]){v1 = dp[s-A[i-1]][i-1];}
+            v2 = dp[s][i-1];
+
+            dp[s][i] = v1||v2;
+        }
+    }
+
+    int min_diff = INT_MAX;
+
+    for(int s=0;s<=sum;s++)
+    {
+        if(dp[s][n]){min_diff = min(min_diff,abs(sum-2*s));}
+    }
+
+    return min_diff;
+}
+int min_required(const vector<int>&coins,int M,int n)
+{
+    int dp[M+1][n+1];
+
+    for(int money=0;money<=M;money++)
+    {
+        for(int i=0;i<=n;i++)
+        {
+            if(money==0 || i==0)
+            {
+                if(money==0){dp[money][i]=0;}
+                else{dp[money][i]=1e7;}
+                continue;
+            }
+
+            int v1=1e7 , v2=1e7;
+
+            if(money>=coins[i-1]){v1=dp[money-coins[i-1]][i-1]+1;}
+            v2=dp[money][i-1];
+
+            dp[money][i] = min(v1,v2);
+        }
+    }
+
+    return dp[M][n];
+}
+int Solution::solve(const vector<int> &A) 
+{
+    int n = A.size();
+
+    int sum = 0;
+    for(auto x : A){sum+=x;}
+
+    int min_non_negative = min_diff_partition(A,sum,n);
+
+    int flipped_sum = (sum - min_non_negative)/2;
+    
+    return min_required(A,flipped_sum,n);
+}

@@ -1,0 +1,115 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+//https://codeforces.com/contest/1679/problem/C
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll getSum(vll&bit,ll index)
+{
+    ll sum = 0;
+    
+    while(index>0)
+    {
+        sum+=bit[index];
+        index-=index&(-index);
+    }
+    
+    return sum;
+}
+
+void update(vll&bit,ll n,ll index,ll val)
+{
+    while(index<=n)
+    {
+        bit[index]+=val;
+        index+=index&(-index);
+    }
+}
+
+int main()
+{
+    setIO("");
+    
+    ll n,q,i;
+    cin>>n>>q;
+    
+    ll type,x,y,x1,y1,x2,y2;
+    
+    vll bit_x(n+1,0);
+    vll bit_y(n+1,0);
+    
+    map<ll,ll> row_count;
+    map<ll,ll> col_count;
+    
+    while(q--)
+    {
+        cin>>type;
+        
+        if(type==1)
+        {
+            cin>>x>>y;
+            
+            row_count[x]++;
+            col_count[y]++;
+            
+            if(row_count[x]==1){update(bit_x,n,x,1);}
+            if(col_count[y]==1){update(bit_y,n,y,1);}
+        }
+        
+        if(type==2)
+        {
+            cin>>x>>y;
+            
+            row_count[x]--;
+            col_count[y]--;
+            
+            if(row_count[x]==0){update(bit_x,n,x,-1);}
+            if(col_count[y]==0){update(bit_y,n,y,-1);}
+        }
+        
+        if(type==3)
+        {
+            cin>>x1>>y1>>x2>>y2;
+            
+            ll row_sum = getSum(bit_x,x2) - getSum(bit_x,x1-1);
+            ll col_sum = getSum(bit_y,y2) - getSum(bit_y,y1-1);
+            
+            if(row_sum==(x2-x1+1) || col_sum==(y2-y1+1)){cout<<"Yes\n";}
+            else{cout<<"No\n";}
+        }
+    }
+    
+    return 0;
+}

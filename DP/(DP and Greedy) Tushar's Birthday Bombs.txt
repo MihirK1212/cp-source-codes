@@ -1,0 +1,25 @@
+// https://www.interviewbit.com/problems/tushars-birthday-bombs/
+
+vector<int> Solution::solve(int limit, vector<int> &strength) 
+{
+    int min_val = 1e6;
+    for(auto x : strength){min_val = min(min_val,x);}
+
+    int max_hits = limit/min_val;
+    int left = limit - min_val*max_hits;
+
+    vector<int> ans;
+    int sum = 0;
+
+    for(int i=0;i<strength.size();i++)
+    {
+        while(left>=(strength[i]-min_val) && (sum+strength[i])<=limit)
+        {
+            left-=(strength[i]-min_val);
+            ans.push_back(i);
+            sum+=strength[i];
+        }
+    }
+
+    return ans;
+}

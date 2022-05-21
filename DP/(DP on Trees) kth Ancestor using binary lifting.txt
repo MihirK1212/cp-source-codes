@@ -1,0 +1,49 @@
+class TreeAncestor {
+public:
+    
+    vector<vector<int>> up; //up[u][j] = node that we get by going up 2^j from u
+    int LOG;
+    
+    TreeAncestor(int n, vector<int>& parent) 
+    {
+        LOG = 0;
+        while((1<<(LOG+1))<=n){LOG++;}
+        LOG++;
+        
+        up = vector<vector<int>>(n,vector<int>(LOG));
+        
+        for(int u=0;u<n;u++)
+        {
+            up[u][0]=parent[u];
+        }
+        
+        for(int j=1;j<LOG;j++)
+        {
+            for(int u=0;u<n;u++)
+            {
+                if(up[u][j-1]==-1){up[u][j]=-1; continue;}
+                
+                up[u][j] = up[ up[u][j-1] ][j-1]; //go up 2^(j-1) two times
+            }
+        }
+    }
+    
+    int getKthAncestor(int node, int k) 
+    {
+        for(int j=0;j<LOG && node>=0;j++)
+        {
+            if(k&(1<<j))
+            {
+                node=up[node][j];
+            }
+        }
+        
+        return node;
+    }
+};
+
+/**
+ * Your TreeAncestor object will be instantiated and called as such:
+ * TreeAncestor* obj = new TreeAncestor(n, parent);
+ * int param_1 = obj->getKthAncestor(node,k);
+ */

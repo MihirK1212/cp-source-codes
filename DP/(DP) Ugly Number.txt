@@ -1,29 +1,26 @@
-// https://leetcode.com/problems/super-ugly-number/
+/*
+An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
+Given an integer n, return the nth ugly number.
+*/
+
 class Solution {
 public:
-    int nthSuperUglyNumber(int n, vector<int>& primes) 
+    int nthUglyNumber(int n) 
     {
-        int s = primes.size();
-        
+        int i1=0 , i2=0 , i3=0;
         vector<int> dp;
-        vector<int> index(s,0);
-        
         dp.push_back(1);
         
-        while(dp.size()!=n)
+        for(int i=1;i<n;i++)
         {
-            int min_new_candidate = INT_MAX , new_cand_ind;
-            for(int i=0;i<s;i++)
-            {
-                int new_candidate = primes[i]*dp[index[i]]; 
-                if(new_candidate<min_new_candidate){min_new_candidate=new_candidate; new_cand_ind=i;}
-            }
-            for(int i=0;i<s;i++)
-            {
-                if((primes[i]*dp[index[i]])==min_new_candidate){index[i]++;}
-            }
+            int c1 = 2*dp[i1] , c2 = 3*dp[i2] , c3 = 5*dp[i3];
+            int min_c = min(c1,min(c2,c3));
             
-            dp.push_back(min_new_candidate);
+            if(c1==min_c){i1++;}
+            if(c2==min_c){i2++;}
+            if(c3==min_c){i3++;}
+            
+            dp.push_back(min_c);
         }
         
         return dp[n-1];

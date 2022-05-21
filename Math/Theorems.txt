@@ -13,3 +13,6 @@ Also, if we need to factorize all numbers between 1 to N, this task can be done 
 The remaining prime factors of k are then same as that of k/(pa).
 
 5) x % y < (x/2)  if x>=y 
+
+6) if m is prime then
+	(y^(-1))modm = (y^(m-2))modm

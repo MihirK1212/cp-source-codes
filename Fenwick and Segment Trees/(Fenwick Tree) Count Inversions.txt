@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll getInv(vll&bit,ll index)
+{
+    ll inv = 0;
+    
+    while(index>0)
+    {
+        inv+=bit[index];
+        index-=index&(-index);
+    }
+    
+    return inv;
+}
+
+ll update(vll&bit,ll n,ll index)
+{
+    while(index<=n)
+    {
+        bit[index]++;
+        index+=index&(-index);
+    }
+}
+
+int main()
+{
+    setIO("");
+    
+    ll n,i;
+    cin>>n;
+    
+    vll a(n);
+    input(a);
+    
+    vll temp = a;
+    sort(temp);
+    for(i=0;i<n;i++){a[i] = lower_bound(temp.begin(),temp.end(),a[i])-temp.begin() + 1;} 
+    //we change a[i]->rank of a[i] in sorted array 
+    //we do this to handle negative numbers in the array, as we want to use BIT
+    
+    vll bit(n+1,0);
+    
+    ll inv = 0;
+    
+    for(i=n-1;i>=0;i--)
+    {
+        inv+=getInv(bit,a[i]);
+        update(bit,n,a[i]);
+    }
+	
+	cout<<inv<<"\n";
+    
+    
+    return 0;
+}

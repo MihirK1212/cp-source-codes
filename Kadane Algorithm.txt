@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    srand(time(0));
+    
+    int n = 50;
+    vector<double> arr(n);
+    
+    double currMax = arr[0];
+    double ans = arr[0];
+    
+    for(int i=1;i<n;i++)
+    {
+        currMax = max(arr[i],currMax+arr[i]);
+        ans = max(ans,currMax);
+    }
+    
+    cout<<ans<<"\n";
+    
+    return 0;
+}
