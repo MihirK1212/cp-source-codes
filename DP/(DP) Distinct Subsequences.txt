@@ -1,0 +1,34 @@
+//https://www.interviewbit.com/problems/distinct-subsequences/
+/*Given two sequences A, B, count number of unique ways in sequence A, 
+to form a subsequence that is identical to the sequence B.*/
+int Solution::numDistinct(string A, string B)
+{
+    int m = A.length();
+    int n = B.length();
+
+    if(A==B){return 1;}
+    if(m<=n){return 0;}
+
+    vector<vector<int>> dp(m+1,vector<int>(n+1,0));
+
+    for(int i=0;i<=m;i++)
+    {
+        for(int j=0;j<=n;j++)
+        {
+            if(j==0){dp[i][j]=1; continue;}
+            if(i==0){dp[i][j]=0; continue;}
+            
+            if(A[i-1]==B[j-1])
+            {
+                dp[i][j] = dp[i-1][j-1] + dp[i-1][j]; //selection or non selection
+            }
+            else
+            {
+                dp[i][j] = dp[i-1][j]; //only non selection
+            }
+        }
+    }
+
+    return dp[m][n];
+
+}

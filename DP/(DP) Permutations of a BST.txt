@@ -1,0 +1,94 @@
+#define ll long long
+ll mod = 1000000007;
+unsigned ll fact[100005];
+unsigned ll nCr[52][52];
+
+ll modPow(ll a,ll n)
+{
+    if(a==0){return 0;}
+    if(n==0){return 1;}
+    
+    ll half = modPow(a,n/2);
+    
+    if(n&1)
+    {
+        return (((half*half)%mod)*a)%mod;
+    }
+    
+    return ((half*half)%mod);
+}
+
+ll findnCr(int n,int r)
+{
+    if(n<=0 || r<0 || n<r){return 0;}
+    if(r==0){return 1;}
+    
+    return (((fact[n] * modPow(fact[r],mod-2))%mod) * modPow(fact[n-r],mod-2))%mod;
+}
+
+ll solve(int A,int H,vector<vector<int>>&dp)
+{
+    if(A==0){return H==-1;}
+    if(A==1){return H==0;}
+    if(H==-1){return A==0;}
+    if(H==0){return A==1;}
+    if(A<H){return 0;}
+    
+    if(dp[A][H]>=0){return dp[A][H];}
+    
+    ll ans = 0;
+    
+    for(int root=1;root<=A;root++)
+    {
+        int l_size = root-1;
+        int r_size = A - root;
+        
+        ll curr = 0;
+        
+        for(int lh=-1;lh<=(H-2);lh++)
+        {
+            curr = (curr + (solve(l_size,lh,dp)*solve(r_size,H-1,dp))%mod)%mod;
+        }
+        
+        for(int rh=-1;rh<=(H-2);rh++)
+        {
+            curr = (curr + (solve(l_size,H-1,dp)*solve(r_size,rh,dp))%mod)%mod;
+        }
+        
+        curr = (curr + (solve(l_size,H-1,dp)*solve(r_size,H-1,dp))%mod)%mod;
+        
+        //now that we have one permutation of size l_size and one of r_size
+        //combining them keeping the relative order same will give the same anwser
+        //reason : elements of l_size will always go to left subtree and elements of 
+        //         r_size will always go to right subtree
+        //hence to keep relative order same, out of (l_size+r_size) positions,
+        //we have to choose r_size and fill elements of r_size into them
+        
+        curr%=mod;
+        curr = (curr*nCr[l_size+r_size][r_size])%mod;
+        
+        ans = (ans + curr)%mod;
+    }
+    
+    ans%=mod;
+    dp[A][H] = ans;
+    return ans;
+}
+int Solution::cntPermBST(int A, int H) 
+{
+    vector<vector<int>> dp(A+1,vector<int>(H+1,-1));
+    
+    memset(fact,1,sizeof(fact));
+    fact[0] = 1;
+    for(int i=1;i<=100000;i++){fact[i] = (fact[i-1]*i)%mod;}
+    
+    for(int i=0;i<=51;i++)
+    {
+        for(int j=0;j<=51;j++)
+        {
+            nCr[i][j] = findnCr(i,j);
+        }
+    }
+    
+    return solve(A,H,dp);
+}

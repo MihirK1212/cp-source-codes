@@ -19,6 +19,25 @@ typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef pair<int,pair<int,int>> ppi;
 
+
+
+/*
+
+(a/b)%m = (a*(b^(-1)))%m = ((a%m)*((b^(-1))%m))%m
+
+By Fermat's Little Theorem, if m is prime then (a^m - a) is an integral multiple of m
+Hence we have (a^m - a) = (x*m) for some x
+By taking mod on both sides and simplifying, we get:
+
+(a^(-1))%m) = (a^(m-2))%m)
+
+
+Hence, (a^(-1))%m) = modInverse(a,m) = modPow(a,m-2)
+
+Hence (nCr)%m = (n!/(r!*(n-r)!))%m = (((n!)%m)*(modPow(r!,m-2))*(modPow((n-r)!,m-2))%m
+
+*/
+
 ll mod = 1000000007;
 
 ll inf=std::numeric_limits<long long>::max();

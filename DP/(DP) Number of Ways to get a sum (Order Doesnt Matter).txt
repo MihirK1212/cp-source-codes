@@ -1,0 +1,26 @@
+// https://www.interviewbit.com/problems/coin-sum-infinite/
+//For getting sum using coins,order doesn't matter (i.e 1+2+1 and 1+1+2 are same)
+
+int Solution::coinchange2(vector<int> &A, int M) 
+{
+    int mod = 1000007;
+
+    vector<int> numWays(M+1,0);
+    numWays[0] = 1;
+
+    for(int i=0;i<A.size();i++)
+    {
+        for(int m=1;m<=M;m++)
+        {
+            if(m>=A[i])
+            {
+                numWays[m]+=numWays[m-A[i]]%mod;
+                numWays[m]%=mod;
+            }
+        }
+
+        
+    }
+    
+    return numWays[M];
+}

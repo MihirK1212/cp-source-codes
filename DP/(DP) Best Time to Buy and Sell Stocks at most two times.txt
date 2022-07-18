@@ -1,0 +1,34 @@
+int Solution::maxProfit(const vector<int> &A) 
+{
+    int n = A.size();
+
+    if(n==1){return 0;}
+    if(n==2){return max(0,A[1]-A[0]);}
+
+    vector<int> max_profit_starting_at(n,0);
+    vector<int> max_profit_ending_at(n,0);
+
+    int max_val = A[n-1];
+    for(int i=n-2;i>=0;i--)
+    {
+        max_profit_starting_at[i] = max(max_profit_starting_at[i+1],max_val-A[i]);
+        max_val = max(max_val,A[i]);
+    }
+
+    int min_val = A[0];
+    for(int i=1;i<n;i++)
+    {
+        max_profit_ending_at[i] = max(max_profit_ending_at[i-1],A[i]-min_val);
+        min_val = min(min_val,A[i]);
+    }
+
+    int ans = 0;
+
+    for(int i=0;i<=(n-2);i++)
+    {
+        ans = max(ans,max_profit_ending_at[i]+max_profit_starting_at[i+1]);
+    }
+
+    return ans;
+
+}

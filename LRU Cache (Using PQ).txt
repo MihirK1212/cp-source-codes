@@ -1,0 +1,40 @@
+int leftsz;
+map<int,int> hash_map;
+map<int,int> entry_time;
+set<pair<int,int>> pQ;
+
+LRUCache::LRUCache(int capacity) 
+{
+    leftsz = capacity;
+    hash_map.clear(); entry_time.clear(); pQ.clear();  
+}
+
+int LRUCache::get(int key) 
+{
+    if(hash_map.find(key)==hash_map.end()){return -1;}
+    
+    if(pQ.find({entry_time[key],key})!=pQ.end()){pQ.erase({entry_time[key],key});}
+    entry_time[key] = (pQ.size()==0)?0:((*(pQ.begin())).first - 1);
+    pQ.insert({entry_time[key],key});
+    
+    return hash_map[key];
+}
+
+void LRUCache::set(int key, int value) 
+{
+    if(hash_map.find(key)==hash_map.end()){leftsz--;}
+    
+    hash_map[key] = value;
+    
+    if(leftsz<0)
+    {
+        auto p = *(--pQ.end());
+        hash_map.erase(p.second); entry_time.erase(p.second);
+        pQ.erase(p);
+        leftsz++;
+    }
+    
+    if(pQ.find({entry_time[key],key})!=pQ.end()){pQ.erase({entry_time[key],key});}
+    entry_time[key] = (pQ.size()==0)?0:((*(pQ.begin())).first - 1);
+    pQ.insert({entry_time[key],key});
+}

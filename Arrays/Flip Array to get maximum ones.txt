@@ -1,0 +1,63 @@
+//We want to find the subarray with maximum difference of (white-black)
+//hence we treat white as 1 and black as -1
+//then we find the maximum subarray sum using kadane algorithm
+//https://www.interviewbit.com/problems/flip/
+
+int find(string&A)
+{
+    int curr_sum = (A[0]=='0')?1:-1;
+    int max_sum = curr_sum;
+
+    int n = A.length();
+
+    for(int i=1;i<n;i++)
+    {
+        int x = (A[i]=='0')?1:-1;
+
+        curr_sum = max(x,curr_sum+x);
+        max_sum = max(max_sum,curr_sum);
+    }
+
+    return max_sum;
+}
+vector<int> Solution::flip(string A)
+{
+    int curr_sum = (A[0]=='0')?1:-1;
+
+    int n = A.length();
+
+    int l=0,r=0;
+    int la=n,ra=n;
+
+    int max_sum = find(A);
+
+    if(max_sum<=0){return {};}
+
+    for(int i=1;i<n;i++)
+    {
+        if(curr_sum==max_sum && (l<la || (l==la && r<ra)))
+        {
+            la = l; ra = r;
+        }
+
+        int x = (A[i]=='0')?1:-1;
+
+        if((curr_sum+x)>=x)
+        {
+            curr_sum = curr_sum+x;
+            r = i;
+        }
+        else
+        {
+            curr_sum = x;
+            l = r = i;
+        }
+
+        if(curr_sum==max_sum && (l<la || (l==la && r<ra)))
+        {
+            la = l; ra = r;
+        }
+    }
+
+    return {la+1,ra+1};
+}

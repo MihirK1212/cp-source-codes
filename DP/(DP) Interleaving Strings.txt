@@ -1,0 +1,31 @@
+int Solution::isInterleave(string A, string B, string C) 
+{
+    int a = A.length();
+    int b = B.length();
+    int c = C.length();
+    
+    vector<vector<bool>> dp(a+1,vector<bool>(b+1,false));
+    
+    // dp[i][j] = (ith character of A is the current last character of C) or
+    //            (jth character of B is the current last character of C)
+    // here C comprises of (i+j) characters
+    
+    dp[0][0] = true;
+    
+    for(int i=0;i<=a;i++)
+    {
+        for(int j=0;j<=b;j++)
+        {
+            if(i==0 && j==0){continue;}
+                        
+            bool v1 = false , v2 = false;
+            
+            if(i>0){v1 = (A[i-1]==C[i+j-1])*(dp[i-1][j]);}
+            if(j>0){v2 = (B[j-1]==C[i+j-1])*(dp[i][j-1]);}
+            
+            dp[i][j] = v1 || v2;
+        }
+    }
+    
+    return dp[a][b];
+}

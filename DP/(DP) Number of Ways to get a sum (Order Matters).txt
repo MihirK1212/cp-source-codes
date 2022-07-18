@@ -1,0 +1,21 @@
+// https://www.interviewbit.com/problems/dice-rolls/
+//For dice rolling order matters (i.e 1+2+1 and 1+1+2 are different)
+int Solution::solve(int M) 
+{
+    vector<int> numWays(M+1,0);
+    numWays[0] = 1;
+
+    int mod = 1000000007;
+
+    
+    for(int m=1;m<=M;m++)    
+    {
+        for(int i=1;i<=min(m,6);i++)
+        {
+            numWays[m]+=numWays[m-i]%mod;
+            numWays[m]%=mod;
+        }
+    }
+
+    return numWays[M];
+}

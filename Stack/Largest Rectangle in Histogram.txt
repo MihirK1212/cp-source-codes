@@ -1,49 +1,60 @@
-void findRight(vector<int>&A,vector<int>&rightMostGeq)
+void findLeft(vector<int>&A,vector<int>&leftLimit)
 {
+    int n = A.size();
+
     stack<int> s;
-    for(int i=0;i<A.size();i++)
+
+    for(int i=n-1;i>=0;i--)
     {
         while(!s.empty() && A[i]<A[s.top()])
         {
-            rightMostGeq[s.top()]=max(rightMostGeq[s.top()],i-1);
+            leftLimit[s.top()] = i+1;
             s.pop();
         }
+
         s.push(i);
     }
 
-    while(!s.empty()){rightMostGeq[s.top()]=A.size()-1; s.pop();}
+    while(!s.empty()){leftLimit[s.top()]=0; s.pop();}
 }
-void findLeft(vector<int>&A,vector<int>&leftMostGeq)
+void findRight(vector<int>&A,vector<int>&rightLimit)
 {
+    int n = A.size();
+
     stack<int> s;
-    for(int i=A.size()-1;i>=0;i--)
+
+    for(int i=0;i<n;i++)
     {
         while(!s.empty() && A[i]<A[s.top()])
         {
-            leftMostGeq[s.top()]=min(leftMostGeq[s.top()],i+1);
+            rightLimit[s.top()] = i-1;
             s.pop();
         }
+
         s.push(i);
     }
 
-    while(!s.empty()){leftMostGeq[s.top()]=0; s.pop();}
+    while(!s.empty()){rightLimit[s.top()]=n-1; s.pop();}
 }
 
 int Solution::largestRectangleArea(vector<int> &A) 
 {
-    vector<int> rightMostGeq(A.size());
-    vector<int> leftMostGeq(A.size());
+    int n = A.size();
 
-    for(int i=0;i<A.size();i++){rightMostGeq[i]=leftMostGeq[i]=i;}
+    vector<int> leftLimit(n,0);
+    vector<int> rightLimit(n,0);
 
-    findRight(A,rightMostGeq);
-    findLeft(A,leftMostGeq);
+    for(int i=0;i<n;i++){leftLimit[i]=rightLimit[i]=i;}
 
-    int ans = -1;
+    findLeft(A,leftLimit);
+    findRight(A,rightLimit);
 
-    for(int i=0;i<A.size();i++)
+    int ans = 0;
+
+    for(int i=0;i<n;i++)
     {
-        ans=max(ans,((i-leftMostGeq[i]+1)+(rightMostGeq[i]-i+1)-1)*A[i]);
+        ans = max(ans,(rightLimit[i]-leftLimit[i]+1)*A[i]);
     }
+
     return ans;
 }

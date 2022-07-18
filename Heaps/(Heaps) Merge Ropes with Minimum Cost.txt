@@ -22,7 +22,7 @@ long long minCost(long long arr[], long long n)
                 curr_cost+=min_h.top(); min_h.pop(); count++;
             }
             cost+=curr_cost;
-	    if(curr_cost==sum){break;}
+	    	if(curr_cost==sum){break;}
             min_h.push(curr_cost);
             
         }

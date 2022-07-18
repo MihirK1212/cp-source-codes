@@ -13,9 +13,9 @@ vector<int> Solution::solve(int limit, vector<int> &strength)
 
     for(int i=0;i<strength.size();i++)
     {
-        while(left>=(strength[i]-min_val) && (sum+strength[i])<=limit)
+        while((left+min_val-strength[i])>=0 && (sum+strength[i])<=limit)
         {
-            left-=(strength[i]-min_val);
+            left = (left + min_val - strength[i]);
             ans.push_back(i);
             sum+=strength[i];
         }

@@ -7,6 +7,9 @@ public:
         max_h = priority_queue <int> ();
         min_h = priority_queue <int,vector<int>,greater<int>> ();
     }
+
+    //max_h stores the first ceil(n/2) elements
+    //min_h stores the last floor(n/2) elements
     
     void addNum(int num) {
         
@@ -21,7 +24,7 @@ public:
         
         if(max_h.empty() || min_h.empty()){return;}
         
-        if(max_h.top()>min_h.top())
+        if(max_h.top()>min_h.top()) //exchange the top elements
         {
             int maxTop = max_h.top(); max_h.pop();
             max_h.push(min_h.top()); min_h.pop();

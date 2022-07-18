@@ -1,44 +1,37 @@
 /**
  * Definition for binary tree
- * struct TreeTreeNode {
+ * struct TreeNode {
  *     int val;
- *     TreeTreeNode *left;
- *     TreeTreeNode *right;
- *     TreeTreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-
-pair<int,int> find(TreeNode* root, int target , int&res)
+pair<int,int> find(TreeNode* root,int B,int&ans)
 {
-    if(root==NULL){return {0,-1};}
-    if((root->val)==target){return {1,0};}
+    if(!root){return {-1,INT_MAX};}
+    if((root->val)==B){return {0,0};}
     
-    pair<int,int> res1 = find(root->left,target,res);
-    pair<int,int> res2 = find(root->right,target,res);
+    auto pl = find(root->left,B,ans);
+    auto pr = find(root->right,B,ans);
     
-    int lh=res1.first , rh=res2.first;
-    int ld=res1.second , rd=res2.second;
+    int lh = pl.first , ld = pl.second;
+    int rh = pr.first , rd = pr.second;
+
+    //Current root acts as  a pivot vertex for the longest path from 'B' to some other leaf
     
-    int dist=-1,h=0;
+    if(ld!=INT_MAX){ans = max(ans,ld+1+rh+1);}
+    if(rd!=INT_MAX){ans = max(ans,rd+1+lh+1);}
     
-    h = max(lh,rh) + 1;
+    int h = max(lh,rh) + 1;
+    int d = (ld!=INT_MAX || rd!=INT_MAX)?(min(ld,rd) + 1):INT_MAX;
     
-    if(ld!=-1)
-    {
-        dist = ld+1;
-        res = max(res,dist+rh);
-    }
-    else if(rd!=-1)
-    {
-        dist = rd+1;
-        res = max(res,dist+lh);
-    }
-    
-    return {h,dist};
+    return {h,d};
 }
 int Solution::solve(TreeNode* A, int B) 
 {
-    int res = 0;
-    find(A,B,res);
-    return res;
+    int ans = 0;
+    find(A,B,ans);
+    
+    return ans;
 }

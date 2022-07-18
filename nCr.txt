@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+ll gcd(ll x,ll y)
+{
+    if(y==0){return x;}
+    
+    return gcd(y,x%y);
+}
+
+ll nCr(ll n,ll r)
+{
+    //nCr = (n*(n-1)*(n-2)*...(n-r+1)) / (r*(r-1)*...(1))
+    //We reduce the fraction at each step
+    
+    r = min(r,n-r);
+    
+    ll numer=1,denom=1;
+    
+    if(r==0){return 1;}
+    
+    while(r)
+    {
+        numer*=n;
+        denom*=r;
+        
+        ll g = gcd(numer,denom);
+        numer/=g;
+        denom/=g;
+        
+        n--;
+        r--;
+    }
+    
+    return numer;
+}
+
+int main()
+{
+    ll n=52,r=29;
+    
+    cout<<nCr(n,r)<<"\n";
+
+    return 0;
+}

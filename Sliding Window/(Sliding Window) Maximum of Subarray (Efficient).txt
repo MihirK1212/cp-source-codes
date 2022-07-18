@@ -1,51 +1,34 @@
-vector<int> Solution::slidingMaximum(const vector<int> &A, int B) 
+vector<int> Solution::slidingMaximum(const vector<int> &A, int K) 
 {
     int n = A.size();
+    K = min(n,K);
+    
+    deque<int> q;
     vector<int> ans;
-
-    if(B>n)
+    
+    for(int i=0;i<K;i++)
     {
-        int maxVal = INT_MIN;
-        for(int i=0;i<n;i++){maxVal = max(maxVal,A[i]);}
-        ans.push_back(maxVal);
+        while(!q.empty() && A[i]>q.back()){q.pop_back();} //we use strictly greater so that multiple copies are preserved
+        q.push_back(A[i]);
     }
-    else
+    
+    int lb=0,ub=K-1;
+    
+    while(lb<=ub && ub<n)
     {
-        deque<int> dq;
-
-        for(int i=0;i<B;i++)
+        ans.push_back(q.front());
+        
+        if(q.front()==A[lb]){q.pop_front();} //since we are preserving multiple copies, if A[lb]==curr_max, then only one copy of curr_max will be deleted
+        
+        if((ub+1)<n)
         {
-            if(dq.empty()){dq.push_front(i); continue;}
-
-            while(!dq.empty() && A[i]>=A[dq.back()])
-            {
-                dq.pop_back();
-            }
-
-            dq.push_back(i);
-        }
-
-        int start=0,end=B-1;
-        while(start<=end && end<n)
-        {
-            while(!dq.empty() && !(dq.front()>=start && dq.front()<=end)){dq.pop_front();}
-            ans.push_back(A[dq.front()]);
-
-            if((end+1)<n)
-            {
-                int i = end+1;
-                while(!dq.empty() && A[i]>=A[dq.back()])
-                {
-                    dq.pop_back();
-                }
-
-                dq.push_back(i);
-            }
-
-            start++; end++;
-        }
-
+            while(!q.empty() && A[ub+1]>q.back()){q.pop_back();}
+            q.push_back(A[ub+1]);
+        }        
+        
+        lb++; ub++;
     }
-
+    
     return ans;
-};
+    
+}

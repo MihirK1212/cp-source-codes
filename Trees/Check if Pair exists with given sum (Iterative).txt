@@ -1,0 +1,45 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int Solution::t2Sum(TreeNode* A, int B) 
+{
+    stack<TreeNode*> inOrder;
+    stack<TreeNode*> revInorder;
+    
+    TreeNode* curr1 = A;
+    TreeNode* curr2 = A;
+    
+    bool flag1 = true , flag2 = true;
+    
+    while(true)
+    {
+        while(curr1 && flag1){inOrder.push(curr1);    curr1 = curr1->left;}
+        while(curr2 && flag2){revInorder.push(curr2); curr2 = curr2->right;}
+        
+        if(inOrder.empty() || revInorder.empty() || inOrder.top()==revInorder.top()){break;}
+        
+        curr1 = inOrder.top();      int v1 = curr1->val;
+        curr2 = revInorder.top();   int v2 = curr2->val;
+        
+        if((v1+v2)==B){return true;}
+        else if((v1+v2)<B)
+        {
+            inOrder.pop();    curr1 = curr1->right;      
+            flag1 = true; flag2 = false;  
+        }
+        else
+        {
+            revInorder.pop(); curr2 = curr2->left;
+            flag1 = false; flag2 = true; 
+        }
+    }
+    
+    
+    return false;
+}

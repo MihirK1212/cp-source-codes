@@ -6,9 +6,9 @@ struct Node
 	int data;
 	Node *prev, *next;
 	
-	static Node *createNode(int data)
+	static Node* createNode(int data)
 	{
-		Node *newNode = new Node();
+		Node* newNode = new Node();
 		newNode->data = data;
 		newNode->prev = newNode->next = NULL;
 		return newNode;

@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll find(vll&parent,ll x)
+{
+    if(x==parent[x]){return x;}
+    
+    parent[x] = find(parent,parent[x]); //We make the root of x as the parent of x, hence we reduce path length
+    return parent[x];
+}
+
+void unionDSU(vll&parent,vll&rank,ll x,ll y)
+{
+    ll x_rep = find(parent,x);
+    ll y_rep = find(parent,y);
+    
+    if(x_rep==y_rep){return;} //both elements already have the same root
+    
+    //make the smaller height tree the child of the larger height tree
+    
+    if(rank[x_rep]>rank[y_rep]){parent[y_rep] = x_rep;}
+    else if(rank[x_rep]<rank[y_rep]){parent[x_rep] = y_rep;}
+    else{parent[y_rep] = x_rep; rank[x_rep]++;}
+}
+
+bool sameSet(vll&parent,ll x,ll y)
+{
+    return find(parent,x) == find(parent,y);
+}
+
+int main()
+{
+    setIO("");
+    
+    ll n = 4; //Elements belong to the set 0,1,....9
+    
+    vll parent(n);
+    for(ll i=0;i<n;i++){parent[i] = i;} //Initially each node is parent of itself
+    
+    vll rank(n,0); //rank basically stores the height of the tree
+    
+    unionDSU(parent,rank,0,2);
+    unionDSU(parent,rank,2,4);
+    unionDSU(parent,rank,1,3);
+    
+    cout<<sameSet(parent,0,4)<<" "<<sameSet(parent,0,1)<<" "<<sameSet(parent,0,2)<<" "<<sameSet(parent,2,3)<<"\n";
+    
+    return 0;
+}

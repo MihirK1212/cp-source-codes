@@ -3,63 +3,55 @@
  * struct ListNode {
  *     int val;
  *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
 class Compare{
     public:
-    bool operator()(pair<int,ListNode*> &x,pair<int,ListNode*> &y)
+    bool operator()(pair<int,ListNode*>&x,pair<int,ListNode*>&y)
     {
-        return x.first>y.first;  
+        return x.first>y.first;
     }
 };
-  
-class Solution {
-public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) 
+ListNode* Solution::mergeKLists(vector<ListNode*> &A) 
+{
+    priority_queue<pair<int,ListNode*>,vector<pair<int,ListNode*>>,Compare> min_h;
+
+
+    for(auto h : A)
     {
-        priority_queue <pair<int,ListNode*>,vector<pair<int,ListNode*>>,Compare> min_h;  
-        
-        
-        ListNode* head = NULL;
-        ListNode* curr = NULL;
-        
-        for(auto h : lists)
-        {
-            if(!h){continue;}
-            min_h.push({h->val,h});
-        }
-        
-        while(!min_h.empty())
-        {
-            auto p = min_h.top(); min_h.pop();
-            
-            int val = p.first;
-            ListNode* address = p.second;
-            
-            
-            if(!head)
-            {
-                head = new ListNode(val);
-                curr = head;
-            }
-            else
-            {
-                curr->next = new ListNode(val);
-                curr = curr->next;
-                curr->next = NULL;
-            }
-            
-            
-            if(address->next)
-            {
-                min_h.push({address->next->val,address->next});
-            }
-        }
-        
-        return head;
-        
+        if(!h){continue;}
+        min_h.push({h->val,h});
     }
-};
+
+    ListNode* head = NULL;
+    ListNode* curr = NULL;
+
+    while(!min_h.empty())
+    {
+        auto p = min_h.top(); min_h.pop();
+        
+        int val = p.first;
+        ListNode* address = p.second;
+        ListNode* nextAddress = address->next;
+
+        if(!head)
+        {
+            head = address;
+            curr = head;
+        }
+        else
+        {
+            curr->next = address;
+            curr = curr->next;
+            curr->next = NULL;
+        }
+
+        if(nextAddress)
+        {
+            min_h.push({nextAddress->val,nextAddress});
+        }
+    }
+
+    return head;
+}

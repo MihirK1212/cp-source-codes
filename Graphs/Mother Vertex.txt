@@ -1,0 +1,52 @@
+//Directed graph
+//Find vertex from which all vertices are reachable
+
+void dfs(vector<vector<int>>&graph,int u,vector<bool>&visited,int&last_visited)
+{
+    visited[u] = true;
+    
+    for(auto v : graph[u])
+    {
+        if(!visited[v])
+        {
+            dfs(graph,v,visited,last_visited);
+        }
+    }
+
+    last_visited = u;
+}
+int Solution::motherVertex(int A, vector<vector<int> > &B) 
+{
+    vector<vector<int>> graph(A+1);
+    for(auto e : B)
+    {
+        graph[e[0]].push_back(e[1]);
+    }
+
+    vector<bool> visited(A+1,false);
+
+    int last_visited = -1;
+
+    for(int u=1;u<=A;u++)
+    {
+        if(!visited[u])
+        {
+            dfs(graph,u,visited,last_visited);
+        }
+    }
+
+    if(last_visited==-1){return false;}
+
+    for(int u=1;u<=A;u++){visited[u] = false;}
+
+    int u = last_visited;
+
+    dfs(graph,u,visited,last_visited);
+
+    for(int u=1;u<=A;u++)
+    {
+        if(!visited[u]){return false;}
+    }
+
+    return true;
+}   

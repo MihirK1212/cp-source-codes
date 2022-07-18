@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int fact(int n)
+    {
+        return (n==1 || n==0) ? 1: n * fact(n - 1);
+    }
+
+    int findPos(int&k,int n,int&f)
+    {
+        //find position of first digit of kth element in the sequence for given n
+        
+        // eg :- if we have 'n' elements then we have total n! permutations
+        // for these n! permutations, (n-1)! will have 1 as its first element,
+        //                            (n-1)! will have 2 as its first element and so on
+        
+        // since the permutations will repeat after n!, so if k>n! we bring it down
+        // next to find the first element of the kth permutation, we do ceil(k/(n-1)!)
+        // we add this element to the string and remove it from the set of elements
+
+        if(k%f == 0){k = f;}
+        else{k%=f;}
+
+        f/=n;
+
+        return (k/f + ((k%f)>0));
+    }
+
+    string getPermutation(int n, int k)
+    {
+            string ans = "";
+    
+            int f = fact(n);
+
+            set<int> s;
+            for(int i=1;i<=n;i++){s.insert(i);}
+
+            for(int i=1;i<=n;i++)
+            {
+                int pos = findPos(k,n-i+1,f);
+                auto it = s.begin();
+
+                std::advance( it , pos-1 );
+
+                ans+=to_string(*it);
+
+                s.erase(*it);
+            }
+
+            return ans;
+    }
+};

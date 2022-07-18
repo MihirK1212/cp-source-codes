@@ -1,0 +1,37 @@
+bool isBipartite(map<int,vector<int>>&graph,int u,int curr,vector<int>&color)
+{
+    color[u] = curr;
+    
+    for(auto v : graph[u])
+    {
+        if(color[v]==-1 && !isBipartite(graph,v,!curr,color)){return false;}
+        else if(color[v]==color[u])
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+int Solution::solve(int n, vector<vector<int> > &edges)
+{
+    map<int,vector<int>> graph;
+    
+    for(auto e : edges)
+    {
+        graph[e[0]].push_back(e[1]);
+        graph[e[1]].push_back(e[0]);
+    }
+    
+    vector<int> color(n+1,-1);
+    
+    for(int u=1;u<=n;u++)
+    {
+        if(color[u]==-1)
+        {
+            if(!isBipartite(graph,u,1,color)){return false;}
+        }
+    }
+    
+    return true;
+}

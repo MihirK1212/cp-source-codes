@@ -1,0 +1,22 @@
+int Solution::maxProduct(const vector<int> &A) 
+{
+    int n = A.size();
+
+    int mx_prod = A[0];
+    int mn_prod = A[0];
+    
+    int ans = A[0];
+
+    for(int i=1;i<n;i++)
+    {
+        int temp_mx = mx_prod , temp_mn = mn_prod;
+
+        mx_prod = max(A[i],max(temp_mx*A[i],temp_mn*A[i]));
+        mn_prod = min(A[i],min(temp_mx*A[i],temp_mn*A[i]));
+
+        ans = max(ans,mx_prod);
+    }
+
+    return ans;
+
+}

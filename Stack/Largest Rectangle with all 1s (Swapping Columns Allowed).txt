@@ -36,8 +36,10 @@ void findRight(vector<int>&A,vector<int>&rightLimit)
 
     while(!s.empty()){rightLimit[s.top()]=n-1; s.pop();}
 }
-int findMaxRectangle(vector<int>&A)
+int findMaxRectangle(vector<int>A)
 {
+    sort(A.begin(),A.end());
+    
     int n = A.size();
 
     vector<int> leftLimit(n,0);

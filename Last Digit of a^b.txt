@@ -1,23 +1,17 @@
-#include <bits/stdc++.h>
-using namespace std;
-int main()
+int last_two(string&B)
 {
-    int t;
-    long long a,b;
-    cin>>t;
-    while(t--)
-    {
-        cin>>a>>b;
-        
-        if(b==0){cout<<1<<"\n";}
-        else
-        {
-            int x;
-            if((b%4)!=0){x=(ceil)(pow((a%10),(b%4)));}
-            else{x=x=(ceil)(pow((a%10),4));}
-            cout<<x%10<<"\n";
-        }
-    }
-
-    return 0;
+    int n = B.size();
+    
+    if(n==1){return B[n-1] - '0';}
+    
+    return (B[n-2]-'0')*10 + (B[n-1]-'0');
+}
+int Solution::solve(string A, string B) 
+{
+    long long a = (A.back() - '0');
+    long long b = last_two(B);
+    
+    long long x = pow(a,b%4 + 4);
+    
+    return x%10;
 }

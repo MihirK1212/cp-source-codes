@@ -23,6 +23,9 @@ class Solution{
             
             while((p1+1)<n && (p1+p2+2)<n){p1++;}
             while((p2+1)<m && (p1+p2+2)<n){p2++;}
+
+		//Now arr1[0...p1] and arr2[0...p2] store the smallest 'n' elements
+		//We swap arr2[0...p2] with elements starting from arr1[p1+1] so that smallest n elements are in arr1
             
             // cout<<p1<<" "<<p2<<"\n";
             

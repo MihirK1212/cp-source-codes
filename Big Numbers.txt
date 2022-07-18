@@ -1,0 +1,250 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define vll vector<long long>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr,a,b) for(long long i=a;i<=b;i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+
+vll add(vll &a,vll &b)
+{
+    ll i,j,carry=0,len,sum;
+    vll c;
+    reverse(a);
+    reverse(b);
+    len=min(a.size(),b.size());
+    for(i=0;i<len;i++)
+    {
+        sum=a[i]+b[i]+carry;
+        carry=(sum/10);
+        c.pb(sum%10);
+    }
+    
+    if(a.size()>len)
+    {
+        for(i=len;i<a.size();i++)
+        {
+            sum=a[i]+carry;
+            carry=(sum/10);
+            c.pb(sum%10);
+        }
+    }
+    
+    if(b.size()>len)
+    {
+        for(i=len;i<b.size();i++)
+        {
+            sum=b[i]+carry;
+            carry=(sum/10);
+            c.pb(sum%10);
+        }
+    }
+    
+    while(carry>0)
+    {
+        c.pb(carry%10);
+        carry/=10;
+    }
+    
+    reverse(a);
+    reverse(b);
+    reverse(c);
+    return c;
+}
+
+vll subtract(vll &a,vll &b)
+{
+    //we want a-b hence a>b
+    ll i,j,borrow=0,len,sum;
+    vll c;
+    reverse(a);
+    reverse(b);
+    len=b.size(); //we want the minimum of the two and a>b hence min=b.size()
+    for(i=0;i<len;i++)
+    {
+        if((a[i]-borrow)<b[i])
+        {
+            c.pb(((a[i]-borrow)+10)-b[i]);
+            borrow=1;
+        }
+        else
+        {
+            c.pb(((a[i]-borrow)-b[i]));
+            borrow=0;
+        }
+    }
+    
+    for(i=len;i<a.size();i++)
+    {
+        if((a[i]-borrow)<0)
+        {
+            c.pb(((a[i]-borrow)+10));
+            borrow=1;
+        }
+        else
+        {
+            c.pb(a[i]-borrow);
+            borrow=0;
+        }
+    }
+    
+    reverse(c);
+    i=0;
+    vll result;
+    
+    while(c[i]==0)
+    {
+        i++;
+    }
+    
+    while(i<c.size())
+    {
+        result.pb(c[i]);
+        i++;
+    }
+    
+    reverse(a);
+    reverse(b);
+    
+    if(result.size()==0)
+    {
+        result.pb(0);
+    }
+    
+    return result;
+}
+
+vll multiply(vll &a,vll &b)
+{
+    //we are assuming len(a)>len(b)
+    ll i,j,carry=0;
+    vll result,currentresult;
+    reverse(a);
+    reverse(b);
+    result.pb(0);
+    for(i=0;i<b.size();i++)
+    {
+        for(j=0;j<i;j++)
+        {
+            currentresult.pb(0);
+        }
+        for(j=0;j<a.size();j++)
+        {
+            currentresult.pb(((b[i]*a[j])+carry)%10);
+            carry=((b[i]*a[j])+carry)/10;
+        }
+        while(carry!=0)
+        {
+            currentresult.pb(carry%10);
+            carry=carry/10;
+        }
+        reverse(currentresult);
+        result=add(result,currentresult);
+        currentresult.clear();
+    }
+
+    reverse(a);
+    reverse(b);
+    return result;
+}
+
+
+vll division(vll &a,ll x)
+{
+    ll i,rem=0,pos;
+    vll ans;
+    for(i=0;i<a.size();i++)
+    {
+        if(rem)
+        {
+            rem=rem*10+a[i];
+            ans.pb(rem/x);
+            rem=rem%x;
+        }
+        else
+        {
+            rem=(a[i])%x;
+            ans.pb(a[i]/x);
+        }
+    }
+    
+    vll result;
+    int k=-1;
+    pos=ans.size();
+    
+    for(i=0;i<ans.size();i++)
+    {
+        if(ans[i]!=0 && k==-1)
+        {
+            pos=i;
+            k=1;
+        }
+        if(i>=pos)
+        {
+            result.pb(ans[i]);
+        }
+    }
+    
+    return result;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll i;
+    string x,y;
+    cin>>x>>y;
+    vll a,b;
+    ll len1=x.length();
+    for(i=0;i<len1;i++)
+    {
+        a.pb(x[i]-'0');
+    }
+    ll len2=y.length();
+    for(i=0;i<len2;i++)
+    {
+        b.pb(y[i]-'0');
+    }
+        
+    vll sum,sub,mul,divide;
+        
+    sum=add(a,b);
+    sub=subtract(a,b);
+    divide=division(a,2);
+    mul=multiply(a,b);
+        
+    cout<<"Num1+Num2=";
+    for(i=0;i<sum.size();i++)
+    {
+        cout<<sum[i];
+    }
+    cout<<"\n";
+    
+    cout<<"Num1/2=";
+    for(i=0;i<divide.size();i++)
+    {
+        cout<<divide[i];
+    }
+    cout<<"\n";
+    
+    cout<<"Num1-Num2=";
+    for(i=0;i<sub.size();i++)
+    {
+        cout<<sub[i];
+    }
+    cout<<"\n";
+    
+    cout<<"Num1*Num2=";
+    for(i=0;i<mul.size();i++)
+    {
+        cout<<mul[i];
+    }
+    cout<<"\n";
+    return 0;
+}

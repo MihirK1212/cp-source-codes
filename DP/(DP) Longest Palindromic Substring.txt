@@ -1,0 +1,65 @@
+bool valid(int i,int j,int len,int n)
+{
+    int start_A = i-len , end_A = i-1;
+    int start_B = j-len , end_B = j-1;
+    
+    return end_B==(n-start_A-1) && start_B==(n-end_A-1);
+}
+string findLongestCommonSubstr(string&A,string&B)
+{
+    int m = A.length() , n = B.length();
+    
+    vector<vector<int>> dp(m+1,vector<int>(n+1,0));
+    //stores longest common suffix for A[0...(i-1)] and B[0...(j-1)]
+    
+    int max_comm_suff_len = 0;
+    
+    for(int i=1;i<=m;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+            if(A[i-1]==B[j-1])
+            {
+                dp[i][j] = dp[i-1][j-1] + 1;
+            }
+            else
+            {
+                dp[i][j] = 0;
+            }
+            
+            if(dp[i][j]>max_comm_suff_len && valid(i,j,dp[i][j],n))
+            {
+                max_comm_suff_len = dp[i][j];
+            }
+        }
+    }
+    
+    
+    string ans = "";
+    
+    for(int i=1;i<=m;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+            if(dp[i][j]==max_comm_suff_len && valid(i,j,max_comm_suff_len,n))
+            {
+                for(int k=(i-max_comm_suff_len);k<=(i-1);k++)
+                {
+                    ans+=A[k];
+                }
+                
+                return ans;
+            }
+        }
+    }
+    
+    return "";
+   
+}
+string Solution::longestPalindrome(string A) 
+{
+    string B = A;
+    reverse(B.begin(),B.end());
+    
+    return findLongestCommonSubstr(A,B);
+}

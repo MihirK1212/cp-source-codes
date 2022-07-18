@@ -1,0 +1,26 @@
+int Solution::solve(int A, int B) 
+{
+    vector<vector<int>> dp(A+1,vector<int>(B+1,0));
+
+    for(int k=0;k<=B;k++){dp[0][k]=INT_MAX; dp[1][k]=k;}
+    for(int n=0;n<=A;n++){dp[n][0]=0; dp[n][1]=1;}
+    
+    for(int n=2;n<=A;n++)
+    {
+        for(int k=2;k<=B;k++)
+        {
+            int ans = INT_MAX;
+
+            for(int fl=1;fl<=k;fl++)
+            {
+                ans = min(ans,max(dp[n-1][fl-1],dp[n][k-fl]));
+            }
+
+            ans++;
+            dp[n][k] = ans;
+        }
+    }
+
+    return dp[A][B];
+}
+

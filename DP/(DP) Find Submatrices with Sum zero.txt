@@ -1,0 +1,42 @@
+int find(vector<int>&arr)
+{
+    unordered_map<int,int> p_sum_freq;
+
+    int sum = 0;
+    int count = 0;
+
+    for(int i=0;i<arr.size();i++)
+    {
+        sum+=arr[i];
+
+        if(sum==0){count++;}
+
+        count+=p_sum_freq[sum];
+        p_sum_freq[sum]++;
+    }   
+
+    return count; 
+}
+int Solution::solve(vector<vector<int> > &A) 
+{
+    if(A.size()==0 || A[0].size()==0){return 0;}
+    
+    int m = A.size();
+    int n = A[0].size();
+
+    int ans = 0;
+
+    for(int l=0;l<n;l++)
+    {
+        vector<int> row_sum(m,0);
+
+        for(int r=l;r<n;r++)
+        {
+            for(int i=0;i<m;i++){row_sum[i]+=A[i][r];}
+
+            ans+=find(row_sum);
+        }
+    }
+
+    return ans;
+}

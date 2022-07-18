@@ -1,0 +1,43 @@
+class Solution
+{
+    public:
+    
+    int dp[205][205];
+    
+    int solve(int n,int k)
+    {
+
+	  // n eggs , k floors	
+
+
+        if(k==0){return 0;} // k=0 there are no floors
+        if(k==1){return 1;} // k=1 there is only one floor
+        if(n==1){return k;} // n=1 there is one egg hence we drop from first floor,then from second and so on until egg breaks
+        
+        
+        if(dp[n][k]>=0){return dp[n][k];}
+        
+        int ans = INT_MAX;
+        
+        for(int fl=1;fl<=k;fl++)
+        {
+            //Breaks on dropping from fl
+            int ans1 = (dp[n-1][fl-1]==-1)?solve(n-1,fl-1):dp[n-1][fl-1];  //we now have n-1 eggs and a building of fl-1 floors (all floors below fl)
+            
+            //Does not break on dropping from fl
+            int ans2 = (dp[n][k-fl]==-1)?solve(n,k-fl):dp[n][k-fl]; //we now have n eggs and a building of k-fl floors (all floors above fl)
+            
+            ans = min(ans,max(ans1,ans2));
+        }
+        
+        dp[n][k] = ans+1; // we add 1 for making the current move
+        
+        return ans+1;
+    }
+    
+    int eggDrop(int n, int k) 
+    {
+        memset(dp,-1,sizeof(dp));
+        return solve(n,k);
+    }
+};

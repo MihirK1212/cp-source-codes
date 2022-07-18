@@ -23,7 +23,7 @@ class Solution{
         {
             //calculate water stored above bar i
             int h = min(lMaxUpto[i],rMaxUpto[i]);
-            if(h<arr[i]){continue;}
+            if(h<=arr[i]){continue;}
             
             ans+=(long long)(h-arr[i]);
         }
