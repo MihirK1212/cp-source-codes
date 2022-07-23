@@ -168,9 +168,9 @@ vll division(vll &a,ll x)
         }
         else
         {
+		ans.pb(a[i]/x);
             rem=(a[i])%x;
-            ans.pb(a[i]/x);
-        }
+       }
     }
     
     vll result;

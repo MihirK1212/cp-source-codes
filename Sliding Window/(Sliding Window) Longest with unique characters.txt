@@ -1,73 +1,39 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-#define ll long long 
-#define vll vector<long long>
-#define vi vector<int>
-#define f first
-#define s second
-#define pb push_back
-#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
-#define sort(a) sort(a.begin(),a.end());
-#define rsort(a) sort(a.rbegin(),a.rend());
-#define reverse(a) reverse(a.begin(),a.end());
-#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
-
-
-int main()
-{
-    ios_base::sync_with_stdio(false); 
-    cin.tie(NULL);
-    
-    string str;
-    
-    cin>>str;
-    ll len=str.length();
-    
-    map<char,ll> freq;
-    
-    ll start=0,end=0;
-    
-    ll max_len=0;
-    
-    while(start<=end && end<len)
-    {
-        while(start<=end && end<len)
+class Solution {
+public:
+    int lengthOfLongestSubstring(string str) {
+        
+        int n = str.length();
+        
+        if(n==0){return 0;}
+        
+        map<char,int> freq;
+        freq[str[0]]++;
+        
+        int start=0,end=0;
+        int count = 1;
+        
+        int ans = 1;
+        
+        while(start<=end && end<n)
         {
-            if(freq[str[end]]==0)
+            if(count==(end-start+1))
             {
-                max_len=max(max_len,end-start+1);
-                freq[str[end]]++;
+                ans = max(ans,end-start+1);
+                if((end+1)<n)
+                {
+                    if(freq[str[end+1]]==0){count++;}
+                    freq[str[end+1]]++;
+                }
+                end++;
             }
             else
             {
-                freq[str[end]]++;
-                break;
-            }
-            
-            end++;
-        }
-        
-        while(start<=end && end<len)
-        {
-            if(str[start]==str[end])
-            {
-                max_len=max(max_len,end-start);
+                if(freq[str[start]]==1){count--;}
                 freq[str[start]]--;
                 start++;
-                break;
             }
-            else
-            {
-                freq[str[start]]--;
-            }
-            
-            start++;
         }
-        end++;
+        
+        return ans;
     }
-    
-    cout<<max_len<<"\n";
-    
-    return 0;
-}
+};

@@ -1,0 +1,80 @@
+bool check(vector<int>&A,int i,int s,int x,vector<vector<vector<int>>>&dp,vector<int>&res)
+{
+    if(x==0){return s==0;}
+    if(i>=A.size()){return false;}
+    
+    if(dp[i][s][x]>=0){return dp[i][s][x];}
+    
+    if(s>=A[i])
+    {
+        res.push_back(A[i]);
+        if(check(A,i+1,s-A[i],x-1,dp,res))
+        {
+            dp[i][s][x] = 1;
+            return true;
+        }
+        res.pop_back();
+    }
+    
+    if(check(A,i+1,s,x,dp,res))
+    {
+        dp[i][s][x] = 1;
+        return true;
+    }
+    
+    dp[i][s][x] = 0;
+    
+    return false;
+}
+vector<vector<int> > Solution::avgset(vector<int> &A) 
+{
+    int n = A.size();
+    sort(A.begin(),A.end());
+    
+    int sum = 0;
+    for(auto x : A){sum+=x;}
+    
+    vector<vector<vector<int>>> dp(n,vector<vector<int>>(sum+1,vector<int>(n+1,-1)));
+    
+    //dp[i][s][x] = subset with sum s and size x chosen from A[i...(n-1)]
+    
+    vector<int> res;
+    
+    bool ans = false;
+    
+    for(int x = 1;x<n;x++)
+    {
+        if(((sum*x)%n)!=0){continue;}
+        
+        int sx = (sum*x)/n;
+        
+        if(sx>sum){continue;}
+        
+        res.clear();
+        
+        if(check(A,0,sx,x,dp,res))
+        {ans=true; break;}
+    }
+    
+    if(!ans){return {};}
+    
+    map<int,int> freq;
+    for(auto x : A){freq[x]++;}
+    for(auto x : res){freq[x]--;}
+    
+    vector<int> v1 = res;
+    vector<int> v2;
+    
+    for(auto p : freq)
+    {
+        int f = p.second;
+        while(f){v2.push_back(p.first); f--;}
+    }
+    
+    if(v1.size()>v2.size()){swap(v1,v2);}
+    
+    sort(v1.begin(),v1.end());
+    sort(v2.begin(),v2.end());
+    
+    return {v1,v2};
+}
