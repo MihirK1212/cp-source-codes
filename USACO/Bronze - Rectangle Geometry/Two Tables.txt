@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+//https://codeforces.com/contest/1555/problem/B
+
+int main()
+{
+    setIO("");
+    
+    ll T;
+    cin>>T;
+    
+    while(T--)
+    {
+        ll W,H;
+        cin>>W>>H;
+        
+        ll x1,y1,x2,y2;
+        cin>>x1>>y1>>x2>>y2;
+        
+        ll w1 = (x2 - x1) , h1 = (y2 - y1);
+        
+        ll w,h;
+        cin>>w>>h;
+        
+        if(W<w || H<h)
+        {
+            cout<<-1<<"\n";
+        }
+        else if((W-w1)<w && (H-h1)<h)
+        {
+            cout<<-1<<"\n"; continue;    
+        }
+        else
+        {
+            ll move_x = (w+w1)<=W ? max( (ll)0 , w - max(x1,W-x2) ) : inf;
+            ll move_y = (h+h1)<=H ? max( (ll)0 , h - max(y1,H-y2) ) : inf;
+            
+            ll ans = min(move_x,move_y);
+            
+            if(ans==inf){ans = -1;}
+            cout<<ans<<"\n";
+        }
+    }
+    
+    return 0;
+}

@@ -1,0 +1,109 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void remove_beg(string&str)
+{
+    str.erase(str.begin());
+}
+
+void remove_end(string&str,ll x)
+{
+    x = min(x , (ll)str.size());
+    
+    while(x--)
+    {
+        str.pop_back();
+    }
+}
+
+//http://www.usaco.org/index.php?page=viewproblem2&cpid=526
+
+void get_last(string&str,ll x,string&last)
+{
+    x = min(x , (ll)str.size());
+    
+    for(ll i=str.size()-x;i<str.size();i++)
+    {
+        last+=str[i];
+    }
+}
+
+int main()
+{
+    setIO("censor");
+    
+    ll i;
+    
+    string str;
+    cin>>str;
+    
+    ll len_s = str.length();
+    
+    string t;
+    cin>>t;
+    
+    string overall = "";
+    
+    ll len_t = t.length();
+    string last = "";
+    
+    for(i=0;i<len_s;i++)
+    {
+        overall+=str[i];
+        last+=str[i];
+        
+        if(last.length() > len_t)
+        {
+            remove_beg(last);
+        }
+        
+        if(last == t)
+        {
+            remove_end(overall,len_t);
+            last = "";
+            get_last(overall,len_t,last);
+        }
+    }
+    
+    cout<<overall<<"\n";
+    
+    return 0;
+}

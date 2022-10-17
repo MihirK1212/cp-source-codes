@@ -1,0 +1,125 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf= 1e9;
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+
+
+int main()
+{
+    setIO("traffic");
+    
+    //http://www.usaco.org/index.php?page=viewproblem2&cpid=917
+    
+    map<string,ll> typecode;
+    typecode["off"] = -1;
+    typecode["none"] = 0;
+    typecode["on"] = 1;
+    
+    ll n;
+    cin>>n;
+    cig;
+    
+    ll i;
+    string type;
+    ll lb,ub,dl,du;
+    
+    vector<vll> ramps;
+    
+    for(i=1;i<=n;i++)
+    {
+        cin>>type;
+        cin>>lb>>ub;
+        
+        ramps.pb({typecode[type],lb,ub});
+    }
+    
+    lb = -inf; ub = inf;
+    
+    for(i=n-1;i>=0;i--)
+    {
+        if(ramps[i][0] == 0)
+        {
+            lb = max(lb , ramps[i][1]);
+            ub = min(ub , ramps[i][2]);
+        }
+        else if(ramps[i][0] == -1)
+        {
+            lb+=ramps[i][1];
+            ub+=ramps[i][2];
+        }
+        else
+        {
+            lb-=ramps[i][2];
+            ub-=ramps[i][1];
+            
+            lb = max((ll)0,lb);
+        }
+    }
+    
+    cout<<lb<<" "<<ub<<"\n";
+    
+    
+    lb = 0; ub = inf;
+    
+    for(i=0;i<n;i++)
+    {
+        if(ramps[i][0] == 0)
+        {
+            lb = max(lb , ramps[i][1]);
+            ub = min(ub , ramps[i][2]);
+        }
+        else if(ramps[i][0] == 1)
+        {
+            lb+=ramps[i][1];
+            ub+=ramps[i][2];
+        }
+        else
+        {
+            lb-=ramps[i][2];
+            ub-=ramps[i][1];
+            
+            lb = max((ll)0,lb);
+        }
+    }
+    
+    cout<<lb<<" "<<ub<<"\n";
+    
+    return 0;
+}

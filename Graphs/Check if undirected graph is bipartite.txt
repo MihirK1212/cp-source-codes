@@ -1,3 +1,8 @@
+//For directed graph, make it undirected by ignoring the direction
+//Reason : Just treat all the edges as bidirectional and do the same algorithm as an undirected BFS. Graph coloring problems are 
+		no different between directed and undirected graphs. 
+		The directions of the edges are quite irrelevant in these types of problems.
+
 bool isBipartite(map<int,vector<int>>&graph,int u,int curr,vector<int>&color)
 {
     color[u] = curr;

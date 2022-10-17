@@ -1,0 +1,93 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+bool comp(vll&x,vll&y){return x[0]<y[0];}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+
+int main()
+{
+    setIO("");
+    
+    ll m,n,i,f0;
+    
+    cin>>m>>n;
+    
+    vll a(m);
+    input(a);
+    
+    vll b(n);
+    input(b);
+    
+    map<ll,bool> exists_psum;
+    vll p_sum(m);
+    ll curr_sum = 0;
+    for(i=0;i<m;i++){curr_sum+=a[i]; exists_psum[curr_sum]=true; p_sum[i]=curr_sum;}
+    
+    ll ans = 0;
+    
+    map<ll,bool> taken_psum0;
+    
+    for(f0=0;f0<m;f0++)
+    {
+        if(taken_psum0[p_sum[f0]]){continue;}
+        taken_psum0[p_sum[f0]] = true;
+        
+        map<ll,bool> taken_psum;
+        taken_psum[p_sum[f0]] = true;
+        
+        bool check = true;
+        
+        for(i=1;i<n;i++)
+        {
+            ll req_psum = b[i] - b[0] + p_sum[f0]; 
+            
+            if(!exists_psum[req_psum] || taken_psum[req_psum] ){check = false; break;}
+            
+            taken_psum[req_psum] = true;
+        }
+        
+        if(check){ans++;}
+    }
+    
+    cout<<ans<<"\n";
+    
+    return 0;
+}

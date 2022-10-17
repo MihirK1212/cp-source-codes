@@ -1,0 +1,218 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+// #define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+bool comp_x(vll&x,vll&y)
+{
+    return x[0]<y[0];
+}
+
+bool comp_y(vll&x,vll&y)
+{
+    return x[1]<y[1];
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+
+ll countLessThan(vll&a,ll x)
+{
+    ll lb=0,ub=a.size()-1,mid;
+    ll ans = -1;
+    
+    while(lb<=ub)
+    {
+        mid = lb + (ub-lb)/2;
+        
+        if(a[mid]<x){ans = mid; lb = mid + 1;}
+        else{ub = mid - 1;}
+    }
+    
+    return ans + 1;
+}
+
+bool can_split_halves(vll&half1,vll&half2,ll max_pts)
+{
+    
+    ll sz1,sz2,sz3,sz4;
+    
+    if(half1.size()>0)
+    {
+        sz1 = 0;
+        sz2 = half1.size();
+        sz3 = countLessThan(half2,half1[0]-1);
+        sz4 = half2.size() - sz3; 
+        if(sz1<=max_pts && sz2<=max_pts && sz3<=max_pts && sz4<=max_pts){return true;}
+    }
+    
+    
+    if(half2.size()>0)
+    {
+        sz1 = 0;
+        sz2 = half2.size();
+        sz3 = countLessThan(half1,half2[0]-1);
+        sz4 = half1.size() - sz3;
+        if(sz1<=max_pts && sz2<=max_pts && sz3<=max_pts && sz4<=max_pts){return true;}
+    }
+    
+    ll i;
+    
+    i = 0;
+    while(i<half1.size())
+    {
+        ll curr_split = half1[i];
+        ll sz1 = 0;
+        
+        while(i<half1.size() && half1[i]==curr_split){sz1++; i++;}
+        
+        curr_split++;
+        
+        sz2 = half1.size() - sz1;
+        
+        sz3 = countLessThan(half2,curr_split);
+        sz4 = half2.size() - sz3;
+        
+        if(sz1<=max_pts && sz2<=max_pts && sz3<=max_pts && sz4<=max_pts){return true;}
+    }
+    
+    i = 0;
+    while(i<half2.size())
+    {
+        ll curr_split = half2[i];
+        ll sz1 = 0;
+        
+        while(i<half2.size() && half2[i]==curr_split){sz1++; i++;}
+        
+        curr_split++;
+        
+        sz2 = half2.size() - sz1;
+        
+        sz3 = countLessThan(half1,curr_split);
+        sz4 = half1.size() - sz3;
+        
+        if(sz1<=max_pts && sz2<=max_pts && sz3<=max_pts && sz4<=max_pts){return true;}
+    }
+    
+    return false;
+}
+
+bool can_split_x(vector<vll>&ranking_y,ll mid_x,ll max_pts)
+{
+    vector<ll> half1;
+    vector<ll> half2;
+    
+    for(auto p : ranking_y)
+    {
+        if(p[0]<mid_x){half1.pb(p[1]);}
+        else{half2.pb(p[1]);}
+    }
+    
+    return can_split_halves(half1,half2,max_pts); 
+}
+
+bool can_split_y(vector<vll>&ranking_x,ll mid_y,ll max_pts)
+{
+    vector<ll> half1;
+    vector<ll> half2;
+    
+    for(auto p : ranking_x)
+    {
+        if(p[1]<mid_y){half1.pb(p[0]);}
+        else{half2.pb(p[0]);}
+    }
+    
+    return can_split_halves(half1,half2,max_pts);
+}
+
+bool allowed(vector<vll>&ranking_x,vector<vll>&ranking_y,ll max_pts)
+{
+    ll n = ranking_x.size();
+    
+    for(ll i=0;i<n;i++)
+    {
+        ll mid_x = ranking_x[i][0] + 1, mid_y = ranking_y[i][1] + 1;
+        
+        if(can_split_x(ranking_y,mid_x,max_pts) || can_split_y(ranking_x,mid_y,max_pts)){return true;}
+    }
+    
+    return  false;
+}
+
+
+int main()
+{
+    setIO("balancing");
+    // setIO("");
+    
+    ll n,b,i,j;
+    cin>>n>>b;
+    
+    vector<vll> ranking_x , ranking_y;
+    for(i=0;i<n;i++)
+    {
+        ll x,y;
+        cin>>x>>y;
+        ranking_x.pb({x,y}); ranking_y.pb({x,y});
+    }
+    sort(ranking_x.begin(),ranking_x.end(),comp_x);
+    sort(ranking_y.begin(),ranking_y.end(),comp_y);
+    
+    
+    ll lb=1,ub=n,mid;
+    ll ans;
+    
+    while(lb<=ub)
+    {
+        mid = lb + (ub-lb)/2;
+        
+        if(allowed(ranking_x,ranking_y,mid))
+        {
+            ans = mid;
+            ub = mid - 1;
+        }
+        else
+        {
+            lb = mid + 1;
+        }
+    }
+    
+    cout<<ans<<"\n";
+
+    
+    return 0;
+}

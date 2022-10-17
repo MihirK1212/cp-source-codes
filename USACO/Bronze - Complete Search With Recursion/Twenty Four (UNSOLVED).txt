@@ -1,0 +1,305 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll precedence(char op){
+    if(op == '+'||op == '-')
+    return 1;
+    if(op == '*'||op == '/')
+    return 2;
+    return 0;
+}
+ll applyOp(ll a, ll b, char op){
+    switch(op){
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+    }
+}
+
+ll evaluate(string&tokens)
+{
+    ll i;
+    stack <ll> values;
+    stack <char> ops;
+     
+    for(i = 0; i < tokens.length(); i++)
+    {
+        if(tokens[i] == ' ')
+            continue;
+            
+        else if(tokens[i] == '('){
+            ops.push(tokens[i]);
+        }
+        else if(isdigit(tokens[i])){
+            int val = 0;
+             
+            while(i < tokens.length() &&
+                        isdigit(tokens[i]))
+            {
+                val = (val*10) + (tokens[i]-'0');
+                i++;
+            }
+             
+            values.push(val);
+             i--;
+        }
+        
+        else if(tokens[i] == ')')
+        {
+            while(!ops.empty() && ops.top() != '(')
+            {
+                int val2 = values.top();
+                values.pop();
+                 
+                int val1 = values.top();
+                values.pop();
+                 
+                char op = ops.top();
+                ops.pop();
+                 
+                values.push(applyOp(val1, val2, op));
+            }
+            if(!ops.empty())
+               ops.pop();
+        }
+        
+        else
+        {
+            while(!ops.empty() && precedence(ops.top())
+                                >= precedence(tokens[i])){
+                int val2 = values.top();
+                values.pop();
+                 
+                int val1 = values.top();
+                values.pop();
+                 
+                char op = ops.top();
+                ops.pop();
+                 
+                values.push(applyOp(val1, val2, op));
+            }
+             
+            ops.push(tokens[i]);
+        }
+    }
+     
+    while(!ops.empty()){
+        int val2 = values.top();
+        values.pop();
+                 
+        int val1 = values.top();
+        values.pop();
+                 
+        char op = ops.top();
+        ops.pop();
+                 
+        values.push(applyOp(val1, val2, op));
+    }
+     
+    return values.top();
+}
+
+void addcard(ll i,set<ll>&used,string&curr)
+{
+    cout<<"Adding "<<i<<"\n";
+    auto it = used.begin();
+    while(it!=used.end()){cout<<*it<<" "; it++;} cout<<"\n";
+    cout<<curr<<"\n";
+}
+
+void findAns(string&curr,vector<ll>&cards,vector<char>&operators,set<ll>&used,char last_used,ll cnt,ll&ans)
+{
+    if(used.size()==4 && cnt==0)
+    {
+        // ll x = evaluate(curr);
+        ll x = 0;
+        // cout<<used.size()<<" "<<curr<<"\n";
+        if(x<=24){ans = max(ans , x);}
+        return;
+    }
+    
+    if(used.size()==4)
+    {
+        while(cnt>0){curr+=')'; cnt--;}
+        findAns(curr,cards,operators,used,'@',0,ans);
+        return;
+    }
+    
+    if(last_used=='@')
+    {
+        //last_used is a number
+        //use operator or closing bracket
+        
+        for(auto op : operators)
+        {
+            curr.push_back(op);
+            findAns(curr,cards,operators,used,op,cnt,ans);
+            curr.pop_back();
+        }
+        
+        if(cnt>0)
+        {
+            curr.push_back(')'); cnt--;
+            findAns(curr,cards,operators,used,')',cnt,ans);
+            curr.pop_back(); cnt++;
+        }
+    }
+    else if(last_used=='+' || last_used=='-' || last_used=='*' || last_used=='/')
+    {
+        //last_used is an operator
+        //use number or opening bracket
+        
+        for(ll i=0;i<4;i++)
+        {
+            if(used.find(i)!=used.end()){continue;}
+            
+            string nstr = to_string(cards[i]);
+            ll sz = nstr.length();
+            
+            addcard(i,used,curr);
+            
+            curr+=nstr;
+            used.insert(i);
+            
+            findAns(curr,cards,operators,used,'@',cnt,ans);
+            
+            while(sz--){curr.pop_back();}
+            used.erase(i);
+        }
+        
+        if(cnt>=0 && cnt<4)
+        {
+            curr.push_back('('); cnt++;
+            findAns(curr,cards,operators,used,'(',cnt,ans);
+            curr.pop_back(); cnt--;
+        }
+    }
+    else if(last_used=='(')
+    {
+        //last_used is an opening bracket
+        //use number or opening bracket or closing bracket
+        
+        for(ll i=0;i<4;i++)
+        {
+            if(used.find(i)!=used.end()){continue;}
+            
+            string nstr = to_string(cards[i]);
+            ll sz = nstr.length();
+            
+            addcard(i,used,curr);
+            
+            
+            
+            curr+=nstr;
+            used.insert(i);
+            
+            findAns(curr,cards,operators,used,'@',cnt,ans);
+            
+            curr.pop_back();
+            if(sz==2){curr.pop_back();}
+            used.erase(i);
+        }
+        
+        if(cnt>=0 && cnt<4)
+        {
+            curr.push_back('('); cnt++;
+            findAns(curr,cards,operators,used,'(',cnt,ans);
+            curr.pop_back(); cnt--;
+        }
+        
+        if(cnt>0)
+        {
+            curr.push_back(')'); cnt--;
+            findAns(curr,cards,operators,used,')',cnt,ans);
+            curr.pop_back(); cnt++;
+        }
+    }
+    else if(last_used==')')
+    {
+        //last_used is an closing bracket
+        //use operator or closing bracket
+        
+        for(auto op : operators)
+        {
+            curr.push_back(op);
+            findAns(curr,cards,operators,used,op,cnt,ans);
+            curr.pop_back();
+        }
+        
+        if(cnt>0)
+        {
+            curr.push_back(')'); cnt--;
+            findAns(curr,cards,operators,used,')',cnt,ans);
+            curr.pop_back(); cnt++;
+        }
+    }
+}
+
+int main()
+{
+    setIO("");
+    
+    ll n;
+    cin>>n;
+    
+    while(n--)
+    {
+        string curr = "";
+        
+        vector<ll> cards(4);
+        input(cards);
+        
+        vector<char> operators = {'+','-','*','/'};
+        
+        set<ll> used;
+        
+        char last_used = '+';
+        ll cnt = 0;
+        
+        ll ans = -1e5;
+        
+        findAns(curr,cards,operators,used,last_used,cnt,ans);
+        cout<<ans<<"\n";
+    }
+    
+    return 0;
+}

@@ -1,0 +1,130 @@
+#include <bits/stdc++.h>
+#include <limits>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+// #define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+bool comp(vll&x,vll&y)
+{
+    return x[0]<y[0];
+}
+
+ll count_greater_than(ordered_set&st,ll x)
+{
+    //count number of elements in the set greater than x
+    //st.order_of_key(x) = number of elements in the set strictly smaller than x
+    
+    return st.size() - st.order_of_key(x); 
+}
+
+ll count_less_than(ordered_set&st,ll x)
+{
+    //count number of elements in the set smaller than x
+    //st.order_of_key(x) = number of elements in the set strictly smaller than x
+    
+    return st.order_of_key(x); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void show(ordered_set&st)
+{
+    cout<<"Elements : ";
+    
+    auto it = st.begin();
+    while(it!=st.end()){cout<<*it<<" "; it++;}
+    cout<<"\n";
+}
+
+//http://www.usaco.org/index.php?page=viewproblem2&cpid=712
+
+int main()
+{
+    setIO("circlecross");
+    
+    ll i;
+    vll entry_pt(26,-1) , exit_pt(26,-1);
+    
+    string str;
+    cin>>str;
+    
+    for(i=0;i<52;i++)
+    {
+        if(entry_pt[str[i]-'A']==-1)
+        {
+            entry_pt[str[i]-'A'] = i+1;
+        }
+        else
+        {
+            exit_pt[str[i]-'A'] = i+1;
+        }
+    }
+    
+    vector<vll> chords;
+    
+    for(i=0;i<26;i++){chords.pb({entry_pt[i],exit_pt[i]});}
+    sort(chords.begin(),chords.end(),comp);
+    
+    // for(auto p : chords){printoneline(p);}
+    
+    ll tot_upto = 0;
+    ordered_set exit_pts_upto;
+    
+    ll ans = 0;
+    
+    for(auto p : chords)
+    {
+        ll not_cut = count_less_than(exit_pts_upto,p[0]) + count_greater_than(exit_pts_upto,p[1]);
+        
+        // cout<<tot_upto<<" "<<not_cut<<"\n";
+        // show(exit_pts_upto);
+        // cout<<"Curr Exit :"<<p[1]<<"\n";
+        
+        ans+=max((ll)0,(tot_upto - not_cut));
+        
+        tot_upto++;
+        exit_pts_upto.insert(p[1]);
+    }
+    
+    cout<<ans<<"\n";
+    
+    return 0;
+}

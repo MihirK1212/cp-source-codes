@@ -1,0 +1,54 @@
+class Solution {
+public:
+    bool find(vector<int>&A,int k,int subset,int currSum,int reqSum,vector<int>&dp)
+    {
+        if(k<=1){return true;}
+        if(subset==0){return false;}
+        if(dp[subset]>=0){return dp[subset];}
+        
+        int n = A.size();
+        
+        
+        bool ans = false;
+        
+        for(int j=0;j<n && !ans;j++)
+        {
+            if(!(subset&(1<<j))){continue;}
+            
+            if((currSum+A[j])>reqSum){break;}
+            
+            if((currSum+A[j])==reqSum)
+            {
+                subset^=(1<<j);
+                ans = find(A,k-1,subset,0,reqSum,dp);
+                subset^=(1<<j);
+            }
+            else
+            {
+                subset^=(1<<j);
+                ans = find(A,k,subset,currSum+A[j],reqSum,dp);
+                subset^=(1<<j);
+            }
+        }
+        
+        dp[subset] = ans;
+        return ans;
+    }
+    bool canPartitionKSubsets(vector<int>& A, int k) 
+    {
+        int n = A.size();
+        sort(A.begin(),A.end());
+        
+        int subset = (1<<n) - 1;
+        int currsum = 0;
+        
+        int reqsum = 0;
+        for(auto x : A){reqsum+=x;}
+        if(reqsum%k){return false;}
+        reqsum/=k;
+        
+        vector<int> dp(subset+1,-1);
+        
+        return find(A,k,subset,currsum,reqsum,dp);
+    }
+};

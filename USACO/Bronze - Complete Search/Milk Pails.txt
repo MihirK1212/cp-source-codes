@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll floorVal (ll a,ll b) {return a/b;}
+ll ceilVal  (ll a,ll b) {return ceil(((ld)a)/((ld)b)); }
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll solve(ll M,ll X,ll Y)
+{
+    ll m,i,j;
+    ll max=-10;
+    
+    for(m=M;m>=1;m--)
+    {
+        for(i=0;i<=(m/X);i++)
+        {
+            for(j=0;j<=(m/Y);j++)
+            {
+                if((i*X)+(j*Y)==m)
+                {
+                    max=m;
+                    break;
+                }
+            }
+            if(max!=-10){break;}
+        }
+        if(max!=-10){break;}
+    }
+    
+    return max;
+}
+
+int main()
+{
+    //http://www.usaco.org/index.php?page=viewproblem2&cpid=615
+    setIO("pails");
+    
+    ll X,Y,M;
+    cin>>X>>Y>>M;
+    
+    cout<<solve(M,X,Y)<<"\n";
+    
+    return 0;
+}

@@ -1,0 +1,39 @@
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/#/description
+class Solution {
+public:
+    int maxProfit(vector<int>& A) 
+    {
+        int n = A.size();
+        
+        vector<int> maxProfitStartAt(n);
+        
+        maxProfitStartAt[n-1] = 0;
+        int maxVal = A[n-1];
+        
+        for(int i=n-2;i>=0;i--)
+        {
+            maxProfitStartAt[i] = max(maxProfitStartAt[i+1],maxVal - A[i]);
+            maxVal = max(maxVal,A[i]);
+        }
+        
+        vector<int> maxProfitEndAt(n);
+        
+        maxProfitEndAt[0] = 0;
+        int minVal = A[0];
+        
+        for(int i=1;i<n;i++)
+        {
+            maxProfitEndAt[i] = max(maxProfitEndAt[i-1],A[i] - minVal);
+            minVal = min(minVal,A[i]);
+        }
+        
+        int ans = 0;
+        
+        for(int i=0;i<n;i++)
+        {
+            ans = max(ans,maxProfitEndAt[i] + (((i+1)<n)?maxProfitStartAt[i+1]:0));
+        }
+        
+        return ans;
+    }
+};

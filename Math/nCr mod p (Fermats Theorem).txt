@@ -42,7 +42,7 @@ ll mod = 1000000007;
 
 ll inf=std::numeric_limits<long long>::max();
 
-unsigned ll fact[100005];
+unsigned long long fact[100005];
 
 void setIO(string name = "") 
 { 

@@ -1,0 +1,102 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll countStartWith(vector<string>&a,string&pre)
+{
+    ll res = 0;
+    for(auto str : a)
+    {
+        if(str.rfind(pre, 0) == 0){
+            // cout<<str<<" "<<pre<<"\n";
+            res++;
+        }
+    }
+    return res;
+}
+
+int main()
+{
+    setIO("citystate");
+    // setIO("");
+    
+    ll n;
+    cin>>n;
+    
+    cig;
+    
+    map<string,ll> freq;
+    
+    string city;
+    string state;
+    string shortened;
+    
+    while(n--)
+    {
+        cin>>city;
+        cin>>state;
+        
+        shortened = ""; shortened+=city[0]; shortened+=city[1];
+        
+        if(shortened==state){continue;}
+        
+        freq[shortened+state]++;
+    }
+    
+    ll ans = 0;
+    
+    for(auto &p : freq)
+    {
+        string curr = p.f;
+        city = ""; city+=curr[2]; city+=curr[3];
+        state= ""; state+=curr[0]; state+=curr[1];
+        
+        string other = city + state;
+        
+        if(freq.find(other) == freq.end()){continue;}
+        
+        
+        ans+=(p.s*freq[other]);
+    }
+    
+    cout<<ans/2<<"\n";
+    
+    return 0;
+}

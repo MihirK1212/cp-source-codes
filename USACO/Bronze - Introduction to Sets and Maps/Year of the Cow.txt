@@ -1,0 +1,112 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(a) (a).begin(), (a).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+bool comp(vll&x,vll&y)
+{
+    if(x[0]==y[0]){return x[1]<y[1];}
+    return x[0]<y[0];
+}
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+
+int main()
+{
+    setIO("");
+    
+    ll i;
+    
+    map<string,ll> animal_index;
+    vector<string> animals = {"Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig", "Rat"};
+    for(i=0;i<animals.size();i++){animal_index[animals[i]] = i+1;}
+    
+    map<string,ll> birth_year;
+    birth_year["Bessie"] = 1;
+    
+    
+    ll n;
+    cin>>n;
+    
+    cig;
+    
+    while(n--)
+    {
+        vector<string> words(8);
+        input(words);
+        
+        
+        ll sgn = (words[3]=="previous")?-1:1;
+        
+        ll source_animal_index  = (birth_year[words[7]]%12 + 12)%12;
+        if(source_animal_index == 0){source_animal_index = 12;}
+        
+        ll dest_animal_index    = animal_index[words[4]];
+        
+        ll delta;
+        
+        if(sgn==1)
+        {
+            if(source_animal_index<dest_animal_index)
+            {
+                delta = (dest_animal_index - source_animal_index);
+            }
+            else
+            {
+                delta = (12 - source_animal_index + dest_animal_index);
+            }
+        }
+        else
+        {
+            if(source_animal_index>dest_animal_index)
+            {
+                delta = -(source_animal_index - dest_animal_index);
+            }
+            else
+            {
+                delta = -(source_animal_index + 12 - dest_animal_index);
+            }
+        }
+        
+        birth_year[words[0]] = birth_year[words[7]] + delta;
+    }
+    
+    cout<<abs(birth_year["Bessie"] - birth_year["Elsie"])<<"\n";
+    
+    return 0;
+}

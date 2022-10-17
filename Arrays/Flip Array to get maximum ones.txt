@@ -22,16 +22,14 @@ int find(string&A)
 }
 vector<int> Solution::flip(string A)
 {
-    int curr_sum = (A[0]=='0')?1:-1;
-
     int n = A.length();
+
+    int max_sum = find(A);
+    if(max_sum<=0){return {};}
 
     int l=0,r=0;
     int la=n,ra=n;
-
-    int max_sum = find(A);
-
-    if(max_sum<=0){return {};}
+    int curr_sum = (A[0]=='0')?1:-1;
 
     for(int i=1;i<n;i++)
     {

@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int constructST(vector<int>&st,int node,vector<int>&a,int l,int r)
+{
+    if(l==r)
+	{
+        st[node] = a[l];
+        return st[node];
+    }
+    
+    int mid = (l+r)/2;
+    
+    st[node] = min(constructST(st,2*node+1,a,l,mid),constructST(st,2*node+2,a,mid+1,r));
+    return st[node];
+}
+int findMin(vector<int>&st,int node,int l,int r,int ql,int qr)
+{
+    if(qr<l || ql>r){return INT_MAX;}
+    if(ql<=l && qr>=r){return st[node];}
+    
+    int mid = (l+r)/2;
+    
+    return min(findMin(st,2*node+1,l,mid,ql,qr),findMin(st,2*node+2,mid+1,r,ql,qr));
+}
+int updateST(vector<int>&st,int node,int l,int r,int ind,int val)
+{
+	if(l==r)
+    {
+        if(l==ind){st[node] = val;}
+        return st[node];
+    }
+
+	if(ind<l || ind>r){return st[node];}
+    
+    int mid = (l+r)/2;
+    
+    st[node] = min(updateST(st,2*node+1,l,mid,ind,val),updateST(st,2*node+2,mid+1,r,ind,val));
+    return st[node];
+}
+
+int main() 
+{
+	int n,q;
+	cin>>n>>q;
+
+	vector<int> a(n);
+	for(int i=0;i<n;i++){cin>>a[i];}
+
+	vector<int> st(4*n,INT_MAX);
+
+	constructST(st,0,a,0,n-1);
+
+	vector<int> ans;
+
+	while(q--)
+	{
+		char c;
+		cin>>c;
+		
+		if(c=='u')
+		{
+		    int ind,val;
+		    cin>>ind>>val;
+		    ind--;
+		    
+		    updateST(st,0,0,n-1,ind,val);
+		}
+		else
+		{
+		    int ql,qr;
+		    cin>>ql>>qr;
+		    ql--; qr--;
+		    
+		    ans.push_back(findMin(st,0,0,n-1,ql,qr));	
+		}
+	}
+
+	for(auto x : ans){cout<<x<<"\n";}
+}

@@ -1,0 +1,107 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+struct Rectangle
+{
+    ll x1,y1,x2,y2;
+    
+    Rectangle(ll a,ll b,ll c,ll d)
+    {
+        x1=a; y1=b; x2=c; y2=d;
+    }
+    
+    ll area()
+    {
+        return (x2-x1)*(y2-y1);
+    }
+};
+
+Rectangle intersect(Rectangle p, Rectangle q)
+{
+    ll x1 = max(p.x1,q.x1);
+    ll y1 = max(p.y1,q.y1);
+    ll x2 = min(p.x2,q.x2);
+    ll y2 = min(p.y2,q.y2);
+    
+    Rectangle res(x1,y1,x2,y2);
+    return res;
+}
+
+ll overlap(Rectangle p,Rectangle q)
+{
+    ll xoverlap= max( (ll)0 , min(p.x2,q.x2) - max(p.x1,q.x1) );
+    ll yoverlap= max( (ll)0 , min(p.y2,q.y2) - max(p.y1,q.y1) );
+    
+    return xoverlap * yoverlap;
+}
+
+ll overlap(Rectangle p,Rectangle q,Rectangle r)
+{
+    Rectangle i1 = intersect(p,q); //For overlap rectangle of w and b1
+    Rectangle i2 = intersect(p,r); //For overlap rectangle of w and b2
+    
+    return overlap(i1,i2);
+}
+ 
+int main()
+{
+    setIO("");
+    
+    //https://codeforces.com/contest/1216/problem/C
+    
+    ll a,b,c,d;
+    
+    cin>>a>>b>>c>>d;
+    Rectangle white(a,b,c,d);
+    
+    cin>>a>>b>>c>>d;
+    Rectangle black_1(a,b,c,d);
+    
+    cin>>a>>b>>c>>d;
+    Rectangle black_2(a,b,c,d);
+    
+    ll visible_area = white.area() - overlap(white,black_1) - overlap(white,black_2) + overlap(white,black_1,black_2);
+    
+    if(visible_area>0){cy;}
+    else{cn;}
+    
+    return 0;
+}

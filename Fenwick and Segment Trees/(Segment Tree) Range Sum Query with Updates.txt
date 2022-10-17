@@ -1,0 +1,72 @@
+class NumArray {
+public:
+    vector<int> tree;
+    int n;
+    vector<int> a;
+    
+    NumArray(vector<int>& nums) 
+    {
+        a = nums;
+        
+        n = a.size();
+        tree = vector<int>(4*n,100);
+        
+        constructST(tree,0,a,0,n-1);
+    }
+    
+    int constructST(vector<int>&tree,int node,vector<int>&a,int l,int r)
+    {
+        if(l==r)
+        {
+            tree[node] = a[l];
+            return tree[node];
+        }
+        
+        int mid = (l+r)/2;
+        
+        tree[node] = constructST(tree,2*node+1,a,l,mid) + constructST(tree,2*node+2,a,mid+1,r);
+        return tree[node];
+    }
+    
+    void updateST(vector<int>&tree,int node,vector<int>&a,int l,int r,int ind,int val)
+    {
+        if(ind<l || ind>r){return;}
+        
+       
+        tree[node] = tree[node] - a[ind] + val;
+        
+        if(l==r){return;}
+        
+        int mid = (l+r)/2;
+        updateST(tree,2*node+1,a,l,mid,ind,val);
+        updateST(tree,2*node+2,a,mid+1,r,ind,val);
+    }
+    
+    int queryST(vector<int>&tree,int node,vector<int>&a,int l,int r,int ql,int qr)
+    {
+        if(qr<l || ql>r || ql==-1 || qr==-1){return 0;}
+        if(ql<=l && qr>=r){return tree[node];}
+        
+        int mid = (l+r)/2;
+        
+        return queryST(tree,2*node+1,a,l,mid,ql,qr) + queryST(tree,2*node+2,a,mid+1,r,ql,qr);
+    }
+    
+    void update(int index, int val) 
+    {
+        updateST(tree,0,a,0,n-1,index,val); 
+        a[index] = val;
+    }
+    
+    int sumRange(int ql, int qr)
+    {
+        return queryST(tree,0,a,0,n-1,ql,qr); 
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */

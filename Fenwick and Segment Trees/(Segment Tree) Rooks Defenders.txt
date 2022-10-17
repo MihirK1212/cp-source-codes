@@ -1,0 +1,91 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void updateST(vector<int>&tree,int node,int l,int r,int ind,int val)
+{
+    if(ind<l || ind>r){return;}
+    
+    tree[node]+=val;
+    if(l==r){return;}
+    
+    int mid = (l+r)/2;
+    updateST(tree,2*node+1,l,mid,ind,val);
+    updateST(tree,2*node+2,mid+1,r,ind,val);
+}
+
+int queryST(vector<int>&tree,int node,int l,int r,int ql,int qr)
+{
+    if(qr<l || ql>r){return 0;}
+    if(ql<=l && qr>=r){return tree[node];}
+    
+    int mid = (l+r)/2;
+    
+    return queryST(tree,2*node+1,l,mid,ql,qr) + queryST(tree,2*node+2,mid+1,r,ql,qr);
+}
+
+
+int main() 
+{
+    setIO("");
+    
+	int n,q;
+	cin>>n>>q;
+	
+	vector<int> x_tree(4*n,0);
+	vector<int> y_tree(4*n,0);
+	
+	vector<int> rowCount(n,0);
+	vector<int> colCount(n,0);
+	
+	while(q--)
+	{
+	    int t;
+	    cin>>t;
+	    
+	    if(t==1)
+	    {
+	        int x,y;
+	        cin>>x>>y;
+	        x--; y--;
+	        
+	        rowCount[x]++; colCount[y]++;
+	        
+	        if(rowCount[x]==1){updateST(x_tree,0,0,n-1,x,1);}
+	        if(colCount[y]==1){updateST(y_tree,0,0,n-1,y,1);}
+	    }
+	    if(t==2)
+	    {
+	        int x,y;
+	        cin>>x>>y;
+	        x--; y--;
+	        
+	        rowCount[x]--; colCount[y]--;
+	        
+	        if(rowCount[x]==0){updateST(x_tree,0,0,n-1,x,-1);}
+	        if(colCount[y]==0){updateST(y_tree,0,0,n-1,y,-1);}
+	    }
+	    if(t==3)
+	    {
+	        int x1,y1,x2,y2;
+	        cin>>x1>>y1>>x2>>y2;
+	        x1--; y1--; x2--; y2--;
+	        
+	        int sx = queryST(x_tree,0,0,n-1,x1,x2);
+	        int sy = queryST(y_tree,0,0,n-1,y1,y2);
+	        
+	        if(sx==(x2-x1+1) || sy==(y2-y1+1)){cout<<"Yes\n";  continue;}
+	        else{cout<<"No\n";}
+	    }
+	}
+}

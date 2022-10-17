@@ -1,0 +1,117 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+// #define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+bool comp(vll&x,vll&y)
+{
+    if(x[2]==y[2])
+    {
+        return x[2]>y[2];
+    }
+    
+    return x[2]<y[2];
+}
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+//http://www.usaco.org/index.php?page=viewproblem2&cpid=568
+
+int main()
+{
+    setIO("speeding");
+    
+    ll n,m;
+    cin>>n>>m;
+    
+    ll start , end , i;
+    
+    vector<vll> road;
+    // 0 => limit change , 1 => speed change
+    
+    start = 0;
+    for(i=1;i<=n;i++)
+    {
+        ll len , speed;
+        cin>>len>>speed;
+        
+        road.pb({0 , speed , start});
+        start+=len;
+    }
+    
+    start = 0;
+    for(i=1;i<=m;i++)
+    {
+        ll len , speed;
+        cin>>len>>speed;
+        
+        road.pb({1 , speed , start});
+        start+=len;
+    }
+    
+    sort(road.begin(),road.end(),comp);
+    
+    ll curr_speed = 0 , curr_limit = 0;
+    ll ans = 0;
+    
+    i = 0;
+    
+    while(i < road.size())
+    {
+        ll curr_start = road[i][2];
+        
+        while(i < road.size() && road[i][2] == curr_start)
+        {
+            if(road[i][0] == 0)
+            {
+                curr_limit = road[i][1];
+            }
+            else
+            {
+                curr_speed = road[i][1];
+            }
+            
+            i++;
+        }
+        
+        ans = max(ans , curr_speed - curr_limit);
+    }
+    
+    cout<<ans<<"\n";
+    
+    return 0;
+}

@@ -1,0 +1,150 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+int main()
+{
+    //http://www.usaco.org/index.php?page=viewproblem2&cpid=761
+    setIO("measurement");
+    // setIO("");
+    
+    ll n,i;
+    
+    vector<string> cow_names = {"Bessie" , "Elsie" , "Mildred"};
+    ll tot_cows = cow_names.size();
+    
+    map<string,ll> code;
+    vll score(tot_cows);
+    map<ll,ll> freq;
+    set<ll> score_set;
+    
+    ll init = 7;
+    
+    for(i=0;i<tot_cows;i++){code[cow_names[i]] = i; score[i] = init; freq[init]++;}
+    score_set.insert(init);
+    
+    cin>>n;
+    
+    vector<vll> ranking;
+    
+    for(i=1;i<=n;i++)
+    {
+        ll day;
+        string cow;
+        ll change;
+        cin>>day; cig;
+        cin>>cow;
+        cin>>change;
+        
+        ranking.pb({day , code[cow] , change});
+    }
+    
+    sort(ranking);
+    
+    ll ans = 0;
+    
+    for(i=0;i<n;i++)
+    {
+        ll cow_ind = ranking[i][1];
+        ll change  = ranking[i][2];
+        
+        if(change == 0){continue;}
+        
+        ll curr_score = score[cow_ind];
+        ll new_score  = curr_score + change;
+        
+        bool update = true;
+        
+        if(change>0)
+        {
+            if(curr_score == *(--score_set.end()) && freq[curr_score]>1)
+            {
+                update = true;
+            }
+            else if(curr_score < *(--score_set.end()) && new_score>=*(--score_set.end()))
+            {
+                update = true;
+            }
+            else
+            {
+                update = false;
+            }
+        }
+        else
+        {
+            update&= (curr_score == *(--score_set.end()));
+            
+            ll new_maximum;
+            
+            if(freq[curr_score]>1){new_maximum = curr_score;}
+            
+            else if(score_set.size()>=2)
+            {
+                auto it = score_set.end();
+                it--; it--;
+                new_maximum = *it; 
+            }
+            
+            else
+            {
+                new_maximum = new_score;
+            }
+            
+            update&= ((new_score < new_maximum) || (new_score == new_maximum && freq[new_score]>0));
+        }
+        
+        ans+=update;
+        
+        freq[curr_score]--;
+        if(freq[curr_score] == 0)
+        {
+            score_set.erase(curr_score);
+        }
+        
+        freq[new_score]++;
+        score_set.insert(new_score);
+        
+        score[cow_ind] = new_score;
+    }
+    
+    cout<<ans<<"\n";
+    
+    return 0;
+}
