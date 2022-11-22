@@ -1,0 +1,187 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";}c cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void findAns(vector<vll>&points,ll to_remove,ll &ans)
+{
+    ll min_x = 1e8 , max_x = 0;
+    ll min_y = 1e8 , max_y = 0;
+    
+    for(auto p : points)
+    {
+        ll x = p[0] , y = p[1];
+        
+        if(x<=0 || y<=0){continue;}
+        
+        min_x=min(min_x,x); max_x=max(max_x,x);
+        min_y=min(min_y,y); max_y=max(max_y,y);
+    }
+    
+    ans = min(ans , (max_x-min_x)*(max_y-min_y));
+    
+    if(to_remove<=0){return;}
+    
+    //{top-right,bottom-right,bottom-left,top-left,right,bottom,left,top}
+    vector<bool> removed(8,false);
+    
+    for(ll i=0;i<points.size();i++)
+    {
+        if(removed[0] && removed[1] && removed[2] && removed[3] && removed[4] && removed[5] && 
+        removed[6] && removed[7]){break;}
+        
+        ll x = points[i][0] , y = points[i][1];
+        
+        if(x<=0 || y<=0){continue;}
+        
+        if(x==max_x && y==max_y && !removed[0])
+        {
+            removed[0] = true;
+            
+            points[i] = {-1,-1};
+            findAns(points,to_remove-1,ans);
+            points[i] = {x,y};
+        }
+        
+        if(x==max_x && y==min_y && !removed[1])
+        {
+            removed[1] = true;
+            
+            points[i] = {-1,-1};
+            findAns(points,to_remove-1,ans);
+            points[i] = {x,y};
+        }
+        
+        if(x==min_x && y==min_y && !removed[2])
+        {
+            removed[2] = true;
+            
+            points[i] = {-1,-1};
+            findAns(points,to_remove-1,ans);
+            points[i] = {x,y};
+        }
+        
+        if(x==min_x && y==max_y && !removed[3])
+        {
+            removed[3] = true;
+            
+            points[i] = {-1,-1};
+            findAns(points,to_remove-1,ans);
+            points[i] = {x,y};
+        }
+    }
+    
+    for(ll i=0;i<points.size();i++)
+    {
+        if(removed[0] && removed[1] && removed[2] && removed[3] && removed[4] && removed[5] && 
+        removed[6] && removed[7]){break;}
+        
+        ll x = points[i][0] , y = points[i][1];
+        
+        if(x<=0 || y<=0){continue;}
+        
+        if(x==max_x && y!=min_y && y!=max_y && !removed[4])
+        {
+            removed[4] = true;
+            
+            points[i] = {-1,-1};
+            findAns(points,to_remove-1,ans);
+            points[i] = {x,y};
+        }
+        
+        if(y==min_y && x!=min_x && x!=max_x && !removed[5])
+        {
+            removed[5] = true;
+            
+            points[i] = {-1,-1};
+            findAns(points,to_remove-1,ans);
+            points[i] = {x,y};
+        }
+        
+        if(x==min_x && y!=min_y && y!=max_y && !removed[6])
+        {
+            removed[6] = true;
+            
+            points[i] = {-1,-1};
+            findAns(points,to_remove-1,ans);
+            points[i] = {x,y};
+        }
+        
+        
+        if(y==max_y && x!=min_x && x!=max_x && !removed[7])
+        {
+            removed[7] = true;
+            
+            points[i] = {-1,-1};
+            findAns(points,to_remove-1,ans);
+            points[i] = {x,y};
+        }
+    }
+}
+
+//http://www.usaco.org/index.php?page=viewproblem2&cpid=642
+
+int main()
+{
+    setIO("reduce");
+    // setIO("");
+    
+    ll n,i;
+    cin>>n;
+    
+    vector<vll> points;
+    
+    for(i=1;i<=n;i++)
+    {
+        ll x,y;
+        cin>>x>>y;
+        
+        points.pb({x,y});
+    }
+    
+    if(n<=3){cout<<0<<"\n";}
+    else
+    {
+        ll ans = inf;
+        findAns(points,3,ans);
+        cout<<ans<<"\n";
+    }
+    
+    return 0;
+}

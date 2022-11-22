@@ -1,0 +1,136 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";}c cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+//https://codeforces.com/problemset/problem/1624/D
+
+ll solve(ll n,ll k,string &str)
+{
+    ll i,j;
+    
+    vector<ll> freq(26,0);
+    for(auto c : str){freq[c-'a']++;}
+    
+    vector<ll> len(k,0);
+    ll curr = 0;
+    
+    
+    for(j=0;j<26;j++)
+    {
+        while(freq[j]>=2)
+        {
+            len[curr]+=2;
+            freq[j]-=2;
+            curr = (curr + 1)%k;
+        }
+    }
+    
+    for(i=0;i<k;i++){if(len[i]==0){return 1;}}
+    
+    sort(all(len));
+    curr = 0;
+    
+    for(j=0;j<26;j++)
+    {
+        if(freq[j]<1){continue;}
+        
+        len[curr]++;
+        curr = (curr + 1)%k;
+        
+        if(curr==0){break;}
+    }
+    
+    sort(all(len));
+    
+    vll odd , even;
+    
+    for(auto x : len)
+    {
+        if(x&1){odd.pb(x);}
+        else{even.pb(x);}
+    }
+    
+    ll p1 = 0 , p2 = even.size() - 1;
+    
+    while(p1<p2)
+    {
+        if(even[p1]<even[p2])
+        {
+            even[p1]++;
+            even[p2]--;
+            p1++; p2--;
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    ll ans = 1e8;
+    
+    for(i=0;i<odd.size();i++){ans = min(ans , odd[i]);}
+    for(i=0;i<even.size();i++){ans = min(ans , even[i]);}
+    
+    return ans;
+}
+
+int main()
+{
+    setIO("");
+    
+    
+    ll T;
+    cin>>T;
+    
+    while(T--)
+    {
+        ll n,k;
+        cin>>n>>k;
+        
+        cig;
+        
+        string str;
+        cin>>str;
+        
+        cout<<solve(n,k,str)<<"\n";
+    }
+    
+    return 0;
+}

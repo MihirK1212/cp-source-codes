@@ -1,0 +1,157 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+bool inorder(vll&order)
+{
+    for(auto x : order){if(x==1){return true;}}
+    return false;
+}
+
+
+ll solve()
+{
+    ll n,m,k,i;
+    cin>>n>>m>>k;
+
+    vll order(m);
+    input(order);
+    
+    vector<ll> cow(n,-1);
+    vector<ll> pos(n+1,-1);
+    
+    for(i=1;i<=k;i++)
+    {
+        ll c,p;
+        cin>>c>>p;
+        
+        cow[p-1] = c;
+        pos[c] = p-1;
+    }
+    
+    if(pos[1]>=0){return pos[1]+1;}
+    else if(!inorder(order))
+    {
+        i = n-1;
+        ll ind_order = m-1;
+        
+        while(i>=0 && ind_order>=0)
+        {
+            ll to_place = order[ind_order];
+            
+            if(pos[to_place]>=0)
+            {
+                i = pos[to_place]-1; ind_order--; 
+                continue;
+            }
+            
+            ll prev = (ind_order>0)?(order[ind_order-1]):-1;
+            
+            ll place_ind;
+            while(i>=0)
+            {
+                if(cow[i]==-1){place_ind = i; break;}
+                else if(cow[i]==prev){break;}
+                else{i--;}
+            }
+            
+            cow[place_ind] = to_place;
+            pos[to_place] = place_ind;
+            i = place_ind - 1;
+            ind_order--;
+        }
+        
+        for(i=0;i<n;i++){if(cow[i]==-1){return i+1;}}
+    }
+    else
+    {
+        i = 0;
+        ll ind_order = 0;
+        
+        while(i<n && ind_order<m)
+        {
+            ll to_place = order[ind_order];
+            
+            if(pos[to_place]>=0)
+            {
+                i = pos[to_place]+1; ind_order++; 
+                continue;
+            }
+            
+            ll next = (ind_order<=(m-2))?(order[ind_order+1]):-1;
+            
+            ll place_ind;
+            while(i>=0)
+            {
+                if(cow[i]==-1){place_ind = i; break;}
+                else if(cow[i]==next){break;}
+                else{i++;}
+            }
+            
+            cow[place_ind] = to_place;
+            pos[to_place] = place_ind;
+            i = place_ind + 1;
+            ind_order++;
+        }
+        
+        if(pos[1]>=0){return pos[1]+1;}
+        for(i=0;i<n;i++){if(cow[i]==-1){return i+1;}}
+    }
+    
+    
+    return 0;
+}
+
+//http://www.usaco.org/index.php?page=viewproblem2&cpid=832
+
+int main()
+{
+    setIO("milkorder");
+    // setIO("");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        cout<<solve()<<"\n";
+    }
+    
+    return 0;
+}

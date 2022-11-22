@@ -1,0 +1,134 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";}c cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void dfs(ll u,vector<vll>&graph,vector<bool>&visited,ll &last_visited)
+{
+    visited[u] = true;
+    
+    for(auto v : graph[u])
+    {
+        if(!visited[v]){dfs(v,graph,visited,last_visited);}
+    }
+    
+    last_visited = u;
+}
+
+void addCount(ll u,vector<vll>&graph,vector<bool>&visited,ll &total_visited,ll &count,ll mother,bool&found)
+{
+    if(found){return;}
+    if(u==mother){count+=total_visited;found = true; return;}
+    
+    visited[u] = true;
+    total_visited++;
+    
+    for(auto v : graph[u])
+    {
+        if(!visited[v]){addCount(v,graph,visited,total_visited,count,mother,found);}
+        if(found){break;}
+    }
+}
+
+ll solve()
+{
+    ll n,i;
+    cin>>n;
+    
+    vector<vll> graph(n+1);
+    vector<vll> revgraph(n+1);
+    
+    for(i=1;i<n;i++)
+    {
+        ll u,v; cin>>u>>v;
+        
+        graph[u].pb(v);
+        revgraph[v].pb(u);
+    }
+    
+    ll last_visited = -1;
+    
+    vector<bool> visited(n+1,false);
+    
+    for(ll u=1;u<=n;u++)
+    {
+        if(!visited[u])
+        {
+            dfs(u,revgraph,visited,last_visited);
+        }
+    }
+    
+    if(last_visited==-1){return -1;}
+    
+    for(ll u=1;u<=n;u++){visited[u] = false;}
+    ll u = last_visited;
+    dfs(u,revgraph,visited,last_visited);
+    for(ll u=1;i<=n;i++){if(!visited[u]){return -1;}}
+    
+    for(ll u=1;u<=n;u++){visited[u] = false;}
+    ll count = 0;
+    for(ll u=1;u<=n;u++)
+    {
+        if(!visited[u])
+        {
+            ll total_visited = 0;
+            bool found = false;
+            addCount(u,graph,visited,total_visited,count,last_visited,found);
+        }
+    }
+    if(count<(n-1)){return -1;}
+    
+    return last_visited;
+}
+
+int main()
+{
+    setIO("factory");
+    // setIO("");
+    
+    ll T = 1;
+    // cin>>T;
+    
+    while(T--)
+    {
+        cout<<solve()<<"\n";
+    }
+    
+    return 0;
+}

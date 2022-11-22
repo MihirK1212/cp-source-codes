@@ -1,0 +1,113 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void dfs(vector<vll>&graph,ll u,vector<bool>&visited,vll&order)
+{
+    visited[u] = true;
+    order.pb(u);
+    
+    for(auto v : graph[u])
+    {
+        if(!visited[v]){dfs(graph,v,visited,order);}
+    }
+}
+
+ll solve()
+{
+    ll n,m,i;
+    
+    n = 8;
+    vector<string> cows = {"Bessie", "Buttercup", "Belinda", "Beatrice", "Bella", "Blue", "Betsy", "Sue"};
+    sort(all(cows));
+    
+    //http://www.usaco.org/index.php?page=viewproblem2&cpid=965
+    
+    map<string,ll> cow_ind;
+    for(i=0;i<n;i++){cow_ind[cows[i]] = i;}
+    
+    cin>>m;
+    cig;
+    
+    vector<vll> graph(n);
+    
+    vector<string> sentence(6);
+    ll u,v;
+    
+    for(i=1;i<=m;i++)
+    {
+        input(sentence);
+        u = cow_ind[sentence[0]]; v = cow_ind[sentence[5]];
+        graph[u].pb(v); graph[v].pb(u);
+    }
+    
+    vector<ll> order;
+    vector<bool> visited(n,false);
+    
+    for(u=0;u<n;u++)
+    {
+        if(!visited[u] && (graph[u].size()==0 || graph[u].size()==1))
+        {
+            dfs(graph,u,visited,order);
+        }
+    }
+    
+    for(auto ind : order)
+    {
+        cout<<cows[ind]<<"\n";
+    }
+    
+    
+    return 0;
+}
+
+int main()
+{
+    setIO("lineup");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        solve();
+    }
+    
+    return 0;
+}
