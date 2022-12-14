@@ -14,6 +14,7 @@ int constructST(vector<int>&st,int node,vector<int>&a,int l,int r)
     st[node] = min(constructST(st,2*node+1,a,l,mid),constructST(st,2*node+2,a,mid+1,r));
     return st[node];
 }
+
 int findMin(vector<int>&st,int node,int l,int r,int ql,int qr)
 {
     if(qr<l || ql>r){return INT_MAX;}
@@ -23,9 +24,10 @@ int findMin(vector<int>&st,int node,int l,int r,int ql,int qr)
     
     return min(findMin(st,2*node+1,l,mid,ql,qr),findMin(st,2*node+2,mid+1,r,ql,qr));
 }
+
 int updateST(vector<int>&st,int node,int l,int r,int ind,int val)
 {
-	if(l==r)
+     if(l==r)
     {
         if(l==ind){st[node] = val;}
         return st[node];

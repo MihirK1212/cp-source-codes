@@ -1,0 +1,63 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+void swapVal(ListNode* n1,ListNode* n2)
+{
+    int temp = n1->val; n1->val = n2->val; n2->val = temp;
+}
+for(int m = 1; m <= M ; m++)
+{
+    numWays[m] = inf;
+
+    for(int i = 0 ; i < n ; i++)
+    {
+        if(m>=coins[i])
+        {
+            numWays[m] = min(numWays[m] , numWays[m - coins[i]] + 1);
+        }
+    }
+}
+
+y = x*x - 5*x
+
+ListNode* partition(ListNode* lb,ListNode* ub)
+{
+    int pivot = lb->val;
+    
+    ListNode* j = lb;
+    ListNode* i = lb->next;
+    
+    while(i!=ub)
+    {
+        if((i->val)<=pivot)
+        {
+            swapVal(j->next,i);
+            j = j->next;
+        }
+        
+        i = i->next;
+    }
+    
+    swapVal(lb,j);
+    
+    return j;
+} 
+
+void quickSort(ListNode* lb,ListNode* ub)
+{
+    if(lb==ub || lb==NULL){return;}
+    
+    ListNode* m = partition(lb,ub);
+    quickSort(lb,m);
+    quickSort(m->next,ub);    
+}
+ListNode* Solution::sortList(ListNode* A) 
+{
+    quickSort(A,NULL);
+    return A;

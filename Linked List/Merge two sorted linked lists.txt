@@ -6,43 +6,46 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+ListNode* findHead(ListNode* A, ListNode* B) 
+{
+    int va = A ? (A->val):INT_MAX;
+    int vb = B ? (B->val):INT_MAX;
+    
+    if(va<=vb){return A;}
+    return B;
+}
 ListNode* Solution::mergeTwoLists(ListNode* A, ListNode* B) 
 {
-    if(!A){return B;}
-    if(!B){return A;}
-
-    ListNode *prev=NULL;
-    ListNode *a1=A,*a2=B;
+    ListNode *prevA = NULL;
+    ListNode *currA = A , *currB = B;
     
-    while(a1 && a2)
+    ListNode* head = findHead(A,B);
+    
+    while(currA && currB)
     {
-        int v1=a1->val , v2=a2->val;
-
-        if(v1<=v2)
+        int va = currA->val , vb = currB->val;
+        
+        if(va<=vb)
         {
-            prev = a1;
-            a1=a1->next;
-        }
-        else if(prev)
-        {
-            prev->next = a2;
-            ListNode* nextAdd = a2->next;
-            a2->next = a1;
-            prev = a2;
-            a2 = nextAdd;
+            prevA = currA;
+            currA = currA->next;
         }
         else
         {
-            ListNode* nextAdd = a2->next;
-            a2->next = a1;
-            prev = a2;
-            a2 = nextAdd;
+            ListNode* nextB = currB -> next;
+            
+            if(prevA){prevA->next = currB;}
+            currB->next = currA;
+            prevA = currB;
+            
+            currB = nextB;
         }
     }
-
-    if(!a1 && a2){prev->next = a2;}
     
-
-    if((A->val) <= (B->val)){return A;}
-    return B;
+    if(currB)
+    {
+        prevA->next = currB;
+    }
+    
+    return head;    
 }

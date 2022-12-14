@@ -16,9 +16,9 @@ class Solution{
         
         //dp[i][s] = number of subsets with sum 's' using first 'i' elements
         
-        for(i=1;i<=n;i++)
+        for(i=0;i<=n;i++)
         {
-            for(s=1;s<=sum;s++)
+            for(s=0;s<=sum;s++)
             {
 		if(i==0)
                {

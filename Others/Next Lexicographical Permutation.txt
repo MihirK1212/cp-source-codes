@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll T;cin>>T;
+    cin.ignore();
+    while(T--)
+    {
+        ll i;
+        string str;
+        getline(cin,str);
+       
+        ll len=str.length();
+        
+        vector<char> removed;
+        bool check=false;
+        
+        while((str.size())!=0 && !check)
+        {
+            char rem_ch;
+            rem_ch=str.back();
+            removed.pb({str.back()});
+            str.pop_back();
+            
+            ll r_size=removed.size();
+            
+            for(i=0;i<r_size;i++)
+            {
+                if(removed[i]>rem_ch)
+                {
+                    str.push_back(removed[i]);
+                    removed[i]=' ';
+                    check=true;
+                    break;
+                }
+            }
+        }
+        
+        if(check)
+        {
+            sort(removed);
+            
+            ll size=removed.size();
+            
+            for(i=0;i<size;i++)
+            {
+                if(removed[i]==' ')continue;
+                
+                str.push_back(removed[i]);
+            }
+            
+            cout<<str<<"\n";
+        }
+        else
+        {
+            cout<<"no answer\n";
+        }
+        
+        
+    }
+    
+    return 0;
+}
+

@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int countLeq(vector<int>&A,int diff)
+    {
+        //Count number of pairs with difference <=diff
+        
+        int n = A.size();
+        
+        int p1 = 0 , p2 = 0;
+        int count = 0;
+        
+        while(p1<n || p2<n)
+        {
+            while(p2<n && (A[p2]-A[p1])<=diff)
+            {
+                p2++;
+            }
+            
+            count+=(p2 - p1 - 1);
+            p1++;
+        }
+        
+        return count;
+    }
+    int smallestDistancePair(vector<int>& A, int k) 
+    {
+        int n = A.size();
+        
+        sort(A.begin(),A.end());
+        
+        
+        int lb = 0 , ub = A[n-1]-A[0] , mid;
+        int ans;
+        
+        while(lb<=ub)
+        {
+            mid = lb + (ub-lb)/2;
+            
+            if((countLeq(A,mid))>=k)
+            {
+                ub = mid - 1;
+            }
+            else
+            {
+               ans = mid+1;  //countLeq(A,mid)<k hence answer cannot be mid
+               lb = mid + 1;
+            }
+        }
+        
+        return ans;
+    }
+};

@@ -1,0 +1,97 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+ListNode* findHead(ListNode* A, ListNode* B) 
+{
+    int va = A ? (A->val):INT_MAX;
+    int vb = B ? (B->val):INT_MAX;
+    
+    if(va<=vb){return A;}
+    return B;
+}
+ListNode* merge(ListNode* A, ListNode* B) 
+{
+    ListNode *prevA = NULL;
+    ListNode *currA = A , *currB = B;
+    
+    ListNode* head = findHead(A,B);
+    
+    while(currA && currB)
+    {
+        int va = currA->val , vb = currB->val;
+        
+        if(va<=vb)
+        {
+            prevA = currA;
+            currA = currA->next;
+        }
+        else
+        {
+            ListNode* nextB = currB -> next;
+            
+            if(prevA){prevA->next = currB;}
+            currB->next = currA;
+            prevA = currB;
+            
+            currB = nextB;
+        }
+    }
+    
+    if(currB)
+    {
+        prevA->next = currB;
+    }
+    
+    return head;    
+}
+
+ListNode* findMid(ListNode* head,ListNode* end)
+{
+    if(!head){return NULL;}
+    
+    ListNode *p1=head, *p2=head,*mid=NULL;
+    
+    while(p1 && p2 && p2->next && 
+            p1!=(end->next) && p2!=(end->next) && (p2->next)!=(end->next))
+    {
+        mid = p1;
+        p1=p1->next;
+        p2=p2->next->next;
+    }
+    return mid; //we take middle as floor not ceil
+}
+
+ListNode* mergeSort(ListNode* head,ListNode* end)
+{
+    if(head==NULL || end==NULL){return head;}
+    if(head==end){return head;}
+    
+    ListNode* mid = findMid(head,end);
+    
+    if(mid==NULL){return NULL;}
+    
+    ListNode* temp = mid->next;
+    mid->next = NULL;
+    
+    ListNode* h1 = mergeSort(head,mid);
+    ListNode* h2 = mergeSort(temp,end);
+    
+    return merge(h1,h2);
+    
+}
+
+ListNode* Solution::sortList(ListNode* head) 
+{
+    if(!head){return NULL;}
+    
+    ListNode* end=head;
+    while(end->next){end=end->next;}
+    
+    return mergeSort(head,end);
+}

@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+
+
+ld f(ld x)
+{
+    return ((2*x*x)-(12*x)+7);
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll Q; cin>>Q;
+    
+    while(Q--)
+    {
+        ld l,r;
+        cin>>l>>r;
+        ld lb=l,ub=r,mid1,mid2;
+        ld eps = 1e-9;
+        
+        //Find the maximum/minimum of the function in the range (for x) [l,r]
+        //This program  is for minimum value
+        
+        while((ub-lb)>eps)
+        {
+        
+            mid1=lb+(ub-lb)/3;
+            mid2=ub-(ub-lb)/3;
+            if(f(mid1)>f(mid2)) 
+            {
+                // If function is decreasing go forward in terms of x (to get to minima)
+                lb=mid1;
+            }
+            else
+            {
+                // If function is increasing go backward in terms of x (to go away from maxima)
+                ub=mid2;
+            }
+        }
+        
+        
+        cout<<f(lb)<<"\n";
+        
+    }
+    
+       
+    
+    return 0;
+}

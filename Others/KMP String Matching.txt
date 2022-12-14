@@ -1,0 +1,81 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+class Solution
+{
+    public:
+        vector<int> findLPS(string&str)
+        {
+            vector<int> lps(str.size());
+            lps[0]=0;
+            for(int nextInd=1;nextInd<str.size();nextInd++)
+            {
+                int ind = nextInd-1;
+                bool found = false;
+                while(ind>=0)
+                {
+                    if(str[lps[ind]]==str[nextInd])
+                    {lps[nextInd]=lps[ind]+1; found=true; break;}
+                    
+                    else if(lps[ind]==0){found=false; break;}
+                    
+                    ind--;
+                }
+                if(!found){lps[nextInd]=0;}
+            }
+            return lps;
+        }
+        vector <int> search(string pat, string txt)
+        {
+            vector<int> lps = findLPS(pat);
+            
+            int n = txt.size() , m = pat.size();
+            int i=0,j=0;
+            
+            vector<int> ans;
+            
+            while(i<n && j<m)
+            {
+                if(txt[i]==pat[j]){i++; j++;}
+                
+                if(j==m){ans.push_back(i-m+1); j = lps[j-1];}
+                
+                else if(i<n && txt[i]!=pat[j])
+                {
+                    if(j==0){i++;}
+                    else{j=lps[j-1];}
+                }
+            }
+            
+            return ans;
+            
+        }
+     
+};
+
+// { Driver Code Starts.
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        string S, pat;
+        cin >> S >> pat;
+        Solution ob;
+        vector <int> res = ob.search(pat, S);
+        if (res.size()==0)
+            cout<<-1<<endl;
+        else {
+            for (int i : res) cout << i << " ";
+            cout << endl;
+        }
+    }
+    return 0;
+}
+
+// Contributed By: Pranay Bansal
+  // } Driver Code Ends

@@ -52,8 +52,8 @@ int Solution::findMedian(vector<vector<int> > &A)
         if(count<=(n*m/2))
         {
             ans = mid+1; //median will have floor((nm)/2) elements before it
-                         //so if no.of elements leq mid is <=(floor((nm)/2))
-                         //then mid+1 is current candidate for the median
+                                    //so if no.of elements leq mid is <=(floor((nm)/2))
+                                   //then mid+1 is current candidate for the median
             lb=mid+1;
         }
         else

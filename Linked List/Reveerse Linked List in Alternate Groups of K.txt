@@ -6,33 +6,37 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-
-ListNode* reverseList(ListNode* A,int B,bool rev)
+ 
+ListNode* helper(ListNode* A , int B , bool rev)
 {
-    if(A==NULL){return A;}
+    if(!A){return A;}
+    
     int temp = B;
-
+    
     if(!rev)
     {
-        ListNode* tail=A;
-        B--; while(B-- && tail->next){tail=tail->next;}
-        tail->next = reverseList(tail->next,temp,!rev);
+        ListNode *tail , *nextHead = A;
+        while(B-- && nextHead){tail = nextHead; nextHead = nextHead->next;}
+        tail->next = helper(nextHead , temp , !rev );
         return A;
     }
-
-    ListNode *curr = A , *prev=NULL , *next = NULL;
-    while(B-- && curr)
+    else
     {
-        next = curr->next;
-        curr->next=prev;
-        prev = curr;
-        curr = next;
+        ListNode *curr = A , *prev = NULL , *next;
+        
+        while(B-- &&  curr)
+        {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        
+        A->next = helper(next , temp , !rev);
+        return prev;
     }
-
-    A->next = reverseList(curr,temp,!rev);
-    return prev;
 }
 ListNode* Solution::solve(ListNode* A, int B) 
 {
-    return reverseList(A,B,true);
+    return helper(A, B , true);
 }

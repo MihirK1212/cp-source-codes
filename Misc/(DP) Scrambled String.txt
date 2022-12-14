@@ -1,0 +1,55 @@
+
+
+bool solve(string&A,string&B,unordered_map<string,int>&hash)
+{
+    int len1 = A.size() , len2 = B.size();
+    int i=0,j=len1-1;
+
+    if(A==B){return true;}
+    if(i>j){return false;}
+    if(len1!=len2){return false;}
+    if(len1<=1){return false;}
+
+    bool flag=false;
+    
+    for(int k=i;k<j;k++)
+    {
+        string A_part1 = A.substr(i,(k-i+1));
+        string A_part2 = A.substr(k+1,(j-k));
+
+        //For no-swap
+        string B_part1_no = B.substr(i,(k-i+1));
+        string B_part2_no = B.substr(k+1,(j-k));
+
+        //For swap
+        string B_part1_swap = B.substr(i,(j-k));
+        string B_part2_swap = B.substr(i+j-k,(k-i+1));
+
+        int no_1 = (hash[A_part1+' '+B_part1_no]==0)?(solve(A_part1,B_part1_no,hash)):hash[A_part1+' '+B_part1_no];
+        int no_2 = (hash[A_part2+' '+B_part2_no]==0)?(solve(A_part2,B_part2_no,hash)):hash[A_part2+' '+B_part2_no];
+        int swap_1 = (hash[A_part1+' '+B_part2_swap]==0)?(solve(A_part1,B_part2_swap,hash)):hash[A_part1+' '+B_part2_swap];
+        int swap_2 = (hash[A_part2+' '+B_part1_swap]==0)?(solve(A_part2,B_part1_swap,hash)):hash[A_part2+' '+B_part1_swap];
+        
+        if(no_1==2){no_1=false;}
+        if(no_2==2){no_2=false;}
+        if(swap_1==2){swap_1=false;}
+        if(swap_2==2){swap_2=false;}
+
+        int curr = (( no_1 && no_2)|| (swap_1 && swap_2));
+
+        if(curr){hash[A+' '+B]=1;}
+        else{hash[A+' '+B]=2;}
+
+        flag = flag || curr;
+        if(flag){return true;}
+    }
+
+    return false;
+}
+int Solution::isScramble(const string A, const string B) 
+{
+    //1=true 2=false
+    unordered_map<string,int> hash;
+    string X = A, Y=B;
+    return solve(X,Y,hash);
+}

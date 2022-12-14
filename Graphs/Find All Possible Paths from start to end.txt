@@ -14,19 +14,16 @@ public:
     {
         int n = graph.size();
         
+       path.push_back(node);
+
         if(node==end)
         {
-            path.push_back(end);
             ans.push_back(path);
             path.pop_back();
             return;
         }
         
-       path.push_back(node);
-        
-        
-        
-        for(auto v: graph[node])
+       for(auto v: graph[node])
         {
            dfs(graph,v);
         }
