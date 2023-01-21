@@ -1,0 +1,186 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+/*
+http://www.usaco.org/index.php?page=viewproblem2&cpid=992
+current position of cow_i and node i should be in the same strongly connected component
+*/
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+bool sorted(vll&a)
+{
+    for(ll i=1;i<a.size();i++)
+    {
+        if(a[i]<a[i-1]){return false;}
+    }
+    
+    return true;
+}
+
+void dfs(map<ll,vpll>&graph,ll u,vector<bool>&visited,
+         vll&discTime,vll&minChildTime,ll&t,stack<ll>&st,vector<bool>&inStack,
+         vll&component_num,ll&curr_component,ll min_width)
+{
+    visited[u] = true;
+    discTime[u] = minChildTime[u] = t; t++;
+    st.push(u); inStack[u] = true;
+    
+    for(auto p : graph[u])
+    {
+        ll v = p.f , w = p.s;
+        
+        if(!visited[v] && w>=min_width)
+        {
+            dfs(graph,v,visited,discTime,minChildTime,t,st,inStack,component_num,curr_component,min_width);
+            minChildTime[u] = min(minChildTime[u] , minChildTime[v]);
+        }
+        else if(inStack[v] && w>=min_width)
+        {
+            minChildTime[u] = min(minChildTime[u] , discTime[v]);
+        }
+    }
+    
+    if(minChildTime[u] == discTime[u])
+    {
+        while(!st.empty() && st.top()!=u)
+        {
+            component_num[st.top()] = curr_component;
+            inStack[st.top()] = false;
+            st.pop();
+        }
+        
+        if(!st.empty()){component_num[st.top()] = curr_component; inStack[st.top()] = false; st.pop();}
+        
+        curr_component++;
+    }
+}
+
+
+bool allowed(map<ll,vpll>&graph,vll&cow_pos,ll n,ll min_width)
+{
+    vector<bool> visited(n+1,false);
+    
+    vector<ll> discTime(n+1,inf);
+    vector<ll> minChildTime(n+1,inf);
+    ll t = 1;
+    
+    stack<ll> st;
+    vector<bool> inStack(n+1,false);
+    
+    vll component_num(n+1,-1);
+    ll curr_component = 1;
+    
+    for(ll u=1;u<=n;u++)
+    {
+        if(!visited[u])
+        {
+            dfs(graph,u,visited,discTime,minChildTime,t,st,inStack,component_num,curr_component,min_width);
+        }
+    }
+    
+    for(ll i=1;i<=n;i++)
+    {
+        if(component_num[i]!=component_num[cow_pos[i]]){return false;}
+    }
+    
+    return true;
+}
+
+ll solve()
+{
+    ll n,m,i;
+    cin>>n>>m;
+    
+    vll cow_pos(n+1);
+    for(i=1;i<=n;i++){cin>>cow_pos[i];}
+    
+    if(sorted(cow_pos)){return -1;}
+    
+    map<ll,vpll> graph;
+    vll widths;
+    
+    for(i=1;i<=m;i++)
+    {
+        ll u,v,w; 
+        cin>>u>>v>>w;
+        
+        widths.pb(w);
+        
+        graph[u].pb({v,w});
+        graph[v].pb({u,w});
+    }
+    
+    sort(all(widths));
+    
+    ll ans = widths[0];
+    ll lb = 0 , ub = m-1 , mid;
+    
+    while(lb<=ub)
+    {
+        mid = lb + (ub - lb)/2;
+        
+        if(allowed(graph,cow_pos,n,widths[mid]))
+        {
+            ans = widths[mid];
+            lb  = mid + 1;
+        }
+        else
+        {
+            ub = mid - 1;
+        }
+    }
+    
+    return ans;
+    
+}
+
+int main()
+{
+    setIO("wormsort");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        cout<<solve()<<"\n";
+    }
+    
+    return 0;
+}

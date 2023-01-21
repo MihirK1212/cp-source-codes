@@ -1,0 +1,144 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+/*
+http://www.usaco.org/index.php?page=viewproblem2&cpid=644
+*/
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll find(vll&parent,ll x)
+{
+    if(x==parent[x]){return x;}
+    
+    parent[x] = find(parent,parent[x]);
+    return parent[x];
+}
+
+void unionDSU(vll&parent,vll&rank,ll x,ll y)
+{
+    ll x_rep = find(parent,x);
+    ll y_rep = find(parent,y);
+    
+    if(x_rep==y_rep){return;}
+    
+    if(rank[x_rep]>rank[y_rep]){parent[y_rep] = x_rep;}
+    else if(rank[y_rep]>rank[x_rep]){parent[x_rep] = y_rep;}
+    else{parent[y_rep] = x_rep; rank[x_rep]++;}
+}
+
+bool sameSet(vll&parent,ll x,ll y)
+{
+    return find(parent,x) == find(parent,y);
+}
+
+void solve()
+{
+    ll n,m,i;
+    cin>>n>>m;
+    
+    vector<vll> graph(n+1);
+    
+    while(m--)
+    {
+        ll u,v;
+        cin>>u>>v;
+        
+        graph[u].pb(v);
+        graph[v].pb(u);
+    }
+    
+    vll p(n);
+    input(p);
+    reverse(p);
+    
+    vll parent(n+1);
+    for(i=1;i<=n;i++){parent[i]=i;}
+    
+    vll rank(n+1,0);
+    
+    vector<bool> has_been_added(n+1,false);
+    ll num_sets = 0;
+    
+    vector<bool> ans;
+    
+    for(auto add_node : p)
+    {
+        for(auto v : graph[add_node])
+        {
+            if(!has_been_added[v]){continue;}
+            
+            if(!sameSet(parent,add_node,v))
+            {
+                num_sets--; //one set is reduced for every merge operation
+                unionDSU(parent,rank,add_node,v);
+            }
+        }
+        
+        num_sets++; //if new node is merged with two other nodes, then it means that three separate sets merged into two
+                    //hence for two merge operations correspond to reduction by one in number of sets
+                    
+        has_been_added[add_node] = true;
+        
+        ans.pb( (num_sets==1) ? 1 : 0);
+    }
+    
+    reverse(ans);
+    
+    for(auto x : ans)
+    {
+        if(x){cy;}
+        else{cn;}
+    }
+    
+}
+
+int main()
+{
+    setIO("closing");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        solve();
+    }
+    
+    return 0;
+}

@@ -1,0 +1,216 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+/*
+http://www.usaco.org/index.php?page=viewproblem2&cpid=833
+*/
+
+ll inf=std::numeric_limits<long long>::max();
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void preprocess(vector<vll>&up,vll&parent,ll n,ll LOG)
+{
+    for(ll u=0;u<n;u++){up[u][0]=parent[u];}
+    
+    for(ll j=1;j<LOG;j++)
+    {
+        for(ll u=0;u<n;u++)
+        {
+            if(up[u][j-1]==-1){up[u][j]=-1; continue;}
+            
+            up[u][j] = up[up[u][j-1]][j-1];
+        }
+    }
+}
+
+void findDepths(map<ll,vll>&graph,ll u,ll par,vll&depth,ll d)
+{
+    depth[u] = d;
+    
+    for(auto v : graph[u])
+    {
+        if(v==par){continue;}
+        
+        findDepths(graph,v,u,depth,d+1);
+    }
+}
+
+ll findLCA(ll u,ll v,vector<vll>&up,vll&depth,ll n,ll LOG)
+{
+    if(depth[u]<depth[v]){swap(u,v);}
+    
+    ll k = depth[u]-depth[v];
+    for(ll j=0;j<LOG;j++)
+    {
+        if(u==-1){return -1;}
+        
+        if(k&(1<<j)){u=up[u][j];}    
+    }
+    
+    //now u and v are at the same depth
+    
+    if(u==v){return u;}
+    
+    for(ll j=LOG-1;j>=0;j--)
+    {
+        if(u==-1 || v==-1){return -1;}
+        
+        if(up[u][j]!=up[v][j]) //we take the maximum possible jump upwards such that paths dont cross
+        {
+            u = up[u][j];
+            v = up[v][j];
+        }
+    }
+    
+    if(u==-1 || v==-1){return -1;}
+    
+    return up[u][0]; //since we were taking the maximum possible jumps, parent of current node will be lca
+}
+
+int main()
+{
+    setIO("family");
+    
+    map<string,ll> cow_to_id;
+    map<ll,string> id_to_cow;
+    ll curr_id = 0;
+    
+    ll n = 105 , m; 
+    string cow_u , cow_v;
+    
+    cin>>m; cig;
+    cin>>cow_u>>cow_v;
+    
+    cow_to_id[cow_u] = curr_id; id_to_cow[curr_id] = cow_u; curr_id++;
+    cow_to_id[cow_v] = curr_id; id_to_cow[curr_id] = cow_v; curr_id++;
+    
+    vll parent(n,-1);
+    
+    map<ll,vll> graph;
+    
+    while(m--)
+    {
+        cin>>cow_u>>cow_v;
+        
+        if(cow_to_id.find(cow_u)==cow_to_id.end()){cow_to_id[cow_u] = curr_id; id_to_cow[curr_id] = cow_u; curr_id++;}
+        if(cow_to_id.find(cow_v)==cow_to_id.end()){cow_to_id[cow_v] = curr_id; id_to_cow[curr_id] = cow_v; curr_id++;}
+        
+        ll u = cow_to_id[cow_u] , v = cow_to_id[cow_v];   
+        parent[v] = u;
+        graph[u].pb(v);
+    }
+    
+    vll depth(n);
+    
+    for(ll u=0;u<curr_id;u++)
+    {
+        if(parent[u]==-1 && id_to_cow.find(u)!=id_to_cow.end())
+        {
+            findDepths(graph,u,-1,depth,0);
+        }
+    }
+    
+    ll LOG=0;
+    while((1<<(LOG+1))<=n){LOG++;}
+    LOG++;
+    
+    vector<vll> up(n,vll(LOG));
+    preprocess(up,parent,n,LOG);
+    
+    ll u = 0 , v = 1;
+    ll lca = findLCA(u,v,up,depth,n,LOG);
+    
+    // for(ll i=0;i<=7;i++){cout<<i<<" "<<depth[i]<<"\n";}
+    
+    if(lca==-1)
+    {
+        cout<<"NOT RELATED\n";
+    }
+    else
+    {
+        ll du = depth[u] - depth[lca];
+        ll dv = depth[v] - depth[lca];
+        
+        if(du==0)
+        {
+            if(dv==1){cout<<id_to_cow[u]<<" is the mother of "<<id_to_cow[v]<<"\n";}
+            else if(dv==2){cout<<id_to_cow[u]<<" is the grand-mother of "<<id_to_cow[v]<<"\n";}
+            else
+            {
+                cout<<id_to_cow[u]<<" is the ";
+                dv-=2; while(dv--){cout<<"great-";}
+                cout<<"grand-mother of "<<id_to_cow[v]<<"\n";
+            }
+        }
+        else if(dv==0)
+        {
+            if(du==1){cout<<id_to_cow[v]<<" is the mother of "<<id_to_cow[u]<<"\n";}
+            else if(du==2){cout<<id_to_cow[v]<<" is the grand-mother of "<<id_to_cow[u]<<"\n";}
+            else
+            {
+                cout<<id_to_cow[v]<<" is the ";
+                du-=2; while(du--){cout<<"great-";}
+                cout<<"grand-mother of "<<id_to_cow[u]<<"\n";
+            }
+        }
+        else if(du==1 && dv==1){cout<<"SIBLINGS\n";}
+        else if(du>1 && dv>1){cout<<"COUSINS\n";}
+        else if(du==1)
+        {
+            if(dv==2){cout<<id_to_cow[u]<<" is the aunt of "<<id_to_cow[v]<<"\n";}
+            else
+            {
+                cout<<id_to_cow[u]<<" is the ";
+                dv-=2; while(dv--){cout<<"great-";}
+                cout<<"aunt of "<<id_to_cow[v]<<"\n";
+            }
+        }
+        else if(dv==1)
+        {
+            if(du==2){cout<<id_to_cow[v]<<" is the aunt of "<<id_to_cow[u]<<"\n";}
+            else
+            {
+                cout<<id_to_cow[v]<<" is the ";
+                du-=2; while(du--){cout<<"great-";}
+                cout<<"aunt of "<<id_to_cow[u]<<"\n";
+            }
+        }
+    }
+    
+   
+    
+    
+	
+	
+	return 0;
+}

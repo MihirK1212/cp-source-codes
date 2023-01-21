@@ -1,0 +1,26 @@
+// https://leetcode.com/problems/non-decreasing-subsequences/
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void f(vector<int>& nums, int x, vector<int> &v)
+    {
+        if(x==nums.size()) 
+        {
+            if(v.size()>=2) ans.push_back(v);
+            return;
+        }
+        if(v.size()==0 || v.back()<=nums[x])
+        {
+            v.push_back(nums[x]);
+            f(nums,x+1,v);
+            v.pop_back();
+        }
+        if(v.size()!=0 && v.back()!=nums[x]) f(nums,x+1,v);
+        else if(v.size()==0) f(nums,x+1,v);
+    }
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        vector<int> v;
+        f(nums,0,v);
+        return ans;   
+    }
+};

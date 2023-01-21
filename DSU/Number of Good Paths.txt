@@ -1,0 +1,100 @@
+/*
+https://leetcode.com/problems/number-of-good-paths/description/
+
+1) Add nodes to the DSU in increasing order of weight
+2) Add nodes of same value (lets say newly added value = 'v')together into the DSU
+3) Now, for each cluster in the DSU, all nodes will have value <= v
+4) Hence for each cluster, number of paths = nC2(freq of nodes with value v)
+*/
+
+class Solution {
+public:
+
+    int find(vector<int>&parent,int x)
+    {
+        if(x==parent[x]){return x;}
+        
+        parent[x] = find(parent,parent[x]); 
+        return parent[x];
+    }
+
+    void unionDSU(vector<int>&parent,vector<int>&rank,int x,int y)
+    {
+        int x_rep = find(parent,x);
+        int y_rep = find(parent,y);
+        
+        if(x_rep==y_rep){return;} 
+        
+        if(rank[x_rep]>rank[y_rep]){parent[y_rep] = x_rep;}
+        else if(rank[x_rep]<rank[y_rep]){parent[x_rep] = y_rep;}
+        else{parent[y_rep] = x_rep; rank[x_rep]++;}
+    }
+
+    bool sameSet(vector<int>&parent,int x,int y)
+    {
+        return find(parent,x) == find(parent,y);
+    }
+    
+    static bool cmp(vector<int>&x,vector<int>&y)
+    {
+        return x[1]<y[1];
+    }
+
+    int numberOfGoodPaths(vector<int>& value, vector<vector<int>>& edges) 
+    {
+        
+        int n = value.size() , i , j;
+
+        vector<vector<int>> graph(n);
+
+        for(auto e : edges)
+        {
+            graph[e[0]].push_back(e[1]);
+            graph[e[1]].push_back(e[0]);
+        }
+
+        vector<vector<int>> ranking;
+        for(i=0;i<n;i++){ranking.push_back({i,value[i]});}
+        sort(ranking.begin(),ranking.end(),cmp);
+
+        vector<int> parent(n);
+        for(i=0;i<n;i++){parent[i] = i;}
+    
+        vector<int> rank(n,0);
+
+        int ans = 0;
+        i = 0;
+
+        while(i<ranking.size())
+        {
+            int temp  = i;
+            int val = ranking[i][1];
+
+            while(i<ranking.size() && ranking[i][1]==val)
+            {
+                int u = ranking[i][0];
+
+                for(auto v : graph[u])
+                {
+                    if(value[v]<=value[u])
+                    {
+                        unionDSU(parent,rank,u,v);
+                    }
+                }
+
+                i++;
+            }
+
+            map<int,int> freq;
+
+            for(j=temp;j<i;j++)
+            {   
+                int rep = find(parent,ranking[j][0]);
+                freq[rep]++;
+                ans+=(freq[rep]-1);  //Calculating nC2 as 0 + 1 + ... + (n-1)
+            }
+        }
+
+        return ans + n; //Add 'n' for single node paths
+    }
+};

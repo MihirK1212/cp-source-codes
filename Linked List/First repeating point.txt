@@ -1,0 +1,107 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+/*
+https://codeforces.com/contest/1020/problem/B
+*/
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void dfs(ll u,vll&p,vll&ans,bool&in_cycle)
+{
+    if(ans[u]==-2)  //visiting for the first time
+    {
+        ans[u] = -1;
+        dfs(p[u],p,ans,in_cycle);
+        
+        if(in_cycle)
+        {
+            if(ans[u]==u){in_cycle = false;}
+            ans[u] = u;
+        }
+        else
+        {
+            ans[u] = ans[p[u]];
+        }
+        
+        return;
+    }
+    
+    if(ans[u]==-1) //visiting again (cycle found)
+    {
+        ans[u] = u;
+        in_cycle = true;
+        return;
+    }
+}
+
+void solve()
+{
+    ll n,i;
+    cin>>n;
+    
+    vll p(n+1);
+    for(i=1;i<=n;i++){cin>>p[i];}
+    
+    vll ans(n+1,-2);
+    bool in_cycle;
+    
+    for(i=1;i<=n;i++)
+    {
+        in_cycle = false;
+        dfs(i,p,ans,in_cycle);
+    }
+    
+    for(i=1;i<=n;i++){cout<<ans[i]<<" ";}
+    cout<<"\n";
+}
+
+int main()
+{
+    setIO("");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        solve();
+    }
+    
+    return 0;
+}

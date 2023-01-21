@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+/*
+http://www.usaco.org/index.php?page=viewproblem2&cpid=1016
+
+If there are more nodes, we can treat it similar to the two node case by considering the two groups in a bipartite partition. As all trees are bipartite graphs, this partition always exists.
+
+The first time Bessie visits a neighbor node, the sum of clocks of the first group increases by 1.
+Then Bessie visits another neighbor node, the sum of clocks of the second group increases by 1.
+As both sums increase by one, the difference between the sums does not change.
+This process repeats until all clocks reach 12.
+
+We can check the initial sum difference between the two groups (mod 12) to figure out the final clock numbers, where we define $\texttt{group0}$ and $\texttt{group1}$ as the sums of the clocks in each of the two groups of the bipartite partition.
+
+*/
+
+int N;
+vector<int> edges[100000];
+int A[100000];
+int sum0, sum1, nodes0, nodes1;
+
+void dfs(int i, int color, int par) {
+	// update color/sum
+	if (color == 0) {
+		nodes0++;
+		sum0 += A[i];
+	}
+	else {
+		nodes1++;
+		sum1 += A[i];
+	}
+	
+	for (int j : edges[i]) {				   
+		if (j != par) {
+			// swap colors for the child
+			dfs(j, 1 - color, i);
+		}
+	}
+}
+
+int main() {
+	freopen("clocktree.in", "r", stdin);
+	freopen("clocktree.out", "w", stdout);
+
+	cin >> N;
+
+	for (int i = 0; i < N; i++) {
+		cin >> A[i];
+	}
+
+	for (int i = 1; i < N; i++) {	
+		int a, b;
+		cin >> a >> b;
+		a--, b--;
+		edges[a].push_back(b);
+		edges[b].push_back(a);
+	}
+	
+	dfs(0, 0, -1);
+
+	// same mod means you can start anywhere
+	if ((sum0 % 12) == (sum1 % 12)) {
+		cout << N;
+	}
+	// if group0 is 1 smaller than group1, we must start from group1
+	else if ((sum0 + 1) % 12 == (sum1 % 12)) {
+		cout << nodes1;
+	}
+	// if group1 is 1 smaller than group0, we must start from group0
+	else if ((sum0 % 12) == ((sum1 + 1) % 12)) {
+		cout << nodes0;
+	}
+	// no way to get all clocks pointing to 12
+	else {
+		cout << 0;
+	}
+
+}

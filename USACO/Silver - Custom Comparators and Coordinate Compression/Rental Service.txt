@@ -1,0 +1,150 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+// http://www.usaco.org/index.php?page=viewproblem2&cpid=787
+
+/*
+Sort cows in descending order of milk produced
+Now first 'x' cows will be used to sell milk and the rest 'n-x' will be rented
+Check the profit for all values of 'x' from 0 to n and return the maximum profit
+We want to rent cows that produce less milk over cows that produce more milk.
+*/
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+bool cmp(vll&x,vll&y)
+{
+    if(x[1]==y[1]){return x[0]>y[0];}
+    
+    return x[1]>y[1];
+}
+
+
+ll solve()
+{
+    ll n,m,r,i;
+    cin>>n>>m>>r;
+    
+    /********************************************************/
+    
+    vll  milk_produced(n);
+    input(milk_produced);
+    
+    sort(all(milk_produced)); reverse(milk_produced);
+    
+    /********************************************************/
+    
+    vector<vll> milk_buyers;
+    
+    for(i=0;i<m;i++)
+    {
+        ll q,p; 
+        cin>>q>>p;
+        milk_buyers.pb({q,p});
+    }
+    
+    sort(all(milk_buyers),cmp);
+    
+    /********************************************************/
+    
+    vll rent(r);
+    input(rent);
+    
+    sort(all(rent)); reverse(rent);
+    
+    /********************************************************/
+    
+    ll ans = 0;
+    ll profit = 0;
+   
+    vll psum_rent(r,0);
+    psum_rent[0] = rent[0];
+    for(i=1;i<r;i++){psum_rent[i] = psum_rent[i-1] + rent[i];}
+    
+    vll price_sold(n,0);
+    
+    ll pn = 0 , pm = 0 , pr = 0;
+    
+    for(pn=0;pn<n;pn++)
+    {
+        ll curr_produced = milk_produced[pn];
+        ll curr_price = 0;
+        
+        while(pm<m && curr_produced>0)
+        {
+            ll buy = min(curr_produced , milk_buyers[pm][0]);
+                
+            curr_produced-=buy;
+            milk_buyers[pm][0]-=buy;
+            curr_price+=buy*milk_buyers[pm][1];
+            
+            if(milk_buyers[pm][0]==0){pm++;}
+        }
+        
+        price_sold[pn] = curr_price;
+        profit+=price_sold[pn];
+    }
+    
+    ans = profit;
+    
+    pn = n-1;
+    
+    for(pr=0; pr<r && pn>=0 ;pr++)
+    {
+        profit = profit - price_sold[pn] + rent[pr];
+        ans = max(ans , profit);
+        pn--;
+    }
+    
+    return ans;
+}
+
+int main()
+{
+    setIO("rental");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        cout<<solve()<<"\n";
+    }
+    
+    return 0;
+}

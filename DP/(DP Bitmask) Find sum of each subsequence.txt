@@ -1,0 +1,37 @@
+// C++ Program to Demonstrate Bitset Optimised Knapsack
+// Solution
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// Driver Code
+int main()
+{
+	// Input Vector
+	vector<int> a = { 2, 3, 4, 5, 6 };
+
+	// we have to make a constant size for bit-set
+	// and to be safe keep it significantly high
+	int n = a.size();
+	const int mx = 40;
+
+	// bitset of size mx, dp[i] is 1 if sum i is possible
+	// and 0 otherwise
+	bitset<mx> dp;
+	// sum 0 is always possible
+	dp[0] = 1;
+
+	// dp transitions as explained in article
+	for (int i = 0; i < n; ++i) {
+		dp |= dp << a[i];
+	}
+
+	// print all the 1s in bit-set, this will be the
+	// all the unique sums possible
+	for (int i = 0; i <= mx; i++) {
+		if (dp[i] == 1)
+			cout << i << " ";
+	}
+}
+
+// code is contributed by sarvjot singh

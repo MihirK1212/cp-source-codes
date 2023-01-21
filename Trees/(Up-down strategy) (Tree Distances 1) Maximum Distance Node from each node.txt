@@ -1,0 +1,141 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+bool cmp(pll&x,pll&y)
+{
+    return x.s>y.s;
+}
+
+
+ll findHeight(vector<vll>&graph,ll u,ll par,vector<vpll>&maxHeightChildren)
+{
+    vpll children;
+    
+    for(auto v : graph[u])
+    {
+        if(v==par){continue;}
+        
+        ll h = findHeight(graph , v , u , maxHeightChildren);
+        children.pb({v,h});
+    }
+    
+    if(children.size()==0){return 0;}
+    
+    sort(all(children),cmp);
+    
+    maxHeightChildren[u].pb(children[0]);
+    
+    if(children.size() > 1) { maxHeightChildren[u].pb(children[1]); }
+    
+    return maxHeightChildren[u][0].s + 1;
+}
+
+void dfs(vector<vll>&graph,ll u,ll par,vector<vpll>&maxHeightChildren,vll&ans_up,vll&ans_down)
+{
+    
+    if(maxHeightChildren[u].size()>0) 
+    {
+        ans_down[u] = max( ans_down[u] , maxHeightChildren[u][0].s + 1);
+    }
+    
+    if(par!=-1)
+    {
+        ll max_height_parent_child = -1;
+        
+        for(auto children : maxHeightChildren[par])
+        {
+            if(children.f!=u){max_height_parent_child = max(max_height_parent_child , children.s);}
+        }
+        
+        if(max_height_parent_child>=0) { ans_up[u] = max(ans_up[u] , 1 + 1  + max_height_parent_child);}
+        
+        
+        ans_up[u] = max(ans_up[u] , 1 + ans_up[par]);
+    }
+    
+    for(auto v : graph[u])
+    {
+        if(v!=par){dfs(graph,v,u,maxHeightChildren,ans_up,ans_down);}
+    }
+}
+
+// https://cses.fi/problemset/task/1132/
+
+void solve()
+{
+    ll n,i;
+    cin>>n;
+    
+    vector<vll> graph(n+1);
+    
+    for(i=1;i<n;i++)
+    {
+        ll u , v;
+        cin>>u>>v;
+        graph[u].pb(v); graph[v].pb(u);
+    }
+    
+    vector<vpll> maxHeightChildren(n+1);
+    
+    findHeight(graph,1,-1,maxHeightChildren);
+    
+    vll ans_up(n+1,0);
+    vll ans_down(n+1,0);
+    
+    dfs(graph,1,-1,maxHeightChildren,ans_up,ans_down);
+    
+    for(i=1;i<=n;i++){cout<<max(ans_down[i],ans_up[i])<<" ";}
+    cout<<"\n";
+}
+
+int main()
+{
+    setIO("");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        solve();
+    }
+    
+    return 0;
+}

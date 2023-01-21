@@ -1,6 +1,8 @@
 // https://www.interviewbit.com/problems/coin-sum-infinite/
 //For getting sum using coins,order doesn't matter (i.e 1+2+1 and 1+1+2 are same)
 
+When order doesn't matter, finish each 'i' one by one
+
 int Solution::coinchange2(vector<int> &A, int M) 
 {
     int mod = 1000007;

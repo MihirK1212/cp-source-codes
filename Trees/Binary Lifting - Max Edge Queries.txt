@@ -1,0 +1,138 @@
+#define f first
+#define s second
+
+/*
+12 3 10 6 42 3 2 18468 12 7 6335 9 5 26501 2 1 19170 8 3 15725 7 1 11479 4 2 29359 6 3 26963 11 4 24465 5 3 5706 13 11 28146
+
+1 2 13 5
+*/
+
+int LOG = 15;
+
+int findAns(int u,int v,vector<vector<int>>&parent,vector<vector<int>>&maxEdge,vector<int>&depth,int n,int LOG)
+{
+    if(depth[u]<depth[v]){swap(u,v);}
+    
+    int res = -1;
+    
+    int k = depth[u]-depth[v];
+    for(int j=0;j<LOG;j++)
+    {
+        if(k&(1<<j)){res=max(res,maxEdge[u][j]); u=parent[u][j];}    
+    }
+    
+    //now u and v are at the same depth
+    
+    if(u==v){return res;}
+    
+    for(int j=LOG-1;j>=0;j--)
+    {
+        if(parent[u][j]!=parent[v][j]) //we take the maximum possible jump upwards such that paths dont cross
+        {
+            res = max(res , maxEdge[u][j]);
+            res = max(res , maxEdge[v][j]);
+            u = parent[u][j];
+            v = parent[v][j];
+        }
+    }
+    
+    res = max(res , maxEdge[u][0]);//since we were taking the maximum possible jumps, parent of current node wiint be lca
+    res = max(res , maxEdge[v][0]);
+    
+    return res;
+}
+
+
+void preprocess(vector<vector<int>>&parent,vector<vector<int>>&maxEdge,int n)
+{
+    for(int j=1;j<LOG;j++)
+    {
+        for(int u=1;u<=n;u++)
+        {
+            if(parent[u][j-1]==-1){continue;}
+            
+            parent[u][j] = parent[parent[u][j-1]][j-1];
+        }
+    }
+    
+    for(int j=1;j<LOG;j++)
+    {
+        for(int u=1;u<=n;u++)
+        {
+            if(parent[u][j-1]==-1 || parent[u][j]==-1){continue;}
+            
+            maxEdge[u][j] = max( maxEdge[u][j-1] , maxEdge[parent[u][j-1]][j-1] );
+        }
+    }
+}
+
+void dfs(map<int,vector<pair<int,int>>>&graph,int u,vector<vector<int>>&parent,int par,vector<vector<int>>&maxEdge,int pardEdge,vector<int>&depth,int d)
+{
+    parent[u][0] = par;
+    maxEdge[u][0] = pardEdge;
+    depth[u] = d;
+    
+    for(auto neighbours : graph[u])
+    {
+        if(neighbours.f == par){continue;}
+        
+        dfs(graph,neighbours.f,parent,u,maxEdge,neighbours.s,depth,d+1);
+    }
+}
+
+void printMatrix(vector<vector<int>>&matrix,int il,int ih,int jl,int jh)
+{
+    cout<<"\n";
+    for(int i=il;i<=ih;i++)
+    {
+        for(int j=jl;j<=jh;j++){cout<<matrix[i][j]<<" ";}
+        cout<<"\n";
+    }
+    cout<<"\n";
+}
+
+vector<int> Solution::solve(vector<vector<int>> &edges, vector<vector<int> > &B) {
+    
+    int n = edges.size() + 1;
+    map<int,vector<pair<int,int>>> graph;
+    
+    for(auto e : edges)
+    {
+        graph[e[0]].push_back({e[1],e[2]});
+        graph[e[1]].push_back({e[0],e[2]});
+    }
+    
+    vector<vector<int>> parent(n+1,vector<int>(LOG,-1));
+    vector<vector<int>> maxEdge(n+1,vector<int>(LOG,-1));
+    vector<int> depth(n+1);
+    
+    dfs(graph,1,parent,-1,maxEdge,-1,depth,0);
+    preprocess(parent,maxEdge,n);
+    
+    // printMatrix(parent,1,n,0,LOG-1);
+    // printMatrix(maxEdge,1,n,0,LOG-1);
+    
+    // cout<<"Parent for 5 : ";
+    // for(int j=0;j<LOG;j++){cout<<parent[5][j]<<" ";} cout<<"\n";
+    // cout<<"Parent for 13 : ";
+    // for(int j=0;j<LOG;j++){cout<<parent[13][j]<<" ";} cout<<"\n";
+    // cout<<"\n";
+    
+    // cout<<"maxEdge for 5 :";
+    // for(int j=0;j<LOG;j++){cout<<maxEdge[5][j]<<" ";} cout<<"\n";
+    // cout<<"maxEdge for 13 :";
+    // for(int j=0;j<LOG;j++){cout<<maxEdge[13][j]<<" ";} cout<<"\n";
+    // cout<<"\n";
+    
+    // cout<<"Depth 5 : "<<depth[5]<<" "<<" Depth 13 : "<<depth[13]<<"\n\n";
+    
+    vector<int> ans;
+    
+    for(auto query : B)
+    {
+        int u = query[0] , v = query[1];
+        ans.push_back(findAns(u,v,parent,maxEdge,depth,n,LOG));;   
+    }
+    
+    return ans;
+}

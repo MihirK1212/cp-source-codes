@@ -1,0 +1,3 @@
+ans  =  sum (1 to k) [ cycle_size - 1] where k is number of cycles
+         =  sum (1 to k) [cycle_size]  - k
+         =  n - k

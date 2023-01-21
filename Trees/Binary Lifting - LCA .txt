@@ -1,0 +1,144 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+void preprocess(vector<vll>&up,vll&parent,ll N,ll LOG)
+{
+    for(ll u=0;u<N;u++){up[u][0]=parent[u];}
+    
+    for(ll j=1;j<LOG;j++)
+    {
+        for(ll u=0;u<N;u++)
+        {
+            if(up[u][j-1]==-1){up[u][j]=-1; continue;}
+            
+            up[u][j] = up[up[u][j-1]][j-1];
+        }
+    }
+}
+
+void findDepths(map<ll,vll>&graph,vll&depth)
+{
+    queue<ll> q;
+    q.push(0);
+    
+    ll d = 0;
+    
+    while(!q.empty())
+    {
+        ll s = q.size();
+        while(s--)
+        {
+            ll u = q.front(); q.pop();
+            depth[u] = d;
+            for(auto v : graph[u]){q.push(v);}
+        }
+        d++;
+    }
+}
+
+ll findLCA(ll u,ll v,vector<vll>&up,vll&depth,ll N,ll LOG)
+{
+    if(depth[u]<depth[v]){swap(u,v);}
+    
+    ll k = depth[u]-depth[v];
+    for(ll j=0;j<LOG;j++)
+    {
+        if(k&(1<<j)){u=up[u][j];}    
+    }
+    
+    //now u and v are at the same depth
+    
+    if(u==v){return u;}
+    
+    for(ll j=LOG-1;j>=0;j--)
+    {
+        if(up[u][j]!=up[v][j]) //we take the maximum possible jump upwards such that paths dont cross
+        {
+            u = up[u][j];
+            v = up[v][j];
+        }
+    }
+    
+    return up[u][0]; //since we were taking the maximum possible jumps, parent of current node will be lca
+}
+
+int main()
+{
+    setIO("");
+    
+    ll N,M;
+    cin>>N;
+    
+    vll parent(N);
+    parent[0]=-1;
+    
+    map<ll,vll> graph;
+    
+    ll u,v;
+    
+    for(u=0;u<N;u++)
+    {
+        cin>>M;
+        while(M--)
+        {
+            cin>>v;
+            parent[v] = u;
+            graph[u].pb(v);
+        }
+    }
+    
+    vll depth(N);
+    findDepths(graph,depth);
+    
+    ll LOG=0;
+    while((1<<(LOG+1))<=N){LOG++;}
+    LOG++;
+    
+    vector<vll> up(N,vll(LOG));
+    preprocess(up,parent,N,LOG);
+    
+    ll Q;
+    cin>>Q;
+    
+    while(Q--)
+    {
+        cin>>u>>v;
+        cout<<findLCA(u,v,up,depth,N,LOG)<<"\n";
+    }
+	
+  
+    return 0;
+}
