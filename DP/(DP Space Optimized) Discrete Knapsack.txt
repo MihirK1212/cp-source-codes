@@ -1,0 +1,24 @@
+ll discrete_knapsack(ll n, ll W, vll&weight, vll&value)
+{
+    vll dp_prev(W+1,0);
+    vll dp_next(W+1,0);
+
+    for(ll i=0;i<=n;i++)
+    {
+        for(ll w=0;w<=W;w++)
+        {
+            if(i==0 || w==0){continue;}
+
+            if(w>=weight[i-1])
+            {
+                dp_next[w] = max( dp_next[w] , dp_prev[w-weight[i-1]] + value[i-1] );
+            }
+
+            dp_next[w] = max( dp_next[w] , dp_prev[w] );
+        }
+
+        dp_prev = dp_next;
+    }
+
+    return dp_prev[W];
+}

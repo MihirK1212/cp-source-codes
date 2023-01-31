@@ -1,0 +1,169 @@
+#include<iostream>
+#include <vector>
+#include<string>
+#include <map>
+#include<cmath>
+#include <set>
+#include<queue>
+#include<algorithm>
+#include<cstdlib>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll gcd_extend(ll a, ll b, ll& x, ll& y)
+{
+	if (b == 0) {
+		x = 1;
+		y = 0;
+		return a;
+	}
+
+	else {
+		ll g = gcd_extend(b,a % b, x, y);
+	    ll x1 = x, y1 = y;
+		x = y1;
+		y = x1 - (a / b) * y1;
+		return g;
+	}
+}
+
+bool solution_exists(ll a,ll b,ll c)
+{
+    //Check if non negative solution exists for ax + by = c
+
+    if( c==0 || c==a || c==b || c==(a+b)){return true;}
+
+    ll x, y;
+
+	if (a == 0 && b == 0) {
+
+		if (c == 0) {
+			return true;
+		}
+
+		else {
+			return false;
+		}
+	}
+
+	int gcd = gcd_extend(a, b, x, y);
+
+	if (c % gcd != 0) {
+		return false;
+	}
+	else {
+
+        x = x * (c / gcd);
+        y = y * (c / gcd);
+
+        if(x>=0 && y>=0){return true;}
+        else if(x<=0 && y<=0){return false;}
+        else if(x<=0 && y>=0)
+        {
+            ll k = (ll) floor ( ( ((ld)gcd) * ((ld)x) ) / ((ld)b) );
+
+            x = x - k*(b/gcd);
+            y = y + k*(a/gcd);
+
+            if(x>=0 && y>=0){return true;}
+            else{return false;}
+        }
+        else if(x>0 && y<0)
+        {
+            ll k = (ll) floor ( ( ((ld)-gcd) * ((ld)y) ) / ((ld)a) );
+
+            x = x - k*(b/gcd);
+            y = y + k*(a/gcd);
+
+            if(x>=0 && y>=0){return true;}
+            else{return false;}
+        }
+
+	}
+
+    return false;
+}
+
+
+ll solve(ll T,ll A,ll B)
+{
+    ll i;
+
+    vll max_reach_from(T+1);
+    for(i=0;i<=T;i++){max_reach_from[i] = i;}
+
+    for(i=T;i>=0;i--)
+    {
+        if((i+A)<=T)
+        {
+            max_reach_from[i] = max(max_reach_from[i],max_reach_from[i+A]);
+        }
+        if((i+B)<=T)
+        {
+            max_reach_from[i] = max(max_reach_from[i],max_reach_from[i+B]);
+        }
+    }
+
+    ll ans = 0;
+
+    for(i=0;i<=T;i++)
+    {
+        if(solution_exists(A,B,i))
+        {
+            ans = max(ans , max(i , max_reach_from[i/2]));
+        }
+    }
+
+    return ans;
+}
+
+//http://www.usaco.org/index.php?page=viewproblem2&cpid=574
+
+int main()
+{
+    setIO("feast");
+    srand((unsigned) time(NULL)); 
+
+    ll T,A,B;
+    cin>>T>>A>>B;
+
+    cout<<solve(T,A,B)<<"\n";
+    return 0;
+}

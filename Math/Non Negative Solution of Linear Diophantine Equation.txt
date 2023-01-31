@@ -1,0 +1,73 @@
+ll gcd_extend(ll a, ll b, ll& x, ll& y)
+{
+	if (b == 0) {
+		x = 1;
+		y = 0;
+		return a;
+	}
+
+	else {
+		ll g = gcd_extend(b,a % b, x, y);
+	    ll x1 = x, y1 = y;
+		x = y1;
+		y = x1 - (a / b) * y1;
+		return g;
+	}
+}
+
+bool solution_exists(ll a,ll b,ll c)
+{
+    //Check if non negative solution exists for ax + by = c
+
+    if( c==0 || c==a || c==b || c==(a+b)){return true;}
+
+    ll x, y;
+
+	if (a == 0 && b == 0) {
+
+		if (c == 0) {
+			return true;
+		}
+
+		else {
+			return false;
+		}
+	}
+
+	int gcd = gcd_extend(a, b, x, y);
+
+	if (c % gcd != 0) {
+		return false;
+	}
+	else {
+
+        x = x * (c / gcd);
+        y = y * (c / gcd);
+
+        if(x>=0 && y>=0){return true;}
+        else if(x<=0 && y<=0){return false;}
+        else if(x<=0 && y>=0)
+        {
+            ll k = (ll) floor ( ( ((ld)gcd) * ((ld)x) ) / ((ld)b) );
+
+            x = x - k*(b/gcd);
+            y = y + k*(a/gcd);
+
+            if(x>=0 && y>=0){return true;}
+            else{return false;}
+        }
+        else if(x>0 && y<0)
+        {
+            ll k = (ll) floor ( ( ((ld)-gcd) * ((ld)y) ) / ((ld)a) );
+
+            x = x - k*(b/gcd);
+            y = y + k*(a/gcd);
+
+            if(x>=0 && y>=0){return true;}
+            else{return false;}
+        }
+
+	}
+
+    return false;
+}

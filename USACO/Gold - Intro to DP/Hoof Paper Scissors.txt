@@ -1,0 +1,125 @@
+#include<iostream>
+#include <vector>
+#include<string>
+#include <map>
+#include<cmath>
+#include <set>
+#include<queue>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+bool win(ll your_move , ll their_move)
+{
+    return  (your_move==0 && their_move==2) ||
+            (your_move==1 && their_move==0) ||
+            (your_move==2 && their_move==1);
+}
+
+// http://www.usaco.org/current/data/sol_hps_gold_jan17.html
+
+ll solve()
+{
+    ll N,K,i,k,move;
+    cin>>N>>K;
+    
+    vll moves;
+
+    for(i=1;i<=N;i++)
+    {
+        char ch; cin>>ch;
+        moves.pb((ch=='H')?0:((ch=='P')?1:2));
+    }
+
+    vector<vector<vll>> dp(N,vector<vll>(K+2,vll(3,0)));
+
+    /*
+        dp[i][k][move] = Number of wins in 0....i if we can switch at most 'k' times and 
+                         we play 'move' as the current move
+    */
+
+    for(k=0; k<=K; k++)
+    {
+        for(i=0; i<N; i++)
+        {
+            for(move=0; move<3; move++)
+            {
+                ll other1 = (move + 1)%3 , other2 = (move + 2)%3;
+
+                if(i==0)
+                {
+                    dp[i][k][move] = win(move,moves[i]);
+                    continue;
+                }
+                if(k==0)
+                {
+                    dp[i][k][move] = dp[i-1][k][move] + win(move,moves[i]);
+                    continue;
+                }
+
+                dp[i][k][move] = max( dp[i][k][move] , dp[i-1][k-1][other1] + win(move,moves[i]) );
+                dp[i][k][move] = max( dp[i][k][move] , dp[i-1][k-1][other2] + win(move,moves[i]) );
+                dp[i][k][move] = max( dp[i][k][move] , dp[i-1][k][move]     + win(move,moves[i]) );
+            }
+        }
+    }
+
+    ll ans = 0;
+
+    for(move=0; move<3; move++)
+    {
+        ans = max(ans, dp[N-1][K][move]);
+    }
+
+    return ans;
+}
+
+int main()
+{
+    setIO("hps");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        cout<<solve()<<"\n";
+    }
+    
+    return 0;
+}

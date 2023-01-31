@@ -1,0 +1,39 @@
+=> Basic Case:
+
+Given: ax + by = c
+
+1) Use extended euclidean algorithm to find (U,V) s.t. aU + bV = g
+2) Now, if c mod g = 0, aU * (c/g) + bV * (c/g) = c
+3) Hence, one solution is ( U*(c/g) , V*(c/g) )
+
+Let this solution be (x0,y0)
+Hence a*x0 + b*y0 = c
+
+
+=> All solutions:
+
+All solutions will be of the form (x0 - k*(b/g) , (y0 + k*(a/g))
+
+=> Solution with minimum (x+y) :
+
+Using previous relation, we get :
+x + y = x0 + y0 + k*((b-a)/g)
+
+If  a < b , we need to select smallest possible value of  k. 
+If  a > b , we need to select the largest possible value of  k .
+If  a = b , all solution will have the same sum  x + y .
+
+
+=> Check if positive solution exists:
+
+1) If x0 and y0 both have the same sign, you're done.
+If they are both positive, you have positive solutions,
+If they are both negative, you don't.
+
+2) If x0 and y0 have different signs, choose the smallest (in absolute value) k to change the sign of the negative integer.
+That is, if x0 is negative, then take k = floor(d * x0 / b) (rounding to -infinity)
+and if is y0 is negative, take k = ceil(-d * y0 / a)
+
+3) Compute (x1,y1) = (x0 - k * b / d , y0 + k * a / d)
+If x1 and y1 are both positive, you just found two positive integer solutions.
+If flipping the sign of one number flipped the other one, you can not find positive solutions.

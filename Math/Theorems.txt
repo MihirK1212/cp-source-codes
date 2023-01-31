@@ -6,6 +6,9 @@
 (Of course, the theory of linear diophantine equations assures existance of infinitely many solutions, if one exists). 
 It is also worth noting that k=d is the smallest positive integer for which ax+by = k has a solution with integral x and y.
 
+If one pair of these solutions have been calculated  as (x,y)
+Then other solutions are of the form (x - k*(b/d) , (y + k*(a/d))
+
 4) The most commonly used algorithm for the integer factorization is the Sieve of Eratosthenes. 
 It is sufficient to scan primes upto sqrt(N) while factorizing N. 
 Also, if we need to factorize all numbers between 1 to N, this task can be done using a single run of this algorithm -

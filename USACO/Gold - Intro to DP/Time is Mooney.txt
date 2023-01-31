@@ -1,0 +1,105 @@
+#include<iostream>
+#include <vector>
+#include<string>
+#include <map>
+#include<cmath>
+#include <set>
+#include<queue>
+using namespace std;
+
+// http://www.usaco.org/index.php?page=viewproblem2&cpid=993
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double  ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b)
+{
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+
+ll solve()
+{
+    ll n,m,c,u,d;
+    cin>>n>>m>>c;
+
+    vll earn(n);
+    input(earn);
+
+    vector<vll> graph(n),revgraph(n);
+    while(m--)
+    {
+        ll u,v;
+        cin>>u>>v;
+        u--; v--;
+        graph[u].pb(v); revgraph[v].pb(u);
+    }
+
+    vector<vll> dp(n,vll(1003,-1)); 
+    //dp[u][d] = money earnt if u end at 'u' by traveling for 'd' days.
+
+    dp[0][0] = 0;
+
+    ll ans = 0;
+
+    for(d=0; d<=1000; d++)
+    {
+        for(u=0; u<n; u++)
+        {
+            if(dp[u][d]==-1){continue;}
+
+            for(auto v : graph[u])
+            {
+                dp[v][d+1] = max(dp[v][d+1] , dp[u][d] + earn[v] - c*(2*d + 1));
+            }
+        }
+
+        ans = max(ans , dp[0][d]);
+    }
+    
+    return ans;
+}
+
+int main()
+{
+    setIO("time");
+    
+    ll T = 1;
+    
+    while(T--)
+    {
+        cout<<solve()<<"\n";
+    }
+    
+    return 0;
+}
