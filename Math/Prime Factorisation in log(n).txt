@@ -1,0 +1,36 @@
+void sieve()
+{
+    spf[1] = 1;
+
+    for (int i=2; i<max_num; i++)
+        spf[i] = i;
+
+    for (int i=4; i<max_num; i+=2)
+        spf[i] = 2;
+ 
+    for (int i=3; i*i<max_num; i++)
+    {
+        if (spf[i] == i)
+        {
+            for (int j=i*i; j<max_num; j+=i)
+                if (spf[j]==j)
+                    spf[j] = i;
+        }
+    }
+}
+
+vi getFactorization(int x)
+{
+    vi ret;
+    while (x != 1)
+    {
+        ret.push_back(spf[x]);
+        x = x / spf[x];
+    }
+    return ret;
+}
+
+vi spf(MAXN);
+sieve();
+
+vi factors = getFactorization(152);

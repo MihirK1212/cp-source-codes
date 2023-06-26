@@ -1,0 +1,48 @@
+https://leetcode.com/problems/find-the-longest-valid-obstacle-course-at-each-position/description/
+class Solution {
+public:
+
+    int findCeilInd(vector<int>&a,int x)
+    {
+        int n = a.size();
+        
+        int lb = 0, ub = n-1, mid;
+        int ans = -1;
+
+        while(lb<=ub)
+        {
+            mid = lb + (ub-lb)/2;
+
+            if(a[mid]>x){ans=mid; ub = mid-1;}
+            else{lb = mid+1;}
+        }
+
+        return ans;
+    }
+
+    vector<int> longestObstacleCourseAtEachPosition(vector<int>& obstacles) 
+    {
+        int n = obstacles.size();
+
+        vector<int> lis(n,1);
+        vector<int> curr;
+
+        for(int i=0; i<n; i++)
+        {
+            int ind = findCeilInd(curr,obstacles[i]);
+
+            if(ind==-1) 
+            {
+                curr.push_back(obstacles[i]); 
+                lis[i] = curr.size();
+            }
+            else
+            {
+                curr[ind] = obstacles[i];
+                lis[i] = (ind+1);
+            }
+        }
+
+        return lis;
+    }
+};

@@ -1,0 +1,46 @@
+void helper(vi&prime_factors, int ind, map<int,int>&freq, vi&factors, int curr)
+{
+    if(ind==prime_factors.size()) {
+        factors.pb(curr); return;
+    }
+
+    int power = 1;
+
+    for(int i=0; i<=freq[prime_factors[ind]]; i++) {
+
+        helper(prime_factors, ind+1, freq, factors, curr*power);
+        power*=prime_factors[ind];
+    }
+}
+
+vi getFactors(int n) 
+{
+    map<int,int> freq;
+    vi prime_factors;
+    vi factors;
+
+    for (int d : {2, 3, 5}) {
+        while (n % d == 0) {
+            freq[d]++;
+            n /= d;
+        }
+    }
+
+    vi increments = {4, 2, 4, 2, 4, 6, 2, 6};
+    int i = 0;
+    for (long long d = 7; d * d <= n; d += increments[i++]) {
+        while (n % d == 0) {
+            freq[d]++;
+            n /= d;
+        }
+        if (i == 8)
+            i = 0;
+    }
+    if (n > 1)
+        freq[n]++;
+    
+    for(auto x : freq){prime_factors.pb(x.f);}
+
+    helper(prime_factors, 0, freq, factors, 1);
+    return factors;
+}
