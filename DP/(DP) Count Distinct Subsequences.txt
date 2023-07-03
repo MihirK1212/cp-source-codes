@@ -15,7 +15,7 @@ int countSub(string str)
 	int n = str.length();
 
 	// dp[i] is going to store count of distinct
-	// subsequences of length i.
+	// subsequences of prefix substring of length i
 	int dp[n + 1];
 
 	// Empty substring has only one subsequence
@@ -23,13 +23,15 @@ int countSub(string str)
 
 	// Traverse through all lengths from 1 to n.
 	for (int i = 1; i <= n; i++) {
-		// Number of subsequences with substring
+		// Number of subsequences of substring
 		// str[0..i-1]
-		dp[i] = 2 * dp[i - 1];
+
+		dp[i] = 2 * dp[i - 1]; //take or dont take str[i-1]
 
 		// If current character has appeared
 		// before, then remove all subsequences
 		// ending with previous occurrence.
+		// this is because those same subsequences can be recreated by using str[i-1] instead of str[last[str[i-1]]
 		if (last[str[i - 1]] != -1)
 			dp[i] = dp[i] - dp[last[str[i - 1]]];
 
