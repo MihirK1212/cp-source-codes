@@ -1,0 +1,70 @@
+https://www.interviewbit.com/problems/rod-cutting/
+
+#define ll long long 
+ll inf=std::numeric_limits<long long>::max();
+
+ll find(vector<vector<ll>>&dp,ll i,ll j,ll lb,ll ub,vector<ll>&points)
+{
+    if(i>j){return 0;}
+    if(dp[i][j]>=0){return dp[i][j];}
+    
+    ll ans = inf;
+    bool found = false;
+    
+    for(int k=i;k<=j;k++)
+    {
+        if(points[k]>lb && points[k]<ub)
+        {
+            ans = min(ans,find(dp,i,k-1,lb,points[k],points) +
+                          find(dp,k+1,j,points[k],ub,points) +
+                          (ub-lb));
+                          
+            found = true;
+        }
+    }
+    
+    if(!found){ans = 0;}
+    
+    dp[i][j] = ans;
+    return ans;
+}
+void getAns(vector<vector<ll>>&dp,ll i,ll j,ll lb,ll ub,vector<ll>&points,vector<int>&res)
+{
+    if(i>j){return;}
+    
+    for(int k=i;k<=j;k++)
+    {
+        ll cost_before = (k>i)?(dp[i][k-1]):0;
+        ll cost_after  = (k<j)?(dp[k+1][j]):0;
+        
+        if(points[k]>lb && points[k]<ub && dp[i][j]==(cost_before+cost_after+(ub-lb)))
+        {
+            res.push_back(points[k]);
+            getAns(dp,i,k-1,lb,points[k],points,res);
+            getAns(dp,k+1,j,points[k],ub,points,res);
+            break;
+        }
+    }
+}
+vector<int> Solution::rodCut(int L, vector<int> &A) 
+{
+    set<ll> tmp_points;
+    for(auto x : A)
+    {
+        if(x>0 && x<L){tmp_points.insert(x);}
+    }
+    
+    vector<ll> points;
+    for(auto x : tmp_points){points.push_back(x);}
+    
+    ll n = points.size();
+    
+    vector<vector<ll>> dp(n,vector<ll>(n,-1));
+    
+    find(dp,0,n-1,0,L,points);
+    
+    vector<int> res;
+    getAns(dp,0,n-1,0,L,points,res);
+    
+    return res;
+}
