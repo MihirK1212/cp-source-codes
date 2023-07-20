@@ -69,13 +69,7 @@ void findChildrenDistSum(vector<vll>&graph,ll u,ll par,vll&subtreeSize,vll&child
 void dfs(vector<vll>&graph,ll u,ll par,vll&childrenDistSum,vll&subtreeSize,vll&ans_up,vll&ans_down)
 {
     ll n = graph.size() - 1;
-    
-    if(par!=-1)
-    {
-        if(ans_up[par]>0){ans_up[u]+= ( (n - subtreeSize[par]) + ans_up[par] );} //for paths coming from the nodes above parent (not including parent)
-        ans_up[u]+= ( childrenDistSum[par] - (subtreeSize[u] + childrenDistSum[u]) + (subtreeSize[par] - subtreeSize[u]) ); //for paths coming from siblings of u , and from parent
-    }
-    
+
     for(auto v : graph[u])
     {
         if(v==par){continue;}
@@ -83,6 +77,14 @@ void dfs(vector<vll>&graph,ll u,ll par,vll&childrenDistSum,vll&subtreeSize,vll&a
         ans_down[u]+=(subtreeSize[v] + childrenDistSum[v]);
         dfs(graph,v,u,childrenDistSum,subtreeSize,ans_up,ans_down);
     }
+    
+    if(par!=-1)
+    {
+	ans_up[u]+= ( childrenDistSum[par] - (subtreeSize[u] + childrenDistSum[u]) + (subtreeSize[par] - subtreeSize[u]) ); //for paths coming from siblings of u , and from parent
+        if(ans_up[par]>0){ans_up[u]+= ( (n - subtreeSize[par]) + ans_up[par] );} //for paths coming from the nodes above parent (not including parent)
+    }
+    
+    
 }
 
 //https://cses.fi/problemset/result/5280437/

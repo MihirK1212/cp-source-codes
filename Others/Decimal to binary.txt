@@ -1,6 +1,0 @@
-vll a;
-while(n!=0)
-{
-     a.pb(n%2);
-     n=n/2;
-}
