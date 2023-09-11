@@ -1,0 +1,50 @@
+// Minimum Number of Taps to Open to Water a Garden
+// https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/
+// The space in between also has to be covered
+
+class Solution {
+public:
+    int minTaps(int n, vector<int>& ranges) 
+    {
+        vector<int> numStarts(n+1, 0), numEnds(n+1, 0);
+        vector<int> maxEndForStart(n+1, 0);
+        for(int i=0; i<=n; i++) {
+            int start = max(0, i-ranges[i]), end = min(n, i+ranges[i]);
+            numStarts[start]++; numEnds[end]++;
+            maxEndForStart[start] = max(maxEndForStart[start], end);
+        }
+        
+        int currHoes = 0;
+        int ans = 0;
+        int currMaxEnd = 0;
+        int probableMaxEnd = 0;
+        
+        for(int i=0; i<=n; i++) {
+            
+            if(currHoes == 0  && numStarts[i] > 0) {
+                ans++;
+                currMaxEnd = max(currMaxEnd, maxEndForStart[i]);
+            }
+            else if(currHoes>0 && numStarts[i] > 0) {
+                probableMaxEnd = max(probableMaxEnd, maxEndForStart[i]);
+            }
+            
+            currHoes+=numStarts[i];
+            if(currHoes == 0) {
+                return -1;
+            }   
+            
+            currHoes-=numEnds[i];
+            if(i<n && currHoes == 0) {
+                return  -1;
+            }
+            
+            if(i<n && currMaxEnd<=i && probableMaxEnd>i) {
+                ans++;
+                currMaxEnd = probableMaxEnd;
+            }
+        }
+        
+        return ans;
+    }
+};

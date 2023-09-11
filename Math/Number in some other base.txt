@@ -1,4 +1,14 @@
-1) Method1 (//Refer to https://www.interviewbit.com/problems/excel-column-title/)
+1) Method1
+
+For excel columns, after Z, ideally we should have BA (because BA = 0*1 + 1*26), but instead we have AA
+
+while(n>=0) {
+            int dig = n%base;
+            n/=base;
+            n--;
+        }
+
+2) Method2 (//Refer to https://www.interviewbit.com/problems/excel-column-title/)
 
 vector<int> find_vect(int n)
 {
@@ -13,7 +23,7 @@ vector<int> find_vect(int n)
     return num;
 }
 
-2) Method2
+3) Method3
 
 bool checkBase(ll n,ll b,vector<bool>&taken)
 {
@@ -30,4 +40,4 @@ bool checkBase(ll n,ll b,vector<bool>&taken)
     return true;
 }
 
-3) Method 3
+

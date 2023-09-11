@@ -1,0 +1,36 @@
+// https://leetcode.com/problems/minimum-replacements-to-sort-the-array/
+class Solution {
+public:
+    long long minimumReplacement(vector<int>& nums) 
+    {
+        long long ans = 0;
+        int n = nums.size();
+        
+        int currMax = nums[n-1];
+        int i = n-2;
+        
+        while(i>=0) {
+            if(nums[i] > currMax) {
+                ans+=(nums[i]/currMax);
+                if(nums[i]%currMax == 0) {
+                    ans--;
+                }
+                else {
+                    //since it is not possible to get all currMax,
+                    //the best possible option is to get the average value, 
+                    //as it will maximize the minimum 
+                    //hence, since there will be floor(nums[i]/currMax) + 1 values after the division
+                    //the new currMax = nums[i]/(rat  + 1)
+                    int rat = nums[i]/currMax;
+                    currMax = nums[i]/(rat + 1);
+                }
+            }
+            else {
+                currMax = nums[i];
+            }
+            i--;
+        }
+        
+        return ans;
+    }
+};

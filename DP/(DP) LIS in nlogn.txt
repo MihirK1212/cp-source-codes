@@ -1,4 +1,4 @@
-int findCeil(vector<int>&arr,int x)
+	int findCeil(vector<int>&arr,int x)
     {
         int lb=0,ub=arr.size()-1,mid;
         int ans;
@@ -17,7 +17,6 @@ int findCeil(vector<int>&arr,int x)
     int longestSubsequence(int n, int a[])
     {
        vector<int> tail;
-       int ind;
        
        for(int i=0;i<n;i++)
        {
