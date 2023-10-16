@@ -1,0 +1,50 @@
+https://stackoverflow.com/questions/17246670/0-1-knapsack-dynamic-programming-optimization-from-2d-matrix-to-1d-matrix
+
+I know this is an old question. But I had to spend some time searching for this and I'm just documenting the approaches here for anyone's future reference.
+
+Method 1
+The straightforward 2D method that uses N rows is:
+
+int dp[MAXN][MAXW];
+int solve()
+{
+    memset(dp[0], 0, sizeof(dp[0]));
+    for(int i = 1; i <= N; i++) {
+        for(int j = 0; j <= W; j++) {
+            dp[i][j] = (w[i] > j) ? dp[i-1][j] : max(dp[i-1][j], dp[i-1][j-w[i]] + v[i]);
+        }
+    }
+    return dp[N][W];
+} 
+This uses O(NW) space.
+
+Method 2
+You may notice that while calculating the entries of the matrix for a particular row, we're only looking at the previous row and not the rows before that. This can be exploited to maintain only 2 rows and keep swapping their roles as current & previous row.
+
+int dp[2][MAXW];
+int solve()
+{
+    memset(dp[0], 0, sizeof(dp[0]));
+    for(int i = 1; i <= N; i++) {
+        int *cur = dp[i&1], *prev = dp[!(i&1)];
+        for(int j = 0; j <= W; j++) {
+            cur[j] = (w[i] > j) ? prev[j] : max(prev[j], prev[j-w[i]] + v[i]);
+        }
+    }
+    return dp[N&1][W];
+}  
+This takes O(2W) = O(W) space. cur is the i-th row and prev is the (i-1)-th row.
+Method 3
+If you look again, you can see that while we're writing an entry in a row, we're only looking at the items to the left of that in the previous row. We could use this to use a single row and process it right to left so that while we're computing new value for an entry, entries to its left have their old value. This is the 1D table method.
+
+int dp[MAXW];
+int solve()
+{
+    memset(dp, 0, sizeof(dp));
+    for(int i =1; i <= N; i++) {
+        for(int j = W; j >= 0; j--) {
+            dp[j] = (w[i] > j) ? dp[j]: max(dp[j], dp[j-w[i]] + v[i]);
+        }
+    }
+    return dp[W];
+}
