@@ -1,0 +1,47 @@
+//https://leetcode.com/problems/maximum-running-time-of-n-computers
+
+
+Approach 1:
+
+use binary search. for a time t, we need to check if it is possible
+
+assume we have a grid of shape (t, n). we need to completely fill this grid with battery units.
+
+Row represents one time instant and column represents one computer
+
+for battey b in batteries:
+ if b >= t:
+    we can fill one column completely with the units of this battery. we   cannot fill more than one column, because it will mean that at least for one row, two columns will use the same battery, which is not allowed
+Hence we fill t cells in the grid (one column)
+  
+  if b < t:
+       we some cells of a column
+  Hence we fill b cells in the grid
+
+In the end, we need to check if all cells in the grid have been filled, i.e. check if filledCells >= t*n
+
+
+
+
+Approach 2:
+
+long long maxRunTime(int n, vector<int>& bat) {
+    long long sum = accumulate(begin(bat), end(bat), 0LL);
+    priority_queue<int> pq(begin(bat), end(bat));
+    while (pq.top() > sum / n) {
+        sum -= pq.top(); pq.pop();
+        --n;
+    }
+    return sum / n;
+}
+
+
+/*
+Let us take the "juiciest" battery that holds the charge for x minutes. If the charge per computer sum / n (where sum is aggregated charge of all batteries) is less than x, this battery can run one of the computers as long as needed. So, we put this battery and one of the computers aside, and find the answers for the remaining batteries, and n - 1 computers.
+
+If the charge per computer is equal or greater than x, we can run the remaining computers for sum / n minutes. And this is our answer!
+
+sum/n because for each time instant, we need to find 'n'computers with non zero battery. Now if we arrange it in a 2d grid where each row is a time instant and each column is a computer then we will completely fill floor(sum/n) rows and 1 row may or may not be filled with some batteries
+
+Now, if the max value is greater than sum/n, then the battery units for that battery will flow over into multiple columns, which means that at least one column will be completely filled with the units of that battery (because height of each column is sum/n and max battery has more than sum/n units) hence for at least for one row, two columns will use the same battery, which is not allowed. hence we remove that battery and repeat the process for the remaining batteries. in the end, when max is not greater than sum/n, answer is sum/n
+*/
