@@ -19,6 +19,8 @@ pair<int,int> find(TreeNode* root,int B,int&ans)
     int rh = pr.first , rd = pr.second;
 
     //Current root acts as  a pivot vertex for the longest path from 'B' to some other leaf
+    // ld/rd is basically distance of that child node from the node 'B', for all nodes that dont have 'B'
+    // int its subtree, 'd' value will be INT_MAX
     
     if(ld!=INT_MAX){ans = max(ans,ld+1+rh+1);}
     if(rd!=INT_MAX){ans = max(ans,rd+1+lh+1);}
