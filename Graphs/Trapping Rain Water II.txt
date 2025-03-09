@@ -1,0 +1,105 @@
+// https://leetcode.com/problems/trapping-rain-water-ii/
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<cmath>
+#include<set>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
+map<int, pair<int, int>> directionDelta = {
+    {UP,    {-1, 0}},
+    {DOWN,   {1, 0}},
+    {LEFT,  {0, -1}},
+    {RIGHT,  {0, 1}},
+};
+
+vector<Direction> directions = {UP, DOWN, LEFT, RIGHT};
+
+class Compare{
+    public:
+    bool operator()(pair<int, pair<int, int>> &x, pair<int, pair<int, int>> &y)
+    {
+        return x.first > y.first;
+    }
+};
+
+class Solution {
+public:
+    pair<int, int> getNeighbour(int i, int j, Direction direction) 
+    {
+        pair<int, int> delta = directionDelta[direction];
+        return {i+delta.first, j+delta.second};
+    }
+    bool isValidCell(int i, int j, int m, int n) 
+    {
+        return (i>=0 && j>=0 && i<m && j<n);
+    }
+
+   
+    int trapRainWater(vector<vector<int>>& heightMap) 
+    {
+        int m = heightMap.size(), n = heightMap[0].size();
+
+        priority_queue <pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, Compare> min_h;
+        vector<pair<int, int>> boundaryPoints;
+        for(int i=0; i<m; i++) {boundaryPoints.push_back({i, 0}); boundaryPoints.push_back({i, n-1});}
+        for(int j=0; j<n; j++) {boundaryPoints.push_back({0, j}); boundaryPoints.push_back({m-1, j});}
+        for(auto point : boundaryPoints) {
+            min_h.push({heightMap[point.first][point.second], point});
+        }
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+        vector<vector<int>> minHeightReachable(m, vector<int>(n, INT_MAX));
+
+        while(!min_h.empty()) {
+            int sz = min_h.size();
+            while(sz--) {
+                pair<int, pair<int, int>> curr = min_h.top(); min_h.pop();
+                int i = curr.second.first, j = curr.second.second;
+                int h = curr.first;
+                
+                if(visited[i][j]){continue;}
+                visited[i][j] = true;
+
+                minHeightReachable[i][j] = h;
+
+                for(auto direction : directions) {
+                    pair<int, int> neighbour = getNeighbour(i, j, direction);
+                    int ni = neighbour.first, nj = neighbour.second;
+                    if(!isValidCell(ni, nj, m, n) || visited[ni][nj]) {
+                        continue;
+                    } 
+                    min_h.push({max(h, heightMap[ni][nj]), {ni, nj}});
+                }
+            }
+        }
+
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {cout<<minHeightReachable[i][j]<<" ";}
+            cout<<"\n";
+        }
+
+        int ans = 0;
+
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(minHeightReachable[i][j] != INT_MAX) {
+                    ans+= max(0, minHeightReachable[i][j] - heightMap[i][j]);
+                }
+            }
+        }
+
+        return ans;
+    }
+};
