@@ -1,0 +1,159 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<cmath>
+#include<set>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll LOG_MAX = 30;
+
+ll ceilVal(ll a,ll b) {
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") { 
+	ios_base::sync_with_stdio(0); cin.tie(0); 
+	if(name!="") {
+		freopen((name+".in").c_str(), "r", stdin);
+		freopen((name+".out").c_str(), "w", stdout);
+	}
+}
+
+void dfs(ll u, vector<vll>&graph, ll par, ll d, vll&parent, vll&depth)
+{
+	parent[u] = par;
+	depth[u] = d;
+	for(auto v : graph[u]) {
+		if(v!=par) {
+			dfs(v, graph, u, d+1, parent, depth);
+		}
+	}
+}
+
+int getLCA(ll u, ll v, ll n, vll&parent, vll&depth, vector<vll>&up)
+{
+	if(depth[u]<depth[v]){swap(u,v);}
+    
+    ll k = depth[u]-depth[v];
+    for(ll j=0;j<LOG_MAX;j++)
+    {
+        if(k&(1<<j)){u=up[u][j];}    
+    }
+    
+    //now u and v are at the same depth
+    
+    if(u==v){return u;}
+    
+    for(ll j=LOG_MAX-1;j>=0;j--)
+    {
+        if(up[u][j]!=up[v][j]) //we take the maximum possible jump upwards such that paths dont cross
+        {
+            u = up[u][j];
+            v = up[v][j];
+        }
+    }
+    
+    return up[u][0]; //since we were taking the maximum possible jumps, parent of current node will be lca
+}
+
+ll applyDiff(ll u, vector<vll>&graph, ll par, vll&diff, vll&ans)
+{
+	for(auto v : graph[u]) {
+		if(v!=par) {
+			ans[u]+=applyDiff(v, graph, u, diff, ans);
+		}
+	}
+	ans[u]+=diff[u];
+	return ans[u];
+}
+
+void solve() {
+	ll n,m;
+	cin>>n>>m;
+
+	// cout<<n<<" "<<m<<"\n";
+
+	vector<vll> graph(n);
+	for(int i=1; i<=(n-1); i++) {
+		int a, b; cin>>a>>b; a--; b--;
+		graph[a].push_back(b);
+		graph[b].push_back(a);
+	}
+
+	vll parent(n, -1);
+	vll depth(n);
+	dfs(0, graph, -1, 0, parent, depth);
+
+	// for(int i=0; i<n; i++) {
+	// 	cout<<i<<" "<<parent[i]<<" "<<depth[i]<<"\n";
+	// }
+
+	vector<vll> up(n, vll(LOG_MAX, -1));
+	for(int i=0;  i<n; i++){up[i][0] = parent[i];}
+	for(int j=1; j<LOG_MAX; j++) {
+		for(int i=0; i<n; i++) {
+			if(up[i][j-1] != -1) {
+				up[i][j] = up[up[i][j-1]][j-1];
+			}
+		}
+	}
+
+	vll diff(n, 0);
+
+	while(m--) {
+		ll a, b; cin>>a>>b; a--; b--;
+		ll lca = getLCA(a, b, n, parent, depth, up);
+
+		/*
+		We are using the diff method for arrays here
+		When we start counting using dfs from the leaves, use the diff array
+		to keep track of how many paths contained that node
+
+		We start from bottom because each node has only one parent
+		Its difficult to keep track of children
+		*/
+
+		if(parent[lca] != -1) {
+			diff[parent[lca]] -= 1;
+		}
+		diff[a]+=1; diff[b]+=1;
+		diff[lca]-=1; // we do -1 for lca because its being counted twice from both a and b	
+	}
+	
+	vll ans(n, 0);
+	applyDiff(0, graph, -1, diff, ans);
+
+	for(auto x : ans){cout<<x<<" ";} cout<<"\n";
+}
+
+int main() {
+	setIO("");
+	ll T = 1;
+	while(T--) {
+		solve();
+	}
+	return 0;
+}

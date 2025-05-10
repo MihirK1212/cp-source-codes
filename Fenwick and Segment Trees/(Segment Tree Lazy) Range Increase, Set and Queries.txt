@@ -1,0 +1,161 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<cmath>
+#include<set>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+#define INT_MAX 2147483647
+
+void setIO(string name = "") { 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    if(name!="") {
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+class SegmentTree 
+{
+	vector<int> arr;
+	int n;
+	
+	vector<long long> stSum;
+	vector<long long> stMax;
+	vector<long long> lazyIncrement, lazySet;
+	vector<bool> hasLazySet;
+
+	public:
+
+	SegmentTree(vector<int>&arr) {
+		this->arr = arr;
+		this->n = arr.size();
+		this->stSum = vector<long long>(4*n, 0);
+		this->stMax = vector<long long>(4*n, 0);
+		this->lazyIncrement = vector<long long>(4*n, 0);
+		this->lazySet = vector<long long>(4*n, 0);
+		this->hasLazySet = vector<bool>(4*n, false);
+
+		this->construct(0, 0, n-1);
+	}
+
+	int left(int node) {
+		return 2*node + 1;
+	}
+
+	int right(int node) {
+		return 2*node + 2;
+	}
+
+	void construct(int node, int nl, int nr) 
+	{
+		if(nl == nr) {
+			stSum[node] = arr[nl];
+			stMax[node] = arr[nl];
+		}
+		else {
+			int mid = nl + (nr-nl)/2;
+			construct(left(node), nl, mid);
+            construct(right(node), mid + 1, nr);
+            stSum[node] = stSum[left(node)] + stSum[right(node)];
+			stMax[node] = max(stMax[left(node)], stMax[right(node)]);
+		}
+	}
+
+	void lazyUpdateNode(int node, int nl, int nr) 
+	{
+		/*
+        Before doing any operation do the lazy update on the node
+        Lets say there is a query to increment the range, then first check if there is
+        any lazy operations already on the node - if yes, do them on the current node and lazily
+        propagate them to the children nodes. 
+
+		This function basically clears any pending lazy updates on the node.
+	   */
+		if(hasLazySet[node]) {
+			stSum[node] = (nr-nl+1) * lazySet[node];
+			stMax[node] = lazySet[node];
+
+			if(nl != nr) {
+				lazySet[left(node)] = lazySet[node];
+				lazySet[right(node)] = lazySet[node];
+				hasLazySet[left(node)] = hasLazySet[right(node)] = true;
+				lazyIncrement[left(node)] = lazyIncrement[right(node)] = 0;
+			}
+
+			lazySet[node] = 0;
+			hasLazySet[node] = false;
+		}
+
+		if(lazyIncrement[node] != 0) {
+			stSum[node] += (nr - nl + 1) * lazyIncrement[node];
+			stMax[node] += lazyIncrement[node];
+
+			if(nl != nr) {
+				lazyIncrement[left(node)] += lazyIncrement[node];
+				lazyIncrement[right(node)] += lazyIncrement[node];
+			}
+			
+			lazyIncrement[node] = 0;
+		}
+	}
+
+	int querySum(int node, int nl, int nr, int ql, int qr)
+	{
+		lazyUpdateNode(node, nl, nr);
+
+		if(nl>=ql && nr<=qr) {
+			return stSum[node];
+		}
+		if(nr<ql || nl>qr) {
+			return 0;
+		}
+
+		int mid = nl + (nr-nl)/2;
+		return querySum(left(node), nl, mid, ql, qr) + querySum(right(node), mid+1, nr, ql, qr);
+	}
+
+	void updateIncrease(int node, int nl, int nr, int ql, int qr, int value)
+	{
+		lazyUpdateNode(node, nl, nr);
+
+		if(nl>=ql && nr<=qr) {
+			lazyIncrement[node] += value;
+			lazyUpdateNode(node, nl, nr);
+			return;
+		}
+		if(nr<ql || nl>qr) {
+			return;
+		}
+
+		int mid = nl + (nr-nl)/2;
+		updateIncrease(left(node), nl, mid, ql, qr, value);
+		updateIncrease(right(node), mid+1, nr, ql, qr, value);
+		stSum[node] = stSum[left(node)] + stSum[right(node)];
+		stMax[node] = max(stMax[left(node)], stMax[right(node)]);
+	}
+
+	void updateSet(int node, int nl, int nr, int ql, int qr, int value) 
+	{
+		lazyUpdateNode(node, nl, nr);
+
+		if(nl>=ql && nr<=qr) {
+			lazySet[node] = value;
+			hasLazySet[node] = true;
+			lazyUpdateNode(node, nl, nr);
+			return;
+		}
+		if(nr<ql || nl>qr) {
+			return;
+		}
+
+		int mid = nl + (nr-nl)/2;
+		updateSet(left(node), nl, mid, ql, qr, value);
+		updateSet(right(node), mid+1, nr, ql, qr, value);
+		stSum[node] = stSum[left(node)] + stSum[right(node)];
+		stMax[node] = max(stMax[left(node)], stMax[right(node)]);
+	}
+};

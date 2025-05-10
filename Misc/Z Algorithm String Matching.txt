@@ -1,0 +1,50 @@
+(Assume zero indexing)
+
+Z Function:
+z[i] = (longest prefix of the string that is also a prefix of the string starting at index i)
+ eg:- for aaabaab z[4] = 2 (the string "aa")
+
+
+(presubstr is a substring which is also a prefix)
+
+Finding z array:
+1) z[0] = 0 (dont care)
+2) maintain [l,r) which is the presubstr with the maximum r
+3) For a particular i:
+ a. If i >= r then compute z[i] by brute force
+ b. If i < r, then i lies in the current presubstr [l, r).  Now, characters starting from index i will match the characters starting from index (i-l) since [l, r) is a presubstr
+    Thus z[i] could be z[i-l] but we dont know about characters beyond index r hence initial approximation for z[i] = max(0, min(z[i-l], r-i)
+    After this, compute z[i] by brute force
+
+vector<int> z_function(string s) {
+    int n = s.size();
+    vector<int> z(n);
+    int l = 0, r = 0;
+    for(int i = 1; i < n; i++) {
+        if(i < r) {
+            z[i] = min(r - i, z[i - l]);
+        }
+        while(i + z[i] < n && s[z[i]] == s[i + z[i]]) {
+            z[i]++;
+        }
+        if(i + z[i] > r) {
+            l = i;
+            r = i + z[i];
+        }
+    }
+    return z;
+}
+
+
+
+Z function for string matching:
+
+After computing the Z-array for the concatenated string "pattern$text", we identify pattern occurrences by checking for positions in the Z-array where the value equals the length of the pattern; each such position indicates a match starting at the corresponding index in the text.
+
+
+
+
+
+
+
+

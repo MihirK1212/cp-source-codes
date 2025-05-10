@@ -1,0 +1,78 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<cmath>
+#include<set>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+#define INT_MAX 1e9 + 7
+
+const int MOD = 1e9 + 7;
+const int MAX = 1e9 + 2;
+
+pair<int,int> DEFAULT_PAIR = {-1, -1};
+
+void setIO(string name = "") { 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    if(name!="") {
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+/*
+For a given set X let's try to fix which i will be the last person we put in the last elevator ride of our optimal answer for that set.
+If we follow that definition and we have a given configuration of rides for the subset (X−i)
+we can two things with i:
+1. Put i together with the last elevator ride used by the configuration of (X−i)
+2. Create a new elevator ride and put i in it.
+
+That way, the only attributes that matter for a configuration for the set (X−i) is the 
+number of elevator rides it uses (which we will call k) and the ammount of space already used in the last 
+ride of that configuration (which we will call W).
+
+First we minimize the number of rides (k)
+Then we minimize the amount of space used in the last ride (which is W)
+*/
+
+pair<int, int> helper(int mask, int n, vector<int>&weight, int elevatorCapacity, vector<pair<int,int>>&dp)
+{
+	if(dp[mask] != DEFAULT_PAIR) {
+		return dp[mask];
+	}
+
+	pair<int, int> ans = {21, 0};
+
+	for(int i=0; i<n; i++) {
+		if(mask & (1ll<<i)) {
+			pair<int,int> prevAns = helper(mask ^ (1ll<<i), n, weight, elevatorCapacity, dp);
+			if(prevAns != DEFAULT_PAIR){
+				if((prevAns.second + weight[i]) <= elevatorCapacity) {
+					ans = min(ans, {prevAns.first, prevAns.second + weight[i]});
+				}
+				ans = min(ans, {prevAns.first + 1, weight[i]});
+			}
+		}
+	}
+
+	dp[mask] = ans;
+	return ans;
+}
+
+int main() {
+	setIO("input");
+
+	int n, elevatorCapacity;
+	cin >> n >> elevatorCapacity;
+
+	vector<int> weight(n);
+	for(int i=0; i<n; i++){cin>>weight[i];}
+	
+	vector<pair<int,int>> dp(1ll<<n, DEFAULT_PAIR);
+	dp[0] = {1, 0}; //First ride with no people for empty subset of chosen people
+
+	cout<<helper((1ll<<n) - 1, n, weight, elevatorCapacity, dp).first<<"\n";
+}

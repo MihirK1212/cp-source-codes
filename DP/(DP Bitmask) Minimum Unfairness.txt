@@ -19,8 +19,17 @@ public:
 
         dp[0][0] = 0;
         for(int person = 1;person<=k;person++){
-            for(int mask = 0;mask<(1ll << n);mask++){
-                for(int submask=mask;submask;submask=(submask - 1)&mask){
+            for(int mask = 0;mask<(1ll << n);mask++)
+			{
+				// mask refers to the set of cookies we are currently taking into consideration to distribute
+                for(int submask=mask;submask;submask=(submask - 1)&mask)
+                {
+					// submask refers to the cookies we are given to 'person'
+                    /*
+                     this iterates over all submasks of a given mask
+                     submask - 1 decrements submask, turning the rightmost set bit (1) into 0 and flipping all bits to the right of it to 1.
+                     & mask ensures that the result remains a valid submask of mask by removing any bits that were set outside of mask.  
+                    */
                     dp[person][mask] = min(dp[person][mask], max(sum[submask], dp[person - 1][mask ^ submask]));
                 }
             }
