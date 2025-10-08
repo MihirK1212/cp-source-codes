@@ -1,0 +1,128 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<cmath>
+#include<set>
+#include<queue>
+#include<algorithm>
+using namespace std;
+ 
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+ 
+ll inf=std::numeric_limits<long long>::max();
+ 
+ll ceilVal(ll a,ll b) {
+   return ceil(((ld)a)/((ld)b)); 
+}
+ 
+void setIO(string name = "") { 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    if(name!="") {
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+ 
+void computeMinSumWindow(vll&a, ll k, map<pll, ll>&minSumWindow) 
+{
+    ll n = a.size();
+    
+    deque<ll> dq;
+    for(ll i=0; i<k; i++) {
+        while (!dq.empty() && a[i] < dq.back())
+        {
+            dq.pop_back();
+        }
+        dq.push_back(a[i]);
+    }
+ 
+    ll lb = 0, ub = k-1;
+    while (lb<=ub && lb>=0 && ub<n)
+    {
+        minSumWindow[{lb,ub}] = dq.front();
+ 
+        if(dq.front() == a[lb]) {
+            dq.pop_front();
+        }
+        lb++;
+ 
+        ub++;
+        if(ub < n) {
+            while(!dq.empty() && a[ub] < dq.back()) {dq.pop_back();}
+            dq.push_back(a[ub]);
+        }
+    }
+}
+ 
+void solve() {
+    ll n,a,b,i;
+    cin>>n>>a>>b;
+ 
+    vll arr(n);
+    input(arr);
+ 
+    vll prefixSum(n);
+    prefixSum[0] = arr[0];
+    for(i=1; i<n; i++) {
+        prefixSum[i] = (prefixSum[i-1] + arr[i]);
+    }
+ 
+    vll minPrefixSumUpto(n);
+    minPrefixSumUpto[0] = prefixSum[0];
+    for(i=1; i<n; i++) {
+        minPrefixSumUpto[i] = min(minPrefixSumUpto[i-1], prefixSum[i]);
+    }
+ 
+    map<pll, ll> minSumWindow;
+    computeMinSumWindow(prefixSum, b-a+1, minSumWindow);
+ 
+    ll ans = -1e15;
+ 
+    for(i=0; i<n; i++) {
+        if((i-a) < -1) {
+            continue;
+        }
+        else if((i-a) == -1) {
+            ans = max(ans, prefixSum[i]);
+        }
+        else if((i-b)<0 && (i-a)>=0) {
+            // cout<<"i="<<i<<" a="<<a<<" (i-a)="<<i-a<<" minPrefixSumUpto[(i-a)]="<<minPrefixSumUpto[(i-a)]<<"\n";
+            ans = max(ans, prefixSum[i] - minPrefixSumUpto[(i-a)]);
+            ans = max(ans, prefixSum[i]);
+        }
+        else {
+            // cout<<"i="<<i<<" a="<<a<<" b="<<b<<" (i-a)="<<i-a<<" (i-b)="<<(i-b)<<" minSumWindow[{i-b, i-a}]="<<minSumWindow[{i-b, i-a}]<<"\n";
+            ans = max(ans, prefixSum[i] - minSumWindow[{i-b, i-a}]);
+        }
+    }
+ 
+    cout<<ans<<"\n";
+}
+ 
+int main() {
+    setIO("");
+    ll T = 1;
+    while(T--) {
+        solve();
+    }
+    return 0;
+}

@@ -1,0 +1,127 @@
+// https://leetcode.com/problems/minimum-time-to-transport-all-individuals/description/
+
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<cmath>
+#include<set>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+class Solution {
+public:
+
+    int DEFAULT_DP_VALUE = 1e8;
+
+    void eraseIndex(vector<int>&time, int ind)
+    {   
+        //remove element at index ind
+        time.erase(time.begin() + ind);
+    }
+
+    int getMaskMaxValue(vector<int>&arr, int mask)
+    {
+        int n = arr.size();
+        int ans = 0;
+        for(int i=0; i<n; i++) {
+            if(mask & (1<<i)) {
+                ans=  max(ans, arr[i]);
+            }
+        }
+        return ans;
+    }
+
+    double computeJourneyTime(int maxTravellerTime, int mulIndex, vector<double>&mul)
+    {
+        return maxTravellerTime * mul[mulIndex];
+    }
+
+    int computeMulIndexPostJourney(int maxTravellerTime, int mulIndex, vector<double>&mul)
+    {
+        double journeyTime = computeJourneyTime(maxTravellerTime, mulIndex, mul);
+        int sz = mul.size();
+        return (int(floor(journeyTime)) + mulIndex)%sz;
+    }
+
+    pair<double, int> getUpdatedTravelState(int maxTravellerTime, int mulIndex, vector<double>&mul)
+    {
+        return {computeJourneyTime(maxTravellerTime, mulIndex, mul), computeMulIndexPostJourney(maxTravellerTime, mulIndex, mul)};
+    }
+
+    bool isValidJourneyGroup(int mask, int k)
+    {
+        return __builtin_popcount(mask) <= k;
+    }
+
+    double helper(vector<vector<double>>&dp, int mask, int mulIndex, vector<int>&time, vector<double>&mul, vector<int>&maskMaxTime, int n, int k)
+    {
+        // time if starting with mask at the initial point and current cycle is mulIndex
+
+        if(mask == 0) {
+            return 0;
+        }
+        if(dp[mask][mulIndex] != DEFAULT_DP_VALUE) {
+            return dp[mask][mulIndex];
+        }
+
+        for(int submask=mask;submask;submask=(submask - 1)&mask)
+        {
+            // submask will go to the other side
+
+            if(submask == 0 || !isValidJourneyGroup(submask, k)) {
+                continue;
+            }
+
+            auto [timeTakenFirstJourney, mulIndexPostFirstJourney] = 
+            getUpdatedTravelState(maskMaxTime[submask], mulIndex, mul);
+
+            if((mask ^ submask) == 0) {
+                dp[mask][mulIndex] = min(dp[mask][mulIndex], timeTakenFirstJourney);
+            }
+            else {
+                // People who remain at the start after the forward trip
+                int remaining_at_start_mask = mask ^ submask;
+
+                // People who are now at the destination (everyone else)
+                int at_destination_mask = ((1 << n) - 1) ^ remaining_at_start_mask;
+
+                for(int i=0; i<n; i++) {
+                    if(at_destination_mask & (1<<i)) {
+                        auto [timeTakenSecondJourney, mulIndexPostSecondJourney] = 
+                        getUpdatedTravelState(time[i], mulIndexPostFirstJourney, mul);
+
+                        dp[mask][mulIndex] = min(
+                            dp[mask][mulIndex],
+                            timeTakenFirstJourney + timeTakenSecondJourney + helper(dp, (mask ^ submask) | (1 << i), mulIndexPostSecondJourney, time, mul, maskMaxTime, n, k)
+                        );
+                    }
+                }
+            }
+        }
+
+        return dp[mask][mulIndex];
+    }
+
+    double minTime(int n, int k, int m, vector<int>& time, vector<double>& mul) 
+    {
+        if(n==1) {
+            return mul[0] * time[0];
+        }    
+        if(n>=2 && k==1) {
+            return -1;
+        }
+        
+        vector<int> maskMaxTime(4100);
+        for(int mask = 0;mask<(1ll << n);mask++)
+        {
+            maskMaxTime[mask] = getMaskMaxValue(time, mask);
+        }
+
+        vector<vector<double>> dp(4100, vector<double>(mul.size(), DEFAULT_DP_VALUE));
+        helper(dp, (1ll << n) - 1, 0, time, mul, maskMaxTime, n, k);
+
+        return dp[(1ll << n) - 1][0];
+    }
+};

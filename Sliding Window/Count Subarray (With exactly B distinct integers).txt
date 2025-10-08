@@ -7,6 +7,12 @@ int countLessThanOrEq(vector<int>&A,int B)
     freq[A[0]]++;
     count=1;
 
+    /*
+    We can use sliding window to count subarray in these cases where if the 
+    window along with the newly added element is valid, then all the
+    subarrays ending at the newly added element index i.e. `end` are valid
+    */
+
     while(start<=end && end<n)
     {
         if(count<=B)
@@ -40,3 +46,4 @@ int Solution::solve(vector<int> &A, int B)
 
     return c1-c2;
 }
+

@@ -1,0 +1,82 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<cmath>
+#include<set>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b) {
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") { 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    if(name!="") {
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll helper(vll&a) 
+{
+    sort(a.begin(), a.end());
+
+    ll haveAllSumsUpto = 0;
+    for(auto x : a) {
+        if(x > (haveAllSumsUpto + 1)) {
+            return haveAllSumsUpto + 1;
+        }
+        /*
+        If you have all the sums upto `haveSumsUpto`
+        then you can add x to each of these sums to get
+        all the sums upto `haveSumsUpto + x`
+        */
+        haveAllSumsUpto+=x;
+    }
+
+    return haveAllSumsUpto + 1;
+}
+
+void solve() {
+    ll n,i;
+    cin>>n;
+
+    vll a(n);
+    input(a);
+    
+    cout<<helper(a)<<"\n";
+}
+
+int main() {
+    setIO("");
+    ll T = 1;
+    while(T--) {
+        solve();
+    }
+    return 0;
+}

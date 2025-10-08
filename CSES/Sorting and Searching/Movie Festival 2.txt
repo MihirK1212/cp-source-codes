@@ -1,0 +1,84 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<cmath>
+#include<set>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define all(x) (x).begin(), (x).end()
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+#define cy cout<<"YES\n";
+#define cn cout<<"NO\n";
+#define cig cin.ignore();
+typedef long long ll;
+typedef long double ld;
+typedef vector<long long> vll;
+typedef vector<int> vi;
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+ll inf=std::numeric_limits<long long>::max();
+
+ll ceilVal(ll a,ll b) {
+   return ceil(((ld)a)/((ld)b)); 
+}
+
+void setIO(string name = "") { 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    if(name!="") {
+        freopen((name+".in").c_str(), "r", stdin);
+        freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+
+
+void solve() {
+    ll n,k,i;
+    cin>>n>>k;
+
+    multiset<pll> movies;
+    for(i=0; i<n; i++) {
+        ll a, b;
+        cin>>a>>b;
+        movies.insert({b, a});
+    }
+
+    ll ans = 0;
+
+    multiset<ll> watcherMaxFinishTime; 
+    for (int i = 0; i < k; i++) {
+        watcherMaxFinishTime.insert(0); // all watchers initially free at time 0
+    }
+
+    for (auto [end, start] : movies) {
+        auto it = watcherMaxFinishTime.upper_bound(start); // find watcher with max finish time leq current start time
+        if (it == watcherMaxFinishTime.begin()) continue;
+        --it; // watcher available at or before `start`
+        watcherMaxFinishTime.erase(it);
+        watcherMaxFinishTime.insert(end);
+        ans++;
+    }
+
+    cout<<ans<<"\n";
+}
+
+int main() {
+    setIO("");
+    ll T = 1;
+    while(T--) {
+        solve();
+    }
+    return 0;
+}
