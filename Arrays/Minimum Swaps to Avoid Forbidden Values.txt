@@ -1,0 +1,41 @@
+https://leetcode.com/problems/minimum-swaps-to-avoid-forbidden-values/description/
+
+💡 Approach
+We're given two arrays a, f and we need to make swaps in a such that a[i] != f[i] holds for 0 <= i < n.
+Let's take two maps :
+a_map stores the frequency of elements in a
+f_map stores the frequency of elements in f.
+For every element present in a[i], there are n - f_map[a[i]] number of vacant spots where we can place it.
+For eg : If a = [1, 3, 5, 5], f = [1, 5, 1, 3]
+As a[0] == f[0], we need to swap a[0], so the number of free positions where we can move a[0] to are:
+n - f_map[a[0]] = 4 - 2 = 2.
+These two positions are index 1 and 3.
+So if the Number of Vacant Spots < Frequency of a[i], then we can simply return -1 as no swapping would avoid atleast one a[i] == f[i] case.
+If swapping is possible, then we need to pick the max of :
+Number of pairs possible + 1 individual swap (if any).
+Like for a = [1, 3, 5] and f = [1, 3, 5], here the number of swaps required are 1 Pair Swap + 1 Individual Swap.
+Frequency of element with most a[i] == f[i] cases.
+Like for a = [19, 1, 19, 3] and f = [19, 2, 19, 4], here the number of swaps required would've been 1 pair, but as 19 is matching twice, atleast 2 swaps are required.
+💻 Implementation
+class Solution {
+public:
+    int minSwaps(vector<int>& a, vector<int>& f) {
+        int cnt = 0, n = a.size(), maxi = 0;
+        map<int,int> a_map, f_map, matching;
+
+        for (int i = 0; i < n; i++) {
+            if (a[i] == f[i]) {
+                cnt += (a[i] == f[i]);
+                matching[a[i]]++;
+                maxi = max(maxi, matching[a[i]]);
+            }
+            a_map[a[i]]++; f_map[f[i]]++;
+        }
+
+        for (auto& p : a_map) {
+            if (p.second > n - f_map[p.first]) return -1;
+        }
+
+        return max(maxi, (cnt + 1)/2);
+    }
+};
