@@ -1,0 +1,16 @@
+# (UNSOLVED) Elevator Problem
+
+## Problem Description
+
+A building has floors numbered 0 through `n` (where `n <= 10^18`). There is a single elevator with four buttons: "go to floor 0", "+a floors", "+b floors", and "+c floors". We have `a, b, c <= 10^6`. Compute the number of unreachable floors.
+
+## Solution Approach
+
+This feels like a number theory problem, but trying to solve it by GCDs and casework will not lead to success. Instead, treat it as a graph theory problem. First, note that if you can reach floor `x`, you can reach all floors of the form `x + k*a`. Hence, for each remainder modulo `a`, all we need is the smallest reachable `x` with this remainder. These can be found by using Dijkstra’s shortest path algorithm on a graph with `a` nodes. The nodes are the remainder classes, and from each node there are two edges, corresponding to `+b` and `+c`.
+
+The stunning thing about this problem is the asymmetry of the solution: you are treating one button differently from the other two.
+
+```
+// No direct code solution provided in the original file.
+// The approach involves Dijkstra's algorithm on a graph of remainder classes.
+```

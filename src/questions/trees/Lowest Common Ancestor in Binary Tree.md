@@ -1,0 +1,27 @@
+# Lowest Common Ancestor in Binary Tree
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) 
+    {
+        if(root==p || root==q || root==NULL){return root;}
+        
+        TreeNode* left = lowestCommonAncestor(root->left,p,q);
+        TreeNode* right = lowestCommonAncestor(root->right,p,q);
+        
+        if(left==NULL){return right;} //both are on right side
+        else if(right==NULL){return left;} //both are on left side
+        return root; //one is on right one is on left
+    }
+};
+```

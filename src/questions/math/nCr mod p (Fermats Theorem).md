@@ -1,0 +1,109 @@
+# nCr mod p (Fermats Theorem)
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long 
+#define ld long double 
+#define vll vector<long long>
+#define vi vector<int>
+#define f first
+#define s second
+#define pb push_back
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
+#define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
+typedef vector<pair<ll,ll>> vpll;
+typedef vector<pair<int,int>> vpii;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef pair<int,pair<int,int>> ppi;
+
+
+
+/*
+
+(a/b)%m = (a*(b^(-1)))%m = ((a%m)*((b^(-1))%m))%m
+
+By Fermat's Little Theorem, if m is prime then (a^m - a) is an integral multiple of m
+Hence we have (a^m - a) = (x*m) for some x
+By taking mod on both sides and simplifying, we get:
+
+(a^(-1))%m) = (a^(m-2))%m)
+
+
+Hence, (a^(-1))%m) = modInverse(a,m) = modPow(a,m-2)
+
+Hence (nCr)%m = (n!/(r!*(n-r)!))%m = (((n!)%m)*(modPow(r!,m-2))*(modPow((n-r)!,m-2))%m
+
+*/
+
+ll mod = 1000000007;
+
+ll inf=std::numeric_limits<long long>::max();
+
+unsigned long long fact[100005];
+
+void setIO(string name = "") 
+{ 
+    ios_base::sync_with_stdio(0); cin.tie(0); 
+    
+    if(name!="")
+    {
+        freopen((name+".in").c_str(), "r", stdin);
+	    freopen((name+".out").c_str(), "w", stdout);
+    }
+}
+
+ll modPow(ll a,ll n) 
+{
+  ll res = 1;
+  while (n) 
+  {
+    if(n%2==0)
+    {
+      a=(a*a)%mod;
+      n/=2;
+    }
+    else
+    {
+      res=(res*a)%mod;
+      n--;
+    }
+  }
+  return res;
+}
+
+unsigned long long modInverse(ll n)
+{
+    return modPow(n,mod-2);
+}
+
+ll nCr(ll n,ll r)
+{
+    if(n<=0 || r<0 || n<r){return 0;}
+    else if(r==0){return 1;}
+    
+    return (fact[n] * (modInverse(fact[r]))%mod * (modInverse(fact[n-r]))%mod ) % mod;
+}
+
+int main()
+{
+    setIO("");
+    
+    fact[0] = 1;
+    ll i;
+    
+    for(i=1;i<=100000;i++){fact[i]=(fact[i-1]*i)%mod;}
+      
+      
+    ll n =21 , r = 9; 
+        
+    cout<<nCr(n,r)<<"\n";
+    
+	return 0;
+}
+```

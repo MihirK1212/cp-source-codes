@@ -1,0 +1,58 @@
+# Regular Expression Match (DP)
+
+## Problem Description
+
+This problem is from InterviewBit: [Regular Expression Match](https://www.interviewbit.com/problems/regular-expression-match/)
+
+Given an input string `A` and a pattern `B`, implement wildcard pattern matching with support for `?` and `*`.
+
+*   `?` Matches any single character.
+*   `*` Matches any sequence of characters (including the empty sequence).
+
+The matching should cover the entire input string (not partial).
+
+## C++ Solution
+
+```cpp
+int Solution::isMatch(const string A, const string B) 
+{
+    int m = A.length();
+    int n = B.length();
+
+    vector<vector<bool>> dp(m+1,vector<bool>(n+1,false));
+
+    dp[0][0] = true;
+
+    for(int i=1;i<=m;i++){dp[i][0]=false;}
+
+    for(int j=1;j<=n;j++)
+    {
+        if(B[j-1]=='*'){dp[0][j]=true;}
+        else{break;}
+    }
+
+    for(int i=1;i<=m;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+            if(A[i-1]==B[j-1] || B[j-1]=='?')
+            {
+                dp[i][j] = dp[i-1][j-1];
+            }
+            else if(B[j-1]=='*')
+            {
+                dp[i][j] = dp[i-1][j] || dp[i][j-1] || dp[i-1][j-1];
+                
+                //three cases = (* represents sequence of length >1) + (* represents empty sequence) + (* represents single character)
+            }
+            else
+            {
+                dp[i][j] = false;
+            }
+        }
+    }
+
+    return dp[m][n];
+
+}
+```

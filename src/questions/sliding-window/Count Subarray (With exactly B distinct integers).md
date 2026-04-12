@@ -1,0 +1,52 @@
+# Count Subarray (With exactly B distinct integers)
+
+```cpp
+int countLessThanOrEq(vector<int>&A,int B)
+{
+    int n = A.size();
+    int start=0,end=0;
+    int count=0,ans=0; 
+    vector<int> freq(50000);
+    freq[A[0]]++;
+    count=1;
+
+    /*
+    We can use sliding window to count subarray in these cases where if the 
+    window along with the newly added element is valid, then all the
+    subarrays ending at the newly added element index i.e. `end` are valid
+    */
+
+    while(start<=end && end<n)
+    {
+        if(count<=B)
+        {
+            ans+=(end-start+1); //Along with the newly added element , we can take 0,1,...(end-start) continuous elements hence (end-start+1)
+            end++;
+            if(end<n)
+            {
+                freq[A[end]]++;
+                if(freq[A[end]]==1){count++;}
+            }
+        }
+
+        else if(count>B)
+        {
+            if(freq[A[start]]==1){count--;}
+            freq[A[start]]--;
+            start++;
+        }
+
+        
+    }
+
+    return ans;
+}
+int Solution::solve(vector<int> &A, int B) 
+{
+    int c1,c2;
+    c1 = countLessThanOrEq(A,B);
+    c2 = countLessThanOrEq(A,B-1);
+
+    return c1-c2;
+}
+```

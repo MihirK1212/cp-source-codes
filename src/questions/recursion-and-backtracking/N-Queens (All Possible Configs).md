@@ -1,0 +1,79 @@
+# N-Queens (All Possible Configurations)
+
+## Problem Description
+
+The N-Queens puzzle is the problem of placing `N` queens on an `N x N` chessboard such that no two queens attack each other. This means no two queens share the same row, column, or diagonal. The task is to find all distinct solutions to the N-Queens puzzle.
+
+## C++ Solution
+
+```cpp
+class Solution {
+public:
+    vector<vector<string>> ans;
+        
+    bool allowed(int i,int j,vector<string> &board,int N)
+    {
+       int p,q;
+    
+        for(p=0;p<N;p++)
+        {
+            if(board[i][p]=='Q'){return false;}
+        }
+
+        for(p=0;p<N;p++)
+        {
+            if(board[p][j]=='Q'){return false;}
+        }
+
+        for(p=0;p<N;p++)
+        {
+            for(q=0;q<N;q++)
+            {
+                if((p+q)==(i+j) && board[p][q]=='Q'){return false;}
+                if((p-q)==(i-j) && board[p][q]=='Q'){return false;}
+            }
+        }
+        
+        return true;
+    } 
+    
+    void place_queens(vector<string> &board,int row,int N)
+    {
+        if(row==N)
+        {
+            ans.push_back(board);
+            return;
+        }
+        
+        for(int col=0;col<N;col++)
+        {
+            if(!allowed(row,col,board,N)){continue;}
+
+            board[row][col]='Q';
+            place_queens(board,row+1,N);
+            board[row][col]='.';
+        }
+    }
+    
+    vector<vector<string>> solveNQueens(int n) 
+    {
+        
+        string init="";
+        
+        for(int i=1;i<=n;i++)
+        {
+            init+='.';
+        }
+        
+        
+        vector<string> board(n,init);
+
+        place_queens(board,0,n);
+                
+        
+        return ans;
+            
+            
+    }
+};
+```

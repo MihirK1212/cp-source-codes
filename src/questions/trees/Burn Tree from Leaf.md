@@ -1,0 +1,43 @@
+# Burn Tree from Leaf
+
+```cpp
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ * *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+pair<int,int> find(TreeNode* root,int B,int&ans)
+{
+    if(!root){return {-1,INT_MAX};}
+    if((root->val)==B){return {0,0};}
+    
+    auto pl = find(root->left,B,ans);
+    auto pr = find(root->right,B,ans);
+    
+    int lh = pl.first , ld = pl.second;
+    int rh = pr.first , rd = pr.second;
+
+    //Current root acts as  a pivot vertex for the longest path from 'B' to some other leaf
+    // ld/rd is basically distance of that child node from the node 'B', for all nodes that dont have 'B'
+    // int its subtree, 'd' value will be INT_MAX
+    
+    if(ld!=INT_MAX){ans = max(ans,ld+1+rh+1);}
+    if(rd!=INT_MAX){ans = max(ans,rd+1+lh+1);}
+    
+    int h = max(lh,rh) + 1;
+    int d = (ld!=INT_MAX || rd!=INT_MAX)?(min(ld,rd) + 1):INT_MAX;
+    
+    return {h,d};
+}
+int Solution::solve(TreeNode* A, int B) 
+{
+    int ans = 0;
+    find(A,B,ans);
+    
+    return ans;
+}
+```

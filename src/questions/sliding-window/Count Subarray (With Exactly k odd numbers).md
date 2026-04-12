@@ -1,0 +1,56 @@
+# Count Subarray (With Exactly k Odd Numbers)
+
+## Problem Description
+
+Given an array of integers `nums` and an integer `k`, return the number of subarrays that contain exactly `k` odd numbers.
+
+## C++ Solution
+
+```cpp
+class Solution {
+public:
+    int countLessOrEq(vector<int>&nums,int k)
+    {
+        int start = 0 , end = 0;
+        
+        int count = 0;
+        
+        int n = nums.size();
+        
+        int ans = 0;
+        
+        if(n > 0 && (nums[0])&1){count++;} // Initialize count for the first element
+        
+        while(start<=end && end<n)
+        {
+            if(count<=k)
+            {
+                ans+=(end-start+1);
+            }  
+            
+            if(count<=k)
+            {
+                end++;
+                if(end<n && (nums[end])&1){count++;}
+            }
+            else
+            {
+                if((nums[start])&1){count--;}
+                start++;
+                if(start>end && start<n){end=start; count=(nums[start]&1);}
+            }
+        }
+        
+        return ans;
+    }
+    int numberOfSubarrays(vector<int>& nums, int k) 
+    {
+        // The number of subarrays with exactly k odd numbers
+        // is (number of subarrays with at most k odd numbers)
+        // - (number of subarrays with at most k-1 odd numbers).
+        int c1 = countLessOrEq(nums,k);
+        int c2 = countLessOrEq(nums,k-1);
+        return c1-c2;
+    }
+};
+```

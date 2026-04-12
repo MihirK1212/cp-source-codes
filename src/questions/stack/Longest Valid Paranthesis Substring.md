@@ -1,0 +1,48 @@
+# Longest Valid Parentheses Substring (Stack)
+
+## Problem Description
+
+This problem is from InterviewBit: [Longest Valid Parentheses](https://www.interviewbit.com/problems/longest-valid-parentheses/)
+
+Given a string containing just the characters `'('` and `')'`, find the length of the longest valid (well-formed) parentheses substring.
+
+## C++ Solution
+
+```cpp
+int Solution::longestValidParentheses(string A) 
+{
+    int n = A.length();
+
+    if(n==1){return 0;}
+
+    int ans=0,curr_len,c;
+
+    c=0;
+    curr_len=0;
+    for(int i=0;i<n;i++)
+    {
+        if(A[i]=='('){c++;}
+        else{c--;}
+
+        curr_len++;
+
+        if(c==0){ans = max(ans,curr_len);}
+        else if(c<0){c=0; curr_len=0;}
+    }
+
+    c = 0;
+    curr_len = 0;
+    for(int i=n-1;i>=0;i--)
+    {
+        if(A[i]==')'){c++;}
+        else{c--;}
+
+        curr_len++;
+
+        if(c==0){ans = max(ans,curr_len);}
+        else if(c<0){c=0; curr_len=0;}
+    }
+
+    return ans;  
+}
+```

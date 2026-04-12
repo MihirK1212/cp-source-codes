@@ -1,0 +1,5 @@
+# Minimize Difference
+
+For any two numbers `a` and `b` we need to minimize `max(|a−x|,|b−x|)`. This happens when those functions intersect which occurs in `x=(a+b)/2`
+
+So for an array `A`, if we want an `x` such that `max(A[i]-x)` is minimum the choose `x=(min(A)+max(A))/2`

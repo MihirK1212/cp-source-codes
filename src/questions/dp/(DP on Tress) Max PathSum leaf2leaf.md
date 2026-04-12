@@ -1,0 +1,51 @@
+# (DP on Tress) Max PathSum leaf2leaf
+
+```cpp
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;class Solution {
+public:
+    int solve(Node* root,int&ans)
+    {
+        if(root==NULL){return 0;}
+        if(!root->right && !root->left){return root->data;}
+        
+        int l_sum = solve(root->left,ans);
+        int r_sum = solve(root->right,ans);
+        
+        if(root->left && root->right)
+        {
+            ans = max(ans,l_sum+r_sum+root->data);
+            return max(l_sum,r_sum)+root->data;
+        }
+           
+           
+        if(!root->left){return r_sum+root->data;}
+        return l_sum+root->data;
+        
+        
+    } 
+    int maxPathSum(Node* root)
+    {
+        int ans=INT_MIN;
+        int val = solve(root,ans);
+        if(ans==INT_MIN){return val;} //path does not exist
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int tc;
+    scanf("%d ", &tc);
+    while (tc--) {
+        string treeString;
+        getline(cin, treeString);
+        Node *root = buildTree(treeString);
+        Solution ob;
+        cout << ob.maxPathSum(root) << "\n";
+    }
+    return 0;
+}  // } Driver Code Ends
+```
