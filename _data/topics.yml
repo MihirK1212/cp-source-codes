@@ -883,14 +883,14 @@
 - label: "USACO"
   path: "/src/questions/usaco/README.html"
   children:
-    - label: "Bronze — Ad Hoc"
+    - label: "Bronze â€” Ad Hoc"
       path: "/src/questions/usaco/bronze-ad-hoc/README.html"
       problems:
       - label: "Milking Order"
         path: "/src/questions/usaco/bronze-ad-hoc/Milking%20Order.html"
       - label: "Taming the Herd"
         path: "/src/questions/usaco/bronze-ad-hoc/Taming%20the%20Herd.html"
-    - label: "Bronze — Additional Practice"
+    - label: "Bronze â€” Additional Practice"
       path: "/src/questions/usaco/bronze-additional-practice/README.html"
       problems:
       - label: "Drought"
@@ -899,7 +899,7 @@
         path: "/src/questions/usaco/bronze-additional-practice/Field%20Reduction.html"
       - label: "Palindromes Colouring"
         path: "/src/questions/usaco/bronze-additional-practice/Palindromes%20Colouring.html"
-    - label: "Bronze — Complete Search"
+    - label: "Bronze â€” Complete Search"
       path: "/src/questions/usaco/bronze-complete-search/README.html"
       problems:
       - label: "Load Balancing (Find The Error)"
@@ -910,12 +910,12 @@
         path: "/src/questions/usaco/bronze-complete-search/Sleeping%20in%20Class.html"
       - label: "Why Did the Cow Cross the Road II"
         path: "/src/questions/usaco/bronze-complete-search/Why%20Did%20the%20Cow%20Cross%20the%20Road%20II.html"
-    - label: "Bronze — Complete Search w/ Recursion"
+    - label: "Bronze â€” Complete Search w/ Recursion"
       path: "/src/questions/usaco/bronze-complete-search-with-recursion/README.html"
       problems:
       - label: "Twenty Four (UNSOLVED)"
         path: "/src/questions/usaco/bronze-complete-search-with-recursion/Twenty%20Four%20%28UNSOLVED%29.html"
-    - label: "Bronze — Intro to Graph Algorithms"
+    - label: "Bronze â€” Intro to Graph Algorithms"
       path: "/src/questions/usaco/bronze-introduction-to-graph-algorithms/README.html"
       problems:
       - label: "Great Revegetation"
@@ -924,14 +924,14 @@
         path: "/src/questions/usaco/bronze-introduction-to-graph-algorithms/Livestock%20Lineup.html"
       - label: "Milk Factory"
         path: "/src/questions/usaco/bronze-introduction-to-graph-algorithms/Milk%20Factory.html"
-    - label: "Bronze — Intro to Greedy Algorithms"
+    - label: "Bronze â€” Intro to Greedy Algorithms"
       path: "/src/questions/usaco/bronze-introduction-to-greedy-algorithms/README.html"
       problems:
       - label: "Out of Place"
         path: "/src/questions/usaco/bronze-introduction-to-greedy-algorithms/Out%20of%20Place.html"
       - label: "Photoshoot"
         path: "/src/questions/usaco/bronze-introduction-to-greedy-algorithms/Photoshoot.html"
-    - label: "Bronze — Intro to Sets & Maps"
+    - label: "Bronze â€” Intro to Sets & Maps"
       path: "/src/questions/usaco/bronze-introduction-to-sets-and-maps/README.html"
       problems:
       - label: "Cities and States"
@@ -940,7 +940,7 @@
         path: "/src/questions/usaco/bronze-introduction-to-sets-and-maps/Jury%20Marks.html"
       - label: "Year of the Cow"
         path: "/src/questions/usaco/bronze-introduction-to-sets-and-maps/Year%20of%20the%20Cow.html"
-    - label: "Bronze — Rectangle Geometry"
+    - label: "Bronze â€” Rectangle Geometry"
       path: "/src/questions/usaco/bronze-rectangle-geometry/README.html"
       problems:
       - label: "Blocked Billboard - 2"
@@ -949,7 +949,7 @@
         path: "/src/questions/usaco/bronze-rectangle-geometry/Two%20Tables.html"
       - label: "White Sheet"
         path: "/src/questions/usaco/bronze-rectangle-geometry/White%20Sheet.html"
-    - label: "Bronze — Simulation"
+    - label: "Bronze â€” Simulation"
       path: "/src/questions/usaco/bronze-simulation/README.html"
       problems:
       - label: "Block Game"
@@ -962,7 +962,7 @@
         path: "/src/questions/usaco/bronze-simulation/Speeding%20Ticket.html"
       - label: "Traffic Measurement"
         path: "/src/questions/usaco/bronze-simulation/Traffic%20Measurement.html"
-    - label: "Silver — Custom Comparators & Coord. Compression"
+    - label: "Silver â€” Custom Comparators & Coord. Compression"
       path: "/src/questions/usaco/silver-custom-comparators-and-coordinate-compression/README.html"
       problems:
       - label: "(UNSOLVED) Rectangular Pasture"
@@ -971,28 +971,28 @@
         path: "/src/questions/usaco/silver-custom-comparators-and-coordinate-compression/Mountain%20View.html"
       - label: "Rental Service"
         path: "/src/questions/usaco/silver-custom-comparators-and-coordinate-compression/Rental%20Service.html"
-    - label: "Silver — DFS"
+    - label: "Silver â€” DFS"
       path: "/src/questions/usaco/silver-dfs/README.html"
       problems:
       - label: "Closing the Farm"
         path: "/src/questions/usaco/silver-dfs/Closing%20the%20Farm.html"
       - label: "Wormhole Sort"
         path: "/src/questions/usaco/silver-dfs/Wormhole%20Sort.html"
-    - label: "Silver — Trees"
+    - label: "Silver â€” Trees"
       path: "/src/questions/usaco/silver-trees/README.html"
       problems:
       - label: "Clock Tree"
         path: "/src/questions/usaco/silver-trees/Clock%20Tree.html"
       - label: "Family Tree"
         path: "/src/questions/usaco/silver-trees/Family%20Tree.html"
-    - label: "Gold — Intro to DP"
+    - label: "Gold â€” Intro to DP"
       path: "/src/questions/usaco/gold-intro-to-dp/README.html"
       problems:
       - label: "Hoof Paper Scissors"
         path: "/src/questions/usaco/gold-intro-to-dp/Hoof%20Paper%20Scissors.html"
       - label: "Time is Mooney"
         path: "/src/questions/usaco/gold-intro-to-dp/Time%20is%20Mooney.html"
-    - label: "Gold — Knapsack DP"
+    - label: "Gold â€” Knapsack DP"
       path: "/src/questions/usaco/gold-knapsack-dp/README.html"
       problems:
       - label: "Fruit Feast - Method 1"
