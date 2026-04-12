@@ -58,7 +58,7 @@
 
     /* ── Sidebar ──────────────────────────────────────────────────── */
     .sidebar {
-      width: 252px;
+      width: 268px;
       flex-shrink: 0;
       background: #fff;
       border-right: 1px solid #d0d7de;
@@ -66,7 +66,7 @@
       position: sticky;
       top: 52px;
       height: calc(100vh - 52px);
-      padding: 16px 0 32px;
+      padding: 12px 0 32px;
     }
 
     .sidebar-section-title {
@@ -78,31 +78,34 @@
       color: #57606a;
     }
 
+    /* ── Generic nav list resets ──────────────────────────────────── */
     .sidebar nav ul {
       list-style: none;
       margin: 0;
       padding: 0;
     }
-
     .sidebar nav ul li { margin: 0; }
 
-    .sidebar nav ul li a {
+    /* ── Top-level topic link row ─────────────────────────────────── */
+    .nav-row {
+      display: flex;
+      align-items: stretch;
+    }
+    .nav-row > a {
+      flex: 1;
+      min-width: 0;
       display: block;
-      padding: 5px 16px 5px 16px;
+      padding: 5px 8px 5px 16px;
       font-size: 13.5px;
       color: #24292f;
       text-decoration: none;
-      border-radius: 0;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 1.5;
     }
-    .sidebar nav ul li a:hover {
-      background: #f6f8fa;
-      color: #0969da;
-    }
-    .sidebar nav ul li a.active {
+    .nav-row > a:hover { background: #f6f8fa; color: #0969da; }
+    .nav-row > a.active {
       background: #dbeafe;
       color: #0550ae;
       font-weight: 600;
@@ -110,47 +113,65 @@
       padding-left: 13px;
     }
 
-    /* child items (CSES / USACO sub-sections) */
-    .sidebar nav ul ul li a {
+    /* expand/collapse toggle button */
+    .nav-toggle {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0 10px;
+      color: #57606a;
+      font-size: 10px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+    }
+    .nav-toggle:hover { color: #0969da; background: #f6f8fa; }
+
+    /* ── Collapsible list (problems or sub-sections) ──────────────── */
+    .nav-expandable { display: none; }
+    .nav-expandable.open { display: block; }
+
+    /* ── Sub-section items (CSES / USACO folders) ─────────────────── */
+    .nav-expandable.nav-sections > ul > li > .nav-row > a {
       padding-left: 28px;
       font-size: 13px;
       color: #57606a;
     }
-    .sidebar nav ul ul li a:hover {
-      background: #f6f8fa;
+    .nav-expandable.nav-sections > ul > li > .nav-row > a:hover {
       color: #0969da;
     }
-    .sidebar nav ul ul li a.active {
+    .nav-expandable.nav-sections > ul > li > .nav-row > a.active {
       padding-left: 25px;
     }
 
-    /* collapse/expand toggle for parent items with children */
-    .nav-parent {
-      display: flex;
-      align-items: center;
-    }
-    .nav-parent > a { flex: 1; min-width: 0; }
-    .nav-toggle {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 5px 10px 5px 4px;
+    /* ── Problem leaf links ───────────────────────────────────────── */
+    .nav-problems > ul > li > a {
+      display: block;
+      padding: 4px 12px 4px 28px;
+      font-size: 12.5px;
       color: #57606a;
-      font-size: 10px;
-      line-height: 1;
-      flex-shrink: 0;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.45;
     }
-    .nav-toggle:hover { color: #0969da; }
+    .nav-problems > ul > li > a:hover { background: #f6f8fa; color: #0969da; }
+    .nav-problems > ul > li > a.active {
+      background: #dbeafe;
+      color: #0550ae;
+      font-weight: 600;
+      border-left: 3px solid #0969da;
+      padding-left: 25px;
+    }
 
-    /* collapsed child list hidden by default */
-    .nav-children { display: none; }
-    .nav-children.open { display: block; }
-
-    /* divider between top-level groups */
-    .sidebar-divider {
-      height: 1px;
-      background: #d0d7de;
-      margin: 10px 16px;
+    /* problem links nested inside a sub-section (CSES/USACO) */
+    .nav-sections .nav-problems > ul > li > a {
+      padding-left: 40px;
+    }
+    .nav-sections .nav-problems > ul > li > a.active {
+      padding-left: 37px;
     }
 
     /* ── Main content ─────────────────────────────────────────────── */
@@ -190,7 +211,7 @@
         position: fixed;
         top: 52px;
         left: 0;
-        width: 280px;
+        width: 290px;
         height: calc(100vh - 52px);
         z-index: 200;
         transform: translateX(-100%);
@@ -238,21 +259,69 @@
       <nav>
         <ul>
           {% for topic in site.data.topics %}
+            {% assign topic_id = topic.path | slugify %}
+
             {% if topic.children %}
+              {%- comment -%} CSES / USACO — has sub-section folders {%- endcomment -%}
               <li>
-                <div class="nav-parent">
+                <div class="nav-row">
                   <a href="{{ site.baseurl }}{{ topic.path }}" data-path="{{ topic.path }}">{{ topic.label }}</a>
-                  <button class="nav-toggle" aria-label="Expand {{ topic.label }}" onclick="toggleChildren(this)">▶</button>
+                  <button class="nav-toggle" aria-label="Expand {{ topic.label }}"
+                          onclick="toggleExpand('{{ topic_id }}')" id="btn-{{ topic_id }}">▶</button>
                 </div>
-                <ul class="nav-children">
-                  {% for child in topic.children %}
-                    <li><a href="{{ site.baseurl }}{{ child.path }}" data-path="{{ child.path }}">{{ child.label }}</a></li>
-                  {% endfor %}
-                </ul>
+                <div class="nav-expandable nav-sections" id="exp-{{ topic_id }}">
+                  <ul>
+                    {% for child in topic.children %}
+                      {% assign child_id = child.path | slugify %}
+                      <li>
+                        <div class="nav-row">
+                          <a href="{{ site.baseurl }}{{ child.path }}" data-path="{{ child.path }}">{{ child.label }}</a>
+                          {% if child.problems %}
+                            <button class="nav-toggle" aria-label="Expand {{ child.label }}"
+                                    onclick="toggleExpand('{{ child_id }}')" id="btn-{{ child_id }}">▶</button>
+                          {% endif %}
+                        </div>
+                        {% if child.problems %}
+                          <div class="nav-expandable nav-problems" id="exp-{{ child_id }}">
+                            <ul>
+                              {% for prob in child.problems %}
+                                <li><a href="{{ site.baseurl }}{{ prob.path }}" data-path="{{ prob.path }}">{{ prob.label }}</a></li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
               </li>
+
+            {% elsif topic.problems %}
+              {%- comment -%} Regular topic with problems {%- endcomment -%}
+              <li>
+                <div class="nav-row">
+                  <a href="{{ site.baseurl }}{{ topic.path }}" data-path="{{ topic.path }}">{{ topic.label }}</a>
+                  <button class="nav-toggle" aria-label="Expand {{ topic.label }}"
+                          onclick="toggleExpand('{{ topic_id }}')" id="btn-{{ topic_id }}">▶</button>
+                </div>
+                <div class="nav-expandable nav-problems" id="exp-{{ topic_id }}">
+                  <ul>
+                    {% for prob in topic.problems %}
+                      <li><a href="{{ site.baseurl }}{{ prob.path }}" data-path="{{ prob.path }}">{{ prob.label }}</a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </li>
+
             {% else %}
-              <li><a href="{{ site.baseurl }}{{ topic.path }}" data-path="{{ topic.path }}">{{ topic.label }}</a></li>
+              {%- comment -%} Flat link (All Topics) {%- endcomment -%}
+              <li>
+                <div class="nav-row">
+                  <a href="{{ site.baseurl }}{{ topic.path }}" data-path="{{ topic.path }}">{{ topic.label }}</a>
+                </div>
+              </li>
             {% endif %}
+
           {% endfor %}
         </ul>
       </nav>
@@ -279,42 +348,33 @@
       }
       if (!path.startsWith("/")) path = "/" + path;
 
-      // Highlight matching links; for parent links also open their child list
+      // Find and mark the active link, then open all ancestor expand sections
       var links = document.querySelectorAll(".sidebar a[data-path]");
       links.forEach(function (a) {
-        var linkPath = a.getAttribute("data-path");
-        if (linkPath === path) {
-          a.classList.add("active");
-          // Open parent child list if this is a child link
-          var childList = a.closest(".nav-children");
-          if (childList) {
-            childList.classList.add("open");
-            var toggle = childList.previousElementSibling
-                           ? childList.previousElementSibling.querySelector(".nav-toggle")
-                           : null;
-            if (!toggle) {
-              // nav-parent is the sibling before nav-children
-              var parent = childList.parentElement;
-              toggle = parent.querySelector(".nav-toggle");
-            }
-            if (toggle) toggle.textContent = "▼";
+        if (a.getAttribute("data-path") !== path) return;
+
+        a.classList.add("active");
+
+        // Walk up and open every .nav-expandable ancestor
+        var node = a.parentElement;
+        while (node && node.id !== "sidebar") {
+          if (node.classList.contains("nav-expandable")) {
+            node.classList.add("open");
+            // Flip the toggle button arrow
+            var btn = document.getElementById("btn-" + node.id.replace("exp-", ""));
+            if (btn) btn.textContent = "▼";
           }
-          // Also mark parent link active when on a child page
-          var navParent = a.closest("li");
-          if (navParent) {
-            var parentLink = navParent.querySelector(".nav-parent > a");
-            if (parentLink && parentLink !== a) parentLink.classList.add("active");
-          }
+          node = node.parentElement;
         }
       });
     })();
 
-    function toggleChildren(btn) {
-      var li = btn.closest("li");
-      var children = li.querySelector(".nav-children");
-      if (!children) return;
-      var isOpen = children.classList.toggle("open");
-      btn.textContent = isOpen ? "▼" : "▶";
+    function toggleExpand(id) {
+      var panel = document.getElementById("exp-" + id);
+      var btn   = document.getElementById("btn-" + id);
+      if (!panel) return;
+      var isOpen = panel.classList.toggle("open");
+      if (btn) btn.textContent = isOpen ? "▼" : "▶";
     }
 
     function toggleSidebar() {
