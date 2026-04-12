@@ -1,2 +1,0 @@
-https://www.geeksforgeeks.org/string-range-queries-to-find-the-number-of-subsets-equal-to-a-given-string/
-https://www.youtube.com/watch?v=1ko1NTvhvRo

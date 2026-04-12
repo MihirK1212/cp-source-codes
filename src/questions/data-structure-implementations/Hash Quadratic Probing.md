@@ -1,0 +1,20 @@
+# Hash Quadratic Probing
+
+```cpp
+void QuadraticProbing(vector <int>&hashMap, int hashSize, int arr[], int N)
+    {
+        for(int i=0;i<N;i++)
+        {
+            int ind = (arr[i])%hashSize;
+            int k=1;
+            
+            while(hashMap[ind]!=-1 && k<=hashSize)
+            {
+                ind=(arr[i]+k*k)%hashSize;
+                k++;
+            }
+            
+            if(hashMap[ind]==-1){hashMap[ind] = arr[i];}
+        }
+    }
+```

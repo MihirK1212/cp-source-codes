@@ -1,0 +1,43 @@
+# (Sliding Window) Longest with unique characters
+
+```cpp
+class Solution {
+public:
+    int lengthOfLongestSubstring(string str) {
+        
+        int n = str.length();
+        
+        if(n==0){return 0;}
+        
+        map<char,int> freq;
+        freq[str[0]]++;
+        
+        int start=0,end=0;
+        int count = 1;
+        
+        int ans = 1;
+        
+        while(start<=end && end<n)
+        {
+            if(count==(end-start+1))
+            {
+                ans = max(ans,end-start+1);
+                if((end+1)<n)
+                {
+                    if(freq[str[end+1]]==0){count++;}
+                    freq[str[end+1]]++;
+                }
+                end++;
+            }
+            else
+            {
+                if(freq[str[start]]==1){count--;}
+                freq[str[start]]--;
+                start++;
+            }
+        }
+        
+        return ans;
+    }
+};
+```

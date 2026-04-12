@@ -1,0 +1,47 @@
+# Palindromic Partitioning (DP)
+
+## Problem Description
+
+Given a string `s`, partition `s` such that every substring of the partition is a palindrome. Return the minimum cuts needed for a palindromic partitioning of `s`.
+
+## C++ Solution
+
+```cpp
+bool isPalin(string&str)
+{
+    int n = str.length();
+    int low=0,high=n-1;
+
+    while(low<high){if(str[low]!=str[high]){return false;} low++; high--;}
+
+    return true;
+}
+int solve(string&str,int low,int n,vector<int>&dp)
+{
+    if(low>=n){return 0;}
+    if(dp[low]>=0){return dp[low];}
+
+    string y="";
+    int ans = INT_MAX;
+    
+    for(int i=low;i<n;i++)
+    {
+        y+=str[i];
+        if(isPalin(y))
+        {
+            ans = min(ans, solve(str,i+1,n,dp) + (i<(n-1)));
+        }
+    }
+
+    dp[low] = ans;
+    return ans;
+}
+int Solution::minCut(string A) 
+{
+    int n = A.size();
+
+    vector<int> dp(n,-1);
+
+    return solve(A,0,n,dp);
+}
+```

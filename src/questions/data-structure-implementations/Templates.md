@@ -1,0 +1,25 @@
+# Templates
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+template<class Type>
+
+class SLinkedListNode 
+{
+    public:
+    Type elem;
+    SLinkedListNode<Type> *next;
+};
+
+int main()
+{
+	
+	SLinkedListNode<int> node;
+	node.elem=4;
+	node.next=new SLinkedListNode<int>();
+	
+    return 0;
+}
+```

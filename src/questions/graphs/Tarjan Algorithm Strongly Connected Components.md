@@ -1,0 +1,88 @@
+# Tarjan's Algorithm for Strongly Connected Components (SCC)
+
+## Problem Description
+
+This file implements Tarjan's algorithm to find all Strongly Connected Components (SCCs) in a directed graph. A Strongly Connected Component is a maximal subgraph such that for every pair of vertices (u, v) in the subgraph, there is a path from u to v and a path from v to u.
+
+## C++ Solution
+
+```cpp
+class Solution
+{
+public:
+    void dfs(vector<int>adj[],int u,vector<bool>&visited,
+            vector<int>&discTime,vector<int>&minChildTime,
+            stack<int>&stck,vector<bool>&inStack,vector<vector<int>>&ans,int&t)
+    {
+        visited[u]=true;
+        discTime[u]=minChildTime[u]=t;
+        t++;
+        stck.push(u);
+        inStack[u]=true;
+        
+        for(auto v : adj[u])
+        {
+            if(!visited[v])
+            {
+                dfs(adj,v,visited,discTime,minChildTime,stck,inStack,ans,t);
+                minChildTime[u]=min(minChildTime[u],minChildTime[v]);
+            }
+            else if(inStack[v])
+            {
+                minChildTime[u]=min(minChildTime[u],discTime[v]);
+            }
+        }
+        
+        
+        
+        if(minChildTime[u]==discTime[u])
+        {
+            vector<int> curr;
+            while(stck.top()!=u)
+            {
+                int val = stck.top();
+                stck.pop();
+                inStack[val]=false;
+                curr.push_back(val);
+            }
+            curr.push_back(stck.top());
+            stck.pop();
+            inStack[u]=false;
+            sort(curr.begin(),curr.end());
+            ans.push_back(curr);
+            // cout<<"Component is ";
+            // for(auto x : curr){cout<<x<<" ";}
+            // cout<<"\n";
+        }
+        
+       
+    }
+    vector<vector<int>> tarjans(int V, vector<int> adj[])
+    {
+        vector<bool> visited(V,false);
+        vector<int> discTime(V,-1);
+        vector<int> minChildTime(V,-1);
+        
+    
+        stack<int> stck;
+        vector<bool> inStack(V,false);
+        
+        
+        vector<vector<int>> ans;
+        
+        int t = 0;
+        
+        for(int u=0;u<V;u++)
+        {
+            if(!visited[u])
+            {
+                dfs(adj,u,visited,discTime,minChildTime,stck,inStack,ans,t);    
+            }
+        }
+        
+        sort(ans.begin(),ans.end());
+        
+        return ans;
+    }
+};
+```

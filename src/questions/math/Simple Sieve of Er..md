@@ -1,0 +1,40 @@
+# Simple Sieve of Eratosthenes
+
+## Problem Description
+
+This problem implements the Sieve of Eratosthenes algorithm to find all prime numbers up to a given integer `n`.
+
+## C++ Solution
+
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    long long n,i,j;
+    cin>>n;
+    vector<bool> is_prime (n+1,true);
+    is_prime[0]=is_prime[1]=false;
+    for(i=2;i<=n;i++)
+    {
+        if(is_prime[i])
+        {
+            for(j=i*i;j<=n;j+=i)
+            {
+                 is_prime[j]=false;
+            }
+        }
+    }
+    
+    for(i=1;i<=n;i++)
+    {
+        if(is_prime[i]){cout<<i<<" ";}
+    }
+    cout<<"\n";
+    
+
+    return 0;
+}
+```
