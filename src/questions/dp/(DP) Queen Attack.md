@@ -8,6 +8,7 @@ Given a chessboard represented by a `vector<string> A`, where '1' denotes the pr
 
 ## C++ Solution
 
+{% raw %}
 ```cpp
 vector<vector<int> > Solution::queenAttack(vector<string> &A) 
 {
@@ -47,3 +48,4 @@ vector<vector<int> > Solution::queenAttack(vector<string> &A)
     return dp;
 }
 ```
+{% endraw %}
