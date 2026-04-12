@@ -1,6 +1,13 @@
+---
+layout: default
+permalink: /
+---
+
 # CP & DSA source codes
 
-Competitive programming notes and solutions organized by topic. Each markdown file under [`src/questions/`](src/questions/) holds a problem write-up and/or solution sketch.
+Competitive programming notes and solutions organized by topic. Each markdown file under [`src/questions/`](src/questions/README.html) holds a problem write-up and/or solution sketch.
+
+**GitHub Pages:** This site is built with [Jekyll](https://jekyllrb.com/) on [GitHub Pages](https://docs.github.com/pages). Problem pages are published as **HTML** (`.html`), not raw `.md`. Use links from the topic indexes below, or replace `.md` with `.html` in the URL. If your Pages URL uses a different repo name, set `baseurl` in [`_config.yml`](_config.yml).
 
 ## Table of contents
 
@@ -17,36 +24,36 @@ Competitive programming notes and solutions organized by topic. Each markdown fi
 
 ## Browse by topic
 
-| Topic | Folder |
+| Topic | Index |
 | --- | --- |
-| Arrays | [`src/questions/arrays/`](src/questions/arrays/) |
-| Binary search | [`src/questions/binary-search/`](src/questions/binary-search/) |
-| Data structure implementations | [`src/questions/data-structure-implementations/`](src/questions/data-structure-implementations/) |
-| Dynamic programming | [`src/questions/dp/`](src/questions/dp/) |
-| Disjoint set union (DSU) | [`src/questions/dsu/`](src/questions/dsu/) |
-| Fenwick & segment trees | [`src/questions/fenwick-and-segment-trees/`](src/questions/fenwick-and-segment-trees/) |
-| Graphs | [`src/questions/graphs/`](src/questions/graphs/) |
-| Heaps | [`src/questions/heaps/`](src/questions/heaps/) |
-| Linked list | [`src/questions/linked-list/`](src/questions/linked-list/) |
-| Math | [`src/questions/math/`](src/questions/math/) |
-| Misc | [`src/questions/misc/`](src/questions/misc/) |
-| Queue | [`src/questions/queue/`](src/questions/queue/) |
-| Recursion & backtracking | [`src/questions/recursion-and-backtracking/`](src/questions/recursion-and-backtracking/) |
-| Sliding window | [`src/questions/sliding-window/`](src/questions/sliding-window/) |
-| Stack | [`src/questions/stack/`](src/questions/stack/) |
-| Subarray hashing | [`src/questions/subarray-hashing/`](src/questions/subarray-hashing/) |
-| Trees | [`src/questions/trees/`](src/questions/trees/) |
+| Arrays | [`src/questions/arrays/README.html`](src/questions/arrays/README.html) |
+| Binary search | [`src/questions/binary-search/README.html`](src/questions/binary-search/README.html) |
+| Data structure implementations | [`src/questions/data-structure-implementations/README.html`](src/questions/data-structure-implementations/README.html) |
+| Dynamic programming | [`src/questions/dp/README.html`](src/questions/dp/README.html) |
+| Disjoint set union (DSU) | [`src/questions/dsu/README.html`](src/questions/dsu/README.html) |
+| Fenwick & segment trees | [`src/questions/fenwick-and-segment-trees/README.html`](src/questions/fenwick-and-segment-trees/README.html) |
+| Graphs | [`src/questions/graphs/README.html`](src/questions/graphs/README.html) |
+| Heaps | [`src/questions/heaps/README.html`](src/questions/heaps/README.html) |
+| Linked list | [`src/questions/linked-list/README.html`](src/questions/linked-list/README.html) |
+| Math | [`src/questions/math/README.html`](src/questions/math/README.html) |
+| Misc | [`src/questions/misc/README.html`](src/questions/misc/README.html) |
+| Queue | [`src/questions/queue/README.html`](src/questions/queue/README.html) |
+| Recursion & backtracking | [`src/questions/recursion-and-backtracking/README.html`](src/questions/recursion-and-backtracking/README.html) |
+| Sliding window | [`src/questions/sliding-window/README.html`](src/questions/sliding-window/README.html) |
+| Stack | [`src/questions/stack/README.html`](src/questions/stack/README.html) |
+| Subarray hashing | [`src/questions/subarray-hashing/README.html`](src/questions/subarray-hashing/README.html) |
+| Trees | [`src/questions/trees/README.html`](src/questions/trees/README.html) |
 
 ---
 
 ## CSES
 
-| Section | Folder |
+| Section | Index |
 | --- | --- |
-| DP | [`src/questions/cses/DP/`](src/questions/cses/DP/) |
-| Range queries | [`src/questions/cses/range-queries/`](src/questions/cses/range-queries/) |
-| Sorting & searching | [`src/questions/cses/sorting-and-searching/`](src/questions/cses/sorting-and-searching/) |
-| Trees | [`src/questions/cses/Trees/`](src/questions/cses/Trees/) |
+| DP | [`src/questions/cses/DP/README.html`](src/questions/cses/DP/README.html) |
+| Range queries | [`src/questions/cses/range-queries/README.html`](src/questions/cses/range-queries/README.html) |
+| Sorting & searching | [`src/questions/cses/sorting-and-searching/README.html`](src/questions/cses/sorting-and-searching/README.html) |
+| Trees | [`src/questions/cses/Trees/README.html`](src/questions/cses/Trees/README.html) |
 
 ---
 
@@ -54,32 +61,32 @@ Competitive programming notes and solutions organized by topic. Each markdown fi
 
 ### Bronze
 
-| Track | Folder |
+| Track | Index |
 | --- | --- |
-| Additional practice | [`src/questions/usaco/bronze-additional-practice/`](src/questions/usaco/bronze-additional-practice/) |
-| Ad hoc | [`src/questions/usaco/bronze-ad-hoc/`](src/questions/usaco/bronze-ad-hoc/) |
-| Complete search | [`src/questions/usaco/bronze-complete-search/`](src/questions/usaco/bronze-complete-search/) |
-| Complete search with recursion | [`src/questions/usaco/bronze-complete-search-with-recursion/`](src/questions/usaco/bronze-complete-search-with-recursion/) |
-| Introduction to graph algorithms | [`src/questions/usaco/bronze-introduction-to-graph-algorithms/`](src/questions/usaco/bronze-introduction-to-graph-algorithms/) |
-| Introduction to greedy algorithms | [`src/questions/usaco/bronze-introduction-to-greedy-algorithms/`](src/questions/usaco/bronze-introduction-to-greedy-algorithms/) |
-| Introduction to sets and maps | [`src/questions/usaco/bronze-introduction-to-sets-and-maps/`](src/questions/usaco/bronze-introduction-to-sets-and-maps/) |
-| Rectangle geometry | [`src/questions/usaco/bronze-rectangle-geometry/`](src/questions/usaco/bronze-rectangle-geometry/) |
-| Simulation | [`src/questions/usaco/bronze-simulation/`](src/questions/usaco/bronze-simulation/) |
+| Additional practice | [`src/questions/usaco/bronze-additional-practice/README.html`](src/questions/usaco/bronze-additional-practice/README.html) |
+| Ad hoc | [`src/questions/usaco/bronze-ad-hoc/README.html`](src/questions/usaco/bronze-ad-hoc/README.html) |
+| Complete search | [`src/questions/usaco/bronze-complete-search/README.html`](src/questions/usaco/bronze-complete-search/README.html) |
+| Complete search with recursion | [`src/questions/usaco/bronze-complete-search-with-recursion/README.html`](src/questions/usaco/bronze-complete-search-with-recursion/README.html) |
+| Introduction to graph algorithms | [`src/questions/usaco/bronze-introduction-to-graph-algorithms/README.html`](src/questions/usaco/bronze-introduction-to-graph-algorithms/README.html) |
+| Introduction to greedy algorithms | [`src/questions/usaco/bronze-introduction-to-greedy-algorithms/README.html`](src/questions/usaco/bronze-introduction-to-greedy-algorithms/README.html) |
+| Introduction to sets and maps | [`src/questions/usaco/bronze-introduction-to-sets-and-maps/README.html`](src/questions/usaco/bronze-introduction-to-sets-and-maps/README.html) |
+| Rectangle geometry | [`src/questions/usaco/bronze-rectangle-geometry/README.html`](src/questions/usaco/bronze-rectangle-geometry/README.html) |
+| Simulation | [`src/questions/usaco/bronze-simulation/README.html`](src/questions/usaco/bronze-simulation/README.html) |
 
 ### Silver
 
-| Track | Folder |
+| Track | Index |
 | --- | --- |
-| Custom comparators & coordinate compression | [`src/questions/usaco/silver-custom-comparators-and-coordinate-compression/`](src/questions/usaco/silver-custom-comparators-and-coordinate-compression/) |
-| DFS | [`src/questions/usaco/silver-dfs/`](src/questions/usaco/silver-dfs/) |
-| Trees | [`src/questions/usaco/silver-trees/`](src/questions/usaco/silver-trees/) |
+| Custom comparators & coordinate compression | [`src/questions/usaco/silver-custom-comparators-and-coordinate-compression/README.html`](src/questions/usaco/silver-custom-comparators-and-coordinate-compression/README.html) |
+| DFS | [`src/questions/usaco/silver-dfs/README.html`](src/questions/usaco/silver-dfs/README.html) |
+| Trees | [`src/questions/usaco/silver-trees/README.html`](src/questions/usaco/silver-trees/README.html) |
 
 ### Gold
 
-| Track | Folder |
+| Track | Index |
 | --- | --- |
-| Intro to DP | [`src/questions/usaco/gold-intro-to-dp/`](src/questions/usaco/gold-intro-to-dp/) |
-| Knapsack DP | [`src/questions/usaco/gold-knapsack-dp/`](src/questions/usaco/gold-knapsack-dp/) |
+| Intro to DP | [`src/questions/usaco/gold-intro-to-dp/README.html`](src/questions/usaco/gold-intro-to-dp/README.html) |
+| Knapsack DP | [`src/questions/usaco/gold-knapsack-dp/README.html`](src/questions/usaco/gold-knapsack-dp/README.html) |
 
 ---
 
@@ -87,7 +94,9 @@ Competitive programming notes and solutions organized by topic. Each markdown fi
 
 | Path | Contents |
 | --- | --- |
-| [`src/questions/`](src/questions/) | Problem markdown grouped by topic or contest. Start from [`src/questions/README.md`](src/questions/README.md) for a hub page with links into every topic; each folder has its own generated `README.md` listing every `.md` file (for GitHub and GitHub Pages). |
+| [`_config.yml`](_config.yml) | Jekyll / GitHub Pages config (`baseurl`, optional front matter). |
+| [`_layouts/default.html`](_layouts/default.html) | HTML wrapper and markdown styling for rendered pages. |
+| [`src/questions/README.html`](src/questions/README.html) | Hub of all topics (generated from `README.md` in that folder). |
 | [`scripts/`](scripts/) | Helper scripts |
 
 ---
@@ -96,3 +105,14 @@ Competitive programming notes and solutions organized by topic. Each markdown fi
 
 - [`scripts/format_md_questions.py`](scripts/format_md_questions.py) — normalize fences, headers, and links in question markdown under `src/questions/`.
 - [`scripts/generate_question_indexes.py`](scripts/generate_question_indexes.py) — regenerate `README.md` indexes under `src/questions/` (run after adding or renaming problem files).
+
+---
+
+## Local Jekyll preview
+
+```bash
+bundle install
+bundle exec jekyll serve
+```
+
+Open the site at `http://127.0.0.1:4000/cp-source-codes/` (adjust `baseurl` if you change it).

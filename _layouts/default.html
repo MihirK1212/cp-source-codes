@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ page.name | replace: '.md', '' | replace: '.html', '' }}{% endif %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css" crossorigin="anonymous">
+  <style>
+    body { margin: 0; background: #fff; color: #24292f; }
+    .markdown-body { box-sizing: border-box; min-width: 200px; max-width: 980px; margin: 0 auto; padding: 45px; }
+    @media (max-width: 767px) { .markdown-body { padding: 16px; } }
+    .markdown-body .highlight pre { margin: 0; padding: 16px; overflow-x: auto; background: #f6f8fa; border-radius: 6px; }
+    .markdown-body pre:not(.highlight pre) { padding: 16px; overflow-x: auto; background: #f6f8fa; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    {{ content }}
+  </article>
+</body>
+</html>

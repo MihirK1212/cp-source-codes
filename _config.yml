@@ -1,0 +1,32 @@
+# GitHub Pages builds with Jekyll. Problem .md files are rendered as HTML via
+# jekyll-optional-front-matter; remove_originals avoids publishing raw .md as static files.
+# Set baseurl to your repository name (the segment after github.io in project Pages URLs).
+
+url: "https://mihirk1212.github.io"
+baseurl: "/cp-source-codes"
+repository: mihirk1212/cp-source-codes
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-optional-front-matter
+  - jekyll-default-layout
+  - jekyll-titles-from-headings
+
+optional_front_matter:
+  remove_originals: true
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+exclude:
+  - scripts
+  - Gemfile
+  - Gemfile.lock
+  - "*.gemspec"
