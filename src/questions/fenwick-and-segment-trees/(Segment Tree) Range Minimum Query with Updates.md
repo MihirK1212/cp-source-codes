@@ -30,14 +30,14 @@ int findMin(vector<int>&st,int node,int l,int r,int ql,int qr)
 
 int updateST(vector<int>&st,int node,int l,int r,int ind,int val)
 {
-     if(l==r)
+	if(ind<l || ind>r){return st[node];}
+
+    if(l==r)
     {
         if(l==ind){st[node] = val;}
         return st[node];
     }
 
-	if(ind<l || ind>r){return st[node];}
-    
     int mid = (l+r)/2;
     
     st[node] = min(updateST(st,2*node+1,l,mid,ind,val),updateST(st,2*node+2,mid+1,r,ind,val));
