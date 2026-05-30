@@ -35,6 +35,7 @@ This solution employs a Multi-Source BFS to calculate the shortest distance from
         *   Add `dist[px][py]` to `ans`.
     *   Return `ans`.
 
+{% raw %}
 ```cpp
 #include <vector>
 #include <queue>
@@ -112,3 +113,4 @@ vector<int> Solution::nearestHotel(vector<vector<int> > &A, vector<vector<int> >
     return ans;
 }
 ```
+{% endraw %}
