@@ -102,10 +102,7 @@ void helperCountContains(std::vector<vll> ranges)
     
     vll ans(n); // To store the results for each original index
     
-    // ordered_multiset to store the end points of processed ranges.
-    // The second element of the pair is a unique ID (original index) to handle duplicates correctly.
     ordered_multiset<ll> rangeEnds;
-    int unique_id_counter = 0; // To assign unique IDs for pairs in ordered_multiset
 
     for(const auto& r : ranges) {
         // r[0]: start, r[1]: end, r[2]: original_index
@@ -145,7 +142,6 @@ void helperCountContainedIn(std::vector<vll> ranges)
     vll ans(n); // To store the results for each original index
     
     ordered_multiset<ll> rangeEnds;
-    int unique_id_counter = 0; // To assign unique IDs for pairs in ordered_multiset
 
     for(const auto& r : ranges) {
         // r[0]: start, r[1]: end, r[2]: original_index
