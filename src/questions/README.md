@@ -17,6 +17,7 @@ layout: default
 
 - [Arrays](./arrays/README.html)
 - [Binary search](./binary-search/README.html)
+- [C++ STL](./cpp-stl/README.html)
 - [CSES](./cses/README.html)
 - [Data structure implementations](./data-structure-implementations/README.html)
 - [Dynamic programming](./dp/README.html)

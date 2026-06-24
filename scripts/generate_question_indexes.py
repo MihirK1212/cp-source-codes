@@ -30,6 +30,7 @@ layout: default
 TOP_LEVEL_TITLES: dict[str, str] = {
     "arrays": "Arrays",
     "binary-search": "Binary search",
+    "cpp-stl": "C++ STL",
     "cses": "CSES",
     "data-structure-implementations": "Data structure implementations",
     "dp": "Dynamic programming",

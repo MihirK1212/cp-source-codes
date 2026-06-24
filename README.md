@@ -28,6 +28,7 @@ Competitive programming notes and solutions organized by topic. Each markdown fi
 | --- | --- |
 | Arrays | [`src/questions/arrays/README.html`](src/questions/arrays/README.html) |
 | Binary search | [`src/questions/binary-search/README.html`](src/questions/binary-search/README.html) |
+| C++ STL | [`src/questions/cpp-stl/README.html`](src/questions/cpp-stl/README.html) |
 | Data structure implementations | [`src/questions/data-structure-implementations/README.html`](src/questions/data-structure-implementations/README.html) |
 | Dynamic programming | [`src/questions/dp/README.html`](src/questions/dp/README.html) |
 | Disjoint set union (DSU) | [`src/questions/dsu/README.html`](src/questions/dsu/README.html) |

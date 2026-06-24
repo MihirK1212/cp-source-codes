@@ -14,6 +14,7 @@ layout: default
 - [Big Factorials](./Big%20Factorials.html)
 - [Big Numbers](./Big%20Numbers.html)
 - [Binary Exponentiation](./Binary%20Exponentiation.html)
+- [Bit Manipulation Tricks](./Bit%20Manipulation%20Tricks.html)
 - [Cases of Linear Diophantine Equation](./Cases%20of%20Linear%20Diophantine%20Equation.html)
 - [Convert Decimal to Irreducible Fraction](./Convert%20Decimal%20to%20Irreducible%20Fraction.html)
 - [Divisors of n](./Divisors%20of%20n.html)
