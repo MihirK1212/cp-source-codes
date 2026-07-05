@@ -25,35 +25,67 @@ This algorithm can be extended to solve the string matching problem (finding all
 ## C++ Implementation of Z-Function
 
 ```cpp
-#include <vector>
-#include <string>
-#include <algorithm> // For std::min
-
-vector<int> z_function(string s) {
-    int n = s.size();
-    vector<int> z(n);
-    // z[0] is typically not used in the algorithm or set to 0.
-    // L and R define the current Z-box [L, R)
-    int l = 0, r = 0;
-    for(int i = 1; i < n; i++) {
-        // If i is within the current Z-box
-        if(i < r) {
-            // Use previously computed Z-value from the corresponding position in the prefix
-            // min(remaining length of Z-box, Z-value from i-l)
-            z[i] = min(r - i, z[i - l]);
+class Solution {
+  public:
+    vector<int> compute_z_array(string&str) 
+    {
+        int n = str.length();
+        
+        // z[i] => length of max prefix of s[i...] which is also a prefix of s[0...]
+        vector<int> z(n);
+        z[0] = 0;
+        
+        
+        // ind_with_max_end => index which has rightmost ending of prefix, i.e. i+z[i] is max
+        int ind_with_max_end = 0;
+        
+        for(int i=1; i<n; i++) {
+            // [l, r] => segement match
+            int l = ind_with_max_end, r = ind_with_max_end + z[ind_with_max_end] - 1;
+            
+            
+            int curr_z = 0;
+            
+            if(i<=r) {
+                curr_z = min(z[i-l], r-i+1);
+            }
+            
+            while((i+curr_z)<n && str[i+curr_z]==str[curr_z]) {
+                curr_z++;
+            }
+            
+            
+            z[i] = curr_z;
+            
+            if((i+z[i]) > (ind_with_max_end + z[ind_with_max_end])) {
+                ind_with_max_end = i;   
+            }
         }
-        // Brute-force comparison to extend z[i]
-        while(i + z[i] < n && s[z[i]] == s[i + z[i]]) {
-            z[i]++;
-        }
-        // If current Z-value extends beyond R, update the Z-box
-        if(i + z[i] > r) {
-            l = i;
-            r = i + z[i];
-        }
+        
+        return z;
     }
-    return z;
-}
+    vector<int> search(string &pat, string &txt) 
+    {
+        int m = txt.length();
+        int n = pat.length();
+        
+        string custom = "";
+        custom+=pat;
+        custom+='*';
+        custom+=txt;
+        
+        vector<int> z = compute_z_array(custom);
+        
+        vector<int> ans;
+        for(int i=n+1; i<(n+m+1); i++) {
+            if(z[i] == n) {
+                ans.push_back(i-n-1);
+            }
+        }
+        
+        return ans;
+    }
+};
 ```
 
 ## Z-Algorithm for String Matching

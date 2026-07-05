@@ -32,6 +32,7 @@ layout: default
 - [Recursion & backtracking](./recursion-and-backtracking/README.html)
 - [Sliding window](./sliding-window/README.html)
 - [Stack](./stack/README.html)
+- [String processing](./string-processing/README.html)
 - [Subarray hashing](./subarray-hashing/README.html)
 - [Trees](./trees/README.html)
 - [USACO](./usaco/README.html)

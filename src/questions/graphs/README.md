@@ -23,6 +23,7 @@ layout: default
 - [Cycle detection in undirected graph (DFS)](./Cycle%20detection%20in%20undirected%20graph%20%28DFS%29.html)
 - [DFS](./DFS.html)
 - [Dijkstra's Algorithm](./Dijkstra%27s%20Algorithm.html)
+- [Djistrka with Cost Constraint](./Djistrka%20with%20Cost%20Constraint.html)
 - [Find All Possible Paths from start to end](./Find%20All%20Possible%20Paths%20from%20start%20to%20end.html)
 - [Find Sink in a Graph](./Find%20Sink%20in%20a%20Graph.html)
 - [Find Strongly Connected Components (Kosaraju Algorithm)](./Find%20Strongly%20Connected%20Components%20%28Kosaraju%20Algorithm%29.html)

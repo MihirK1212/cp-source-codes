@@ -31,3 +31,6 @@ layout: default
 - [(Binary Search) Search in Sorted Matrix](./%28Binary%20Search%29%20Search%20in%20Sorted%20Matrix.html)
 - [(Binary Search) kth smallest absoulute difference](./%28Binary%20Search%29%20kth%20smallest%20absoulute%20difference.html)
 - [(Binary Search)Single Element in a Sorted Array](./%28Binary%20Search%29Single%20Element%20in%20a%20Sorted%20Array.html)
+- [Ternary Search for Function Extrema](./Ternary%20Search%20for%20Function%20Extrema.html)
+- [Ternary Search](./Ternary%20Search.html)
+- [Tip for Binary Search](./Tip%20for%20Binary%20Search.html)

@@ -45,6 +45,7 @@ TOP_LEVEL_TITLES: dict[str, str] = {
     "recursion-and-backtracking": "Recursion & backtracking",
     "sliding-window": "Sliding window",
     "stack": "Stack",
+    "string-processing": "String processing",
     "subarray-hashing": "Subarray hashing",
     "trees": "Trees",
     "usaco": "USACO",

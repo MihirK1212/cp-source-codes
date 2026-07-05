@@ -13,3 +13,4 @@ layout: default
 
 - [Out of Place](./Out%20of%20Place.html)
 - [Photoshoot](./Photoshoot.html)
+- [Race](./Race.html)
