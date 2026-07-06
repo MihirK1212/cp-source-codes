@@ -1,0 +1,219 @@
+---
+layout: null
+permalink: /flashcards.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flashcards — CP &amp; DSA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css" crossorigin="anonymous">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #f6f8fa; color: #24292f; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+
+    .hdr {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 12px;
+      height: 52px; padding: 0 20px;
+      background: #24292f; color: #fff;
+      border-bottom: 1px solid #444c56;
+    }
+    .hdr a { color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; }
+    .hdr a:hover { color: #58a6ff; }
+    .hdr-sep { color: #57606a; font-size: 13px; }
+    .hdr-title { font-size: 14px; font-weight: 600; color: #e6edf3; }
+    .hdr-back { margin-left: auto; font-size: 13px; font-weight: 400 !important; }
+
+    #picker { padding: 32px 24px; max-width: 1100px; margin: 0 auto; }
+    #picker h1 { margin: 0 0 8px; font-size: 22px; }
+    #picker p { margin: 0 0 24px; color: #57606a; font-size: 14px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: #fff; border: 1px solid #d0d7de; border-radius: 8px;
+      padding: 18px 16px; cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      user-select: none;
+    }
+    .card:hover { border-color: #0969da; box-shadow: 0 2px 8px rgba(9,105,218,0.15); }
+    .card-label { font-weight: 600; font-size: 14px; margin-bottom: 6px; color: #24292f; }
+    .card-count { font-size: 12px; color: #57606a; }
+
+    #flashcard { display: none; }
+
+    .fc-toolbar {
+      position: sticky; top: 52px; z-index: 90;
+      background: #fff; border-bottom: 1px solid #d0d7de;
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px; flex-wrap: wrap;
+    }
+    .fc-btn {
+      padding: 6px 14px; border: 1px solid #d0d7de; border-radius: 6px;
+      background: #fff; cursor: pointer; font-size: 13px; color: #24292f;
+      white-space: nowrap;
+    }
+    .fc-btn:hover:not(:disabled) { background: #f6f8fa; border-color: #0969da; color: #0969da; }
+    .fc-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .fc-progress { font-size: 13px; color: #57606a; white-space: nowrap; padding: 0 4px; }
+    .fc-spacer { flex: 1; min-width: 8px; }
+    .fc-title {
+      font-size: 12px; color: #57606a;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      max-width: 340px;
+    }
+
+    .fc-body { padding: 32px 24px; max-width: 960px; margin: 0 auto; }
+
+    .markdown-body {
+      background: #fff; border: 1px solid #d0d7de; border-radius: 8px;
+      padding: 40px 48px;
+    }
+    .markdown-body .highlight pre { margin: 0; padding: 16px; overflow-x: auto; background: #f6f8fa; border-radius: 6px; }
+    .markdown-body pre:not(.highlight pre) { padding: 16px; overflow-x: auto; background: #f6f8fa; border-radius: 6px; }
+
+    .fc-status { padding: 60px; text-align: center; color: #57606a; font-size: 14px; }
+
+    @media (max-width: 767px) {
+      #picker { padding: 20px 16px; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .fc-body { padding: 16px; }
+      .markdown-body { padding: 20px 16px; }
+      .fc-title { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hdr">
+    <a href="{{ site.baseurl }}/">CP &amp; DSA</a>
+    <span class="hdr-sep">›</span>
+    <span class="hdr-title">Flashcards</span>
+    <a class="hdr-back" href="{{ site.baseurl }}/">← Back to site</a>
+  </header>
+
+  <div id="picker">
+    <h1>Flashcards</h1>
+    <p>Pick a section to start a randomly ordered series of questions.</p>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div id="flashcard">
+    <div class="fc-toolbar">
+      <button class="fc-btn" onclick="showPicker()">← Sections</button>
+      <button class="fc-btn" id="btnPrev" onclick="navigate(-1)">&#8592; Prev</button>
+      <span class="fc-progress" id="fcProgress"></span>
+      <button class="fc-btn" id="btnNext" onclick="navigate(1)">Next &#8594;</button>
+      <div class="fc-spacer"></div>
+      <span class="fc-title" id="fcTitle"></span>
+    </div>
+    <div class="fc-body">
+      <div id="fcContent" class="markdown-body">
+        <div class="fc-status">Loading…</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var BASE = "{{ site.baseurl }}";
+    var TOPICS = {{ site.data.topics | jsonify }};
+
+    var sections = [];
+    TOPICS.forEach(function (t) {
+      var problems = [];
+      if (t.problems && t.problems.length) {
+        problems = t.problems.slice();
+      } else if (t.children && t.children.length) {
+        t.children.forEach(function (c) {
+          if (c.problems) problems = problems.concat(c.problems);
+        });
+      }
+      if (problems.length === 0) return;
+      sections.push({ label: t.label, problems: problems });
+    });
+
+    var grid = document.getElementById('grid');
+    sections.forEach(function (s, i) {
+      var d = document.createElement('div');
+      d.className = 'card';
+      d.innerHTML =
+        '<div class="card-label">' + esc(s.label) + '</div>' +
+        '<div class="card-count">' + s.problems.length + ' question' + (s.problems.length !== 1 ? 's' : '') + '</div>';
+      d.onclick = function () { startSection(i); };
+      grid.appendChild(d);
+    });
+
+    var queue = [], idx = 0;
+
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+      }
+      return a;
+    }
+
+    function startSection(si) {
+      queue = shuffle(sections[si].problems);
+      idx = 0;
+      document.getElementById('picker').style.display = 'none';
+      document.getElementById('flashcard').style.display = 'block';
+      window.scrollTo(0, 0);
+      showCard();
+    }
+
+    function showPicker() {
+      document.getElementById('flashcard').style.display = 'none';
+      document.getElementById('picker').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    function navigate(dir) {
+      var next = idx + dir;
+      if (next < 0 || next >= queue.length) return;
+      idx = next;
+      showCard();
+    }
+
+    function showCard() {
+      var prob = queue[idx];
+      document.getElementById('fcProgress').textContent = (idx + 1) + ' / ' + queue.length;
+      document.getElementById('fcTitle').textContent = prob.label;
+      document.getElementById('btnPrev').disabled = idx === 0;
+      document.getElementById('btnNext').disabled = idx === queue.length - 1;
+      document.getElementById('fcContent').innerHTML = '<div class="fc-status">Loading…</div>';
+      window.scrollTo(0, 0);
+
+      fetch(BASE + prob.path)
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
+        })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var art = doc.querySelector('article.markdown-body') || doc.querySelector('.markdown-body');
+          document.getElementById('fcContent').innerHTML = art
+            ? art.innerHTML
+            : '<div class="fc-status">Could not extract content.</div>';
+        })
+        .catch(function (e) {
+          document.getElementById('fcContent').innerHTML =
+            '<div class="fc-status">Failed to load: ' + esc(String(e)) + '</div>';
+        });
+    }
+
+    function esc(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+  })();
+  </script>
+
+</body>
+</html>
