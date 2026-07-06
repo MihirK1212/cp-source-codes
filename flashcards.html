@@ -7,11 +7,12 @@ permalink: /flashcards.html
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
   <title>Flashcards — CP &amp; DSA</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css" crossorigin="anonymous">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
-    body { margin: 0; background: #f6f8fa; color: #24292f; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    body { margin: 0; background: #f6f8fa; color: #24292f; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; color-scheme: light; }
 
     .hdr {
       position: sticky; top: 0; z-index: 100;
@@ -73,6 +74,7 @@ permalink: /flashcards.html
     .markdown-body {
       background: #fff; border: 1px solid #d0d7de; border-radius: 8px;
       padding: 40px 48px;
+      color: #24292f;
     }
     .markdown-body .highlight pre { margin: 0; padding: 16px; overflow-x: auto; background: #f6f8fa; border-radius: 6px; }
     .markdown-body pre:not(.highlight pre) { padding: 16px; overflow-x: auto; background: #f6f8fa; border-radius: 6px; }
@@ -199,9 +201,10 @@ permalink: /flashcards.html
         .then(function (html) {
           var doc = new DOMParser().parseFromString(html, 'text/html');
           var art = doc.querySelector('article.markdown-body') || doc.querySelector('.markdown-body');
-          document.getElementById('fcContent').innerHTML = art
-            ? art.innerHTML
-            : '<div class="fc-status">Could not extract content.</div>';
+          var content = art ? art.innerHTML.trim() : '';
+          document.getElementById('fcContent').innerHTML = content
+            ? content
+            : '<div class="fc-status">No content available for this question.</div>';
         })
         .catch(function (e) {
           document.getElementById('fcContent').innerHTML =
