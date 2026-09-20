@@ -7,7 +7,7 @@
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
- * *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
 pair<int,int> find(TreeNode* root,int B,int&ans)

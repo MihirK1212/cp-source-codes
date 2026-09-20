@@ -1,12 +1,4 @@
-# Box Stacking Problem (Dynamic Programming)
-
-## Problem Description
-
-Given `n` boxes with dimensions (Length `L`, Width `W`, Height `H`), find the maximum possible height of a stack of boxes. You can use any subset of the given boxes.
-
-A box `j` can be stacked on top of a box `i` only if it can be placed without any rotation (i.e., Length parallel to Length and Width parallel to Width). This means `L[i] > L[j]` and `W[i] > W[j]`.
-
-## C++ Solution
+# (DP) Box Stack
 
 ```cpp
 #include <bits/stdc++.h>

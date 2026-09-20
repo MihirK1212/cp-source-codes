@@ -1,10 +1,4 @@
-# N-Queens (All Possible Configurations)
-
-## Problem Description
-
-The N-Queens puzzle is the problem of placing `N` queens on an `N x N` chessboard such that no two queens attack each other. This means no two queens share the same row, column, or diagonal. The task is to find all distinct solutions to the N-Queens puzzle.
-
-## C++ Solution
+# N-Queens (All Possible Configs)
 
 ```cpp
 class Solution {
@@ -13,6 +7,7 @@ public:
         
     bool allowed(int i,int j,vector<string> &board,int N)
     {
+        
        int p,q;
     
         for(p=0;p<N;p++)

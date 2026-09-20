@@ -1,10 +1,8 @@
-# Optimal Strategy for Game (DP Memoization)
+# (DP Memoization) Optimal Strategy for Game
 
-## Problem Description
-
-This problem involves two players taking turns to pick coins from the ends of a row of piles. The goal is to find the maximum sum a player can guarantee for themselves. A greedy approach (always picking from odd or even indices) is not optimal; dynamic programming is required to find the maximum coin values. This solution determines if the first player (Alice) can win the game.
-
-## C++ Solution
+//For greedy, i.e. in order to always win, choose either all odd indexed or choose all even indexed
+//based on which has maximum sum
+//To find maximum coin values, we need to use dp
 
 ```cpp
 class Solution {

@@ -1,10 +1,18 @@
-# Last Digit of Fibonacci
+# Last digit of Fibonacci
 
-The last digit of Fibonacci numbers repeats after every an interval of 60. Hence, the last digit of the 1st Fibonacci number is the same as the last digit of the 61st, and the last digit of the 32nd is the same as the last digit of the 92nd.
-
-## C++ Solution
+The last digit of fibonacci numbers repeats after every an interval of 60 
+Hence Last digit of 1st=Last digit of 61st
+         Last digit of 32nd=Last digit of 92nd
 
 ```cpp
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
 #include <iostream>
 
 using namespace std;
@@ -25,9 +33,7 @@ int main()
     cout<<"Enter n:\n";
     cin>>n;
     if(n%60==0)
-    {
-        cout<<dig[59];
-    }
+    {cout<<dig[59];}
     else
     {
         index=n%60;

@@ -1,11 +1,16 @@
 # Combinations on Phone Keypad
 
-## Problem Description
-Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. A mapping of digit to letters (just like on the telephone buttons) is given. Note that 1 does not map to any letters.
-
-## C++ Solution
-
 ```cpp
+// { Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+#include <string>
+
+using namespace std;
+
+
+ // } Driver Code Ends
 //User function Template for C++
 
 class Solution
@@ -66,21 +71,6 @@ class Solution
         return ans;
     }
 };
-```
-
-## Driver Code (C++)
-
-```cpp
-// { Driver Code Starts
-//Initial Template for C++
-
-#include <bits/stdc++.h>
-#include <string>
-
-using namespace std;
-
-
-// } Driver Code Ends
 
 
 // { Driver Code Starts.

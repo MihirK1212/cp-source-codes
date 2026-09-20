@@ -1,4 +1,4 @@
-# Competitive Programming Contest Format Template
+# Contest Format
 
 ```cpp
 #include <bits/stdc++.h>

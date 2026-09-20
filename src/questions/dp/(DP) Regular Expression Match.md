@@ -1,17 +1,6 @@
-# Regular Expression Match (DP)
+# (DP) Regular Expression Match
 
-## Problem Description
-
-This problem is from InterviewBit: [Regular Expression Match](https://www.interviewbit.com/problems/regular-expression-match/)
-
-Given an input string `A` and a pattern `B`, implement wildcard pattern matching with support for `?` and `*`.
-
-*   `?` Matches any single character.
-*   `*` Matches any sequence of characters (including the empty sequence).
-
-The matching should cover the entire input string (not partial).
-
-## C++ Solution
+//https://www.interviewbit.com/problems/regular-expression-match/
 
 ```cpp
 int Solution::isMatch(const string A, const string B) 
@@ -51,6 +40,12 @@ int Solution::isMatch(const string A, const string B)
             }
         }
     }
+
+    // for(int i=0;i<=m;i++)
+    // {
+    //     for(int j=0;j<=n;j++){cout<<dp[i][j]<<" ";}
+    //     cout<<"\n";
+    // }
 
     return dp[m][n];
 

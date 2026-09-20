@@ -1,14 +1,10 @@
-# A and B and Interesting Substrings (Codeforces)
-
-## Problem Description
-
-*(The problem description is not provided in the original file. This solution appears to be for a Codeforces problem involving substrings and character values. A more detailed problem description would need to be added manually or obtained from the Codeforces website.)*
-
-## C++ Solution
+# A and B and Interesting Substrings
 
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
+
+// https://codeforces.com/contest/519/problem/D
 
 #define ll long long 
 #define ld long double 
@@ -51,7 +47,7 @@ int main()
     input(a);
     
     
-    cig;
+	cig;
 	
 	string str;
 	cin>>str;

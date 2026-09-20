@@ -1,12 +1,13 @@
-# Trapping Rain Water (Stack)
-
-## Problem Description
-
-Given `n` non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining. This problem can be solved using a stack or two pointers.
-
-## C++ Solution
+# Trapping Rain Water
 
 ```cpp
+// { Driver Code Starts
+#include<bits/stdc++.h>
+
+using namespace std;
+
+
+ // } Driver Code Ends
 class Solution{
 
     // Function to find the trapped water between the blocks.
@@ -55,14 +56,8 @@ class Solution{
         return ans;
     }
 };
-```
 
-## Driver Code (C++)
-
-```cpp
-#include<bits/stdc++.h>
-
-using namespace std;
+// { Driver Code Starts.
 
 int main(){
     
@@ -89,5 +84,5 @@ int main(){
     }
     
     return 0;
-} 
+}  // } Driver Code Ends
 ```

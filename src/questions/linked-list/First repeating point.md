@@ -1,4 +1,4 @@
-# First Repeating Point in a Linked List
+# First repeating point
 
 ```cpp
 #include <bits/stdc++.h>

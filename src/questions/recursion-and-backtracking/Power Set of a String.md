@@ -1,13 +1,18 @@
 # Power Set of a String
 
-## Problem Description
-
-Given a string, find all possible subsets (the power set) of this string. The subsets should be returned in lexicographical order.
-
-## C++ Solution
-
 ```cpp
+// { Driver Code Starts
+//Initial Template for C++
+
+
+// CPP program to generate power set
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
 //User function Template for C++
+
 
 //Function to return the lexicographically sorted power-set of the string.
 void findSubsets(string &s,string &curr,vector<string>&subsets,int j)
@@ -31,21 +36,10 @@ vector <string> powerSet(string s)
    findSubsets(s,curr,subsets,0);
    return subsets;
 }
-```
-
-## Driver Code (C++)
-
-```cpp
-// { Driver Code Starts
-//Initial Template for C++
 
 
-// CPP program to generate power set
-#include <bits/stdc++.h>
-using namespace std;
+// { Driver Code Starts.
 
-
-// } Driver Code Ends
 
 // Driver code
 int main()

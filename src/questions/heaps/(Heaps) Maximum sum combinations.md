@@ -1,10 +1,4 @@
-# Maximum Sum Combinations (Heaps)
-
-## Problem Description
-
-Given two arrays, `A` and `B`, both of size `N`, and an integer `C`, find `C` pairs `(A[i], B[j])` such that their sum is maximized. Return a vector of these `C` maximum sums.
-
-## C++ Solution
+# (Heaps) Maximum sum combinations
 
 ```cpp
 class Compare
@@ -27,7 +21,7 @@ vector<int> Solution::solve(vector<int> &A, vector<int> &B, int C)
     vector<int> res;
 
     int N = A.size();
-    max_heap.push({A[N-1]+B[N-1],N-1,N-1}); // Push the largest sum initially
+    max_heap.push({A[N-1]+B[N-1],N-1,N-1});
     taken[{N-1,N-1}] = true;
 
     while(!max_heap.empty() && C>0)
@@ -37,7 +31,6 @@ vector<int> Solution::solve(vector<int> &A, vector<int> &B, int C)
 
         res.push_back(sum);
         
-        // Explore two new possible sums by decrementing i or j
         if((i-1)>=0 && j>=0 && !taken[{i-1,j}])
         {
             max_heap.push({A[i-1]+B[j],i-1,j});

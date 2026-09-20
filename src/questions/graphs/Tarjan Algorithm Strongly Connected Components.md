@@ -1,15 +1,9 @@
-# Tarjan's Algorithm for Strongly Connected Components (SCC)
-
-## Problem Description
-
-This file implements Tarjan's algorithm to find all Strongly Connected Components (SCCs) in a directed graph. A Strongly Connected Component is a maximal subgraph such that for every pair of vertices (u, v) in the subgraph, there is a path from u to v and a path from v to u.
-
-## C++ Solution
+# Tarjan Algorithm Strongly Connected Components
 
 ```cpp
 class Solution
 {
-public:
+	public:
     void dfs(vector<int>adj[],int u,vector<bool>&visited,
             vector<int>&discTime,vector<int>&minChildTime,
             stack<int>&stck,vector<bool>&inStack,vector<vector<int>>&ans,int&t)

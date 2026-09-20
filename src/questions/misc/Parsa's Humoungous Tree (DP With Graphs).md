@@ -1,4 +1,4 @@
-# Parsa's Humongous Tree (DP with Graphs)
+# Parsa's Humoungous Tree (DP With Graphs)
 
 ```cpp
 #include <bits/stdc++.h>

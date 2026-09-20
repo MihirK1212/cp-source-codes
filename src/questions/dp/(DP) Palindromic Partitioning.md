@@ -1,10 +1,4 @@
-# Palindromic Partitioning (DP)
-
-## Problem Description
-
-Given a string `s`, partition `s` such that every substring of the partition is a palindrome. Return the minimum cuts needed for a palindromic partitioning of `s`.
-
-## C++ Solution
+# (DP) Palindromic Partitioning
 
 ```cpp
 bool isPalin(string&str)

@@ -1,12 +1,4 @@
-# USACO Bronze: Censoring
-
-## Problem Description
-
-This problem is from USACO: [Censoring (Bronze)](http://www.usaco.org/index.php?page=viewproblem2&cpid=526)
-
-Given a text `S` and a word `T`, remove all occurrences of `T` from `S`. When an occurrence of `T` is removed, the remaining parts of `S` are concatenated, and this might create new occurrences of `T`. The process should be repeated until no more occurrences of `T` can be found.
-
-## C++ Solution
+# Censoring
 
 ```cpp
 #include <bits/stdc++.h>

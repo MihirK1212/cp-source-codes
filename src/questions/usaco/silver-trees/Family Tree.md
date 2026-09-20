@@ -1,12 +1,4 @@
-# USACO Silver: Family Tree
-
-## Problem Description
-
-This problem is from USACO: [Family Tree](http://www.usaco.org/index.php?page=viewproblem2&cpid=833)
-
-*(The problem description is not provided in the original file. This solution appears to be for a USACO Silver problem involving relationships in a family tree, likely using concepts like Lowest Common Ancestor (LCA) and depth to determine familial relationships. A more detailed problem description would need to be added manually or obtained from the USACO website.)*
-
-## C++ Solution
+# Family Tree
 
 ```cpp
 #include <bits/stdc++.h>
@@ -219,7 +211,7 @@ int main()
     }
     
    
-   
+    
     
 	
 	

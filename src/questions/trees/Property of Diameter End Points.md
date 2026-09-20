@@ -1,27 +1,31 @@
-# Property of Diameter End Points in a Tree
+# Property of Diameter End Points
 
 End points of the diameter of a tree can be found as follows:
+1) Choose a node randomly
+2) Find the farthest node from node chosen in 1. This farthest node will be one end of the diameter (say A).
+3) Find the farthest node from A. This farthest node will be the other end of the diameter (say B).
 
-1.  Choose a node randomly.
-2.  Find the farthest node from the node chosen in step 1. This farthest node will be one end of the diameter (say A).
-3.  Find the farthest node from A. This farthest node will be the other end of the diameter (say B).
+Lets say for a forest with nodes 1....n, we define :
 
-Let's say for a forest with nodes 1...n, we define:
-
-*   `p[i]` = the most distant node from `i` on the same tree. If there are several most distant nodes on the same tree, `p[i]` is the id of one with the smallest id.
+ p[i] =  the most distant node from i on the same tree.
+          If there are several most distant nodes on the same tree, pi is the id of one with the smallest id
 
 Then if A and B are the endpoints of the diameter of the tree (take lowest pair of ids), then:
 
-1.  `p[i] = A` or `p[i] = B` for all `i` (farthest node from any given node is one endpoint of the diameter).
-2.  (`p[i] = A` then `p[p[i]] = B`) and (`p[i] = B` then `p[p[i]] = A`) (farthest node from one endpoint is the other end point).
-3.  If `p[i] = i`, then the tree consists of only one node.
+1) p[i] = A or pi = B for all i     (farthest node from any given node is one endpoint of the diameter)
+2) (p[i] = A then p[p[i]] = B)   and (p[i] = B then p[p[i]] = A)  (farthest node from one endpoint is the other end point)
+3) if p[i] = i then tree consists of only one node
 
-Hence, if we have been given an array `p`, the number of trees in the forest can be calculated as:
+
+
+
+Hence, if we have been given an array 'p', number of trees in the forest can be calculated as:
+
+func()
+{
 
 ```cpp
-ll func()
-{
-    ll ans = 0;
+     ll ans = 0;
     
     set<ll> diameter_end_points;
     

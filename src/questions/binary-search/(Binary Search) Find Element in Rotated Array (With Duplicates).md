@@ -1,21 +1,9 @@
-# Find Element in Rotated Sorted Array with Duplicates (Binary Search)
-
-## Problem Description
-
-Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
-
-(i.e., `[0,0,1,2,2,5,6]` might become `[2,5,6,0,0,1,2]`).
-
-You are given a target value to search. If found in the array, return `true`, otherwise return `false`.
-
-This version of the problem allows duplicates in the array, which adds complexity compared to the version without duplicates.
-
-## C++ Solution
+# (Binary Search) Find Element in Rotated Array (With Duplicates)
 
 ```cpp
 class Solution {
 public:
-    bool search(vector<int>& nums, int target) 
+    int search(vector<int>& nums, int target) 
     {
         int n = nums.size();
         

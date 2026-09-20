@@ -1,10 +1,4 @@
-# Largest Rectangle with All 1s
-
-## Problem Description
-
-Given a binary matrix, find the largest rectangle containing only 1s and return its area. This problem is an extension of finding the largest rectangle in a histogram, where each row of the matrix can be considered as a histogram.
-
-## C++ Solution
+# Largest Rectangle with all 1s
 
 ```cpp
 void findLeft(vector<int>&A,vector<int>&leftLimit)
@@ -89,5 +83,6 @@ int Solution::solve(vector<vector<int>> &A)
     }
 
     return ans;
+
 }
 ```

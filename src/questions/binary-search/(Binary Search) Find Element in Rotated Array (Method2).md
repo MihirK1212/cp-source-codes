@@ -1,4 +1,4 @@
-# (Binary Search) Find Element in Rotated Array (Method 2)
+# (Binary Search) Find Element in Rotated Array (Method2)
 
 ```cpp
 class Solution {

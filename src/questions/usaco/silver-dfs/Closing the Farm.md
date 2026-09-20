@@ -1,4 +1,4 @@
-# Closing the Farm (USACO Silver DFS)
+# Closing the Farm
 
 ```cpp
 #include <bits/stdc++.h>

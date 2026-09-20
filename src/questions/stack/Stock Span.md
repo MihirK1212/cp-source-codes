@@ -1,16 +1,18 @@
-# Stock Span Problem
-
-## Problem Description
-
-The stock span problem is a financial application where we have a series of `n` daily stock prices and we need to calculate the span of the stock's price for all `n` days. The span `S[i]` of a stock's price on a given day `i` is the maximum number of consecutive days immediately preceding the current day and including the current day for which the stock price was less than or equal to the price on the current day.
-
-## C++ Solution
+# Stock Span
 
 ```cpp
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+
+
 class Solution
 {
     public:
-    //Function to calculate the span of stock’s price for all n days.
+    //Function to calculate the span of stockâ€™s price for all n days.
     vector <int> calculateSpan(int price[], int n)
     {
        stack<int> s;
@@ -34,13 +36,10 @@ class Solution
        
     }
 };
-```
 
-## Driver Code (C++)
 
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
+
+// { Driver Code Starts.
 
 int main()
 {
@@ -66,4 +65,5 @@ int main()
 	}
 	return 0;
 }
+  // } Driver Code Ends
 ```

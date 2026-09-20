@@ -1,11 +1,5 @@
 # Pattern using BFS
 
-## Problem Description
-
-This C++ code demonstrates how to use Breadth-First Search (BFS) to fill a 2D grid with a pattern based on distance from a starting point. It simulates a propagation effect where cells are colored with increasing values representing their distance from the source.
-
-## C++ Solution
-
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;

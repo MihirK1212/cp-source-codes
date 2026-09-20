@@ -1,4 +1,4 @@
-# (DP) Cashier (Coin Change Problem)
+# (DP) Cashier
 
 ```cpp
 #include <bits/stdc++.h>

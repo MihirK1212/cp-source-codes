@@ -1,14 +1,4 @@
-# Reverse Nodes at Even Positions (Linked List)
-
-## Problem Description
-
-Given a singly linked list, reverse the nodes at even positions and then merge the modified even-positioned sublist back into the original list such that all nodes are in their correct relative positions (i.e., the original odd-positioned nodes remain at odd positions and original even-positioned nodes remain at even positions, but the values of even-positioned nodes are reversed).
-
-The problem typically implies a 1-indexed list, where the head is at position 1 (odd).
-
-## C++ Solution
-
-This solution first separates the original linked list into two sub-lists: one containing nodes at odd positions and another containing nodes at even positions. It then reverses the sub-list of even-positioned nodes and finally merges the two sub-lists back together in the correct alternating order.
+# Reverse Nodes at even positions
 
 ```cpp
 /**
@@ -19,91 +9,69 @@ This solution first separates the original linked list into two sub-lists: one c
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-
-// Function to reverse a linked list
 ListNode* revList(ListNode* head)
 {
-    ListNode *curr = head, *prev = NULL;
+    ListNode *curr=head,*prev=NULL;
     while(curr)
     {
-        ListNode* next_node = curr->next;
+        ListNode* next = curr->next;
         curr->next = prev;
         prev = curr;
-        curr = next_node;
+        curr = next;
     }
+
     return prev;
 }
-
-// Function to merge two linked lists in an alternating fashion
-ListNode* merge(ListNode* oddHead, ListNode* evenHead)
+ListNode* merge(ListNode* oddHead,ListNode* evenHead)
 {
-    ListNode *p1 = oddHead, *p2 = evenHead;
-    ListNode *dummyHead = new ListNode(0); // Dummy node for easier merging
-    ListNode *current = dummyHead;
+    ListNode *p1=oddHead , *p2=evenHead;
 
     while(p1 && p2)
     {
-        current->next = p1;
-        current = p1;
-        p1 = p1->next;
+        ListNode    *next1 = p1->next , *next2 = p2->next;
+        p1->next = p2;
+        p2->next = next1;
 
-        current->next = p2;
-        current = p2;
-        p2 = p2->next;
+        p1=next1; p2=next2;
     }
 
-    if(p1) { // If odd list still has elements
-        current->next = p1;
-    }
-    
-    ListNode* result = dummyHead->next;
-    delete dummyHead; // Free dummy node
-    return result;
+    return oddHead;
 }
-
 ListNode* Solution::solve(ListNode* A) 
 {
-    if(A == NULL || A->next == NULL) {
-        return A;
-    }
+    if(A==NULL || (A->next)==NULL){return A;}
 
-    ListNode* oddHead = NULL;
-    ListNode* evenHead = NULL;
-    ListNode* oddTail = NULL;
-    ListNode* evenTail = NULL;
-
+    bool currOdd = true;
+    
     ListNode* curr = A;
-    int index = 1; // 1-indexed position
+    ListNode *odd=NULL,*even=NULL;
 
-    while(curr) {
-        if(index % 2 != 0) { // Odd position
-            if(oddHead == NULL) {
-                oddHead = curr;
-                oddTail = curr;
-            } else {
-                oddTail->next = curr;
-                oddTail = curr;
-            }
-        } else { // Even position
-            if(evenHead == NULL) {
-                evenHead = curr;
-                evenTail = curr;
-            } else {
-                evenTail->next = curr;
-                evenTail = curr;
-            }
+    ListNode *oddHead=A , *evenHead=A->next;
+
+    while(curr)
+    {
+        if(currOdd)
+        {
+            if(!odd){odd=curr;}
+            else{odd->next=curr; odd=odd->next;}            
         }
-        ListNode* next_node = curr->next;
-        curr->next = NULL; // Detach current node
-        curr = next_node;
+        else
+        {
+            if(!even){even=curr;}
+            else{even->next=curr; even=even->next;}
+        }
 
-        index++;
+        curr = curr->next;
+
+        if(odd){odd->next = NULL;}
+        if(even){even->next = NULL;}
+
+
+        currOdd=!currOdd;
     }
 
-    // Reverse the even-positioned list
     evenHead = revList(evenHead);
 
-    // Merge the odd and reversed even lists
-    return merge(oddHead, evenHead);
+    return merge(oddHead,evenHead);
 }
 ```

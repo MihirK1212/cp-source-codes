@@ -1,7 +1,6 @@
 # (Binary Search) Median of Rowwise Sorted Matrix 
 
 ```cpp
-
 int countLeq(vector<int>&a, int x)
 {
 

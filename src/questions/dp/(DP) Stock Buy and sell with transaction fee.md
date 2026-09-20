@@ -1,7 +1,8 @@
-# (DP) Stock Buy and Sell with Transaction Fee
+# (DP) Stock Buy and sell with transaction fee
+
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
 
 ```cpp
-// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
 class Solution {
 public:
     int maxProfit(vector<int>& price, int fee) 

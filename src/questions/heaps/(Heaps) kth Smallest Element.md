@@ -1,10 +1,4 @@
-# Kth Smallest Element (Heaps)
-
-## Problem Description
-
-Given an array of `n` integers and an integer `k`, find the `k`-th smallest element in the array. This problem can be efficiently solved using a max-heap.
-
-## C++ Solution
+# (Heaps) kth Smallest Element
 
 ```cpp
 #include <bits/stdc++.h>

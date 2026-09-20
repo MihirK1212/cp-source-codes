@@ -1,9 +1,6 @@
 # Fast Prime Factorization
 
 ```cpp
-#include <vector>
-#include <array>
-
 vector<long long> trial_division3(long long n) {
     vector<long long> factorization;
     for (int d : {2, 3, 5}) {

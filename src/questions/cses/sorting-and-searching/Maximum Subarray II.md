@@ -1,4 +1,4 @@
-# Maximum Subarray II (CSES Sorting and Searching)
+# Maximum Subarray II
 
 ```cpp
 #include<iostream>

@@ -1,12 +1,4 @@
-# Palindromes Colouring (USACO Bronze / Codeforces)
-
-## Problem Description
-
-This problem is from Codeforces: [Palindromes Colouring](https://codeforces.com/problemset/problem/1624/D)
-
-*(The problem description is not provided in the original file. This solution appears to be for a problem involving constructing palindromes from a given string and distributing them among `k` individuals. A more detailed problem description would need to be added manually or obtained from the Codeforces website.)*
-
-## C++ Solution
+# Palindromes Colouring
 
 ```cpp
 #include <bits/stdc++.h>
@@ -15,7 +7,7 @@ using namespace std;
 #define f first
 #define s second
 #define pb push_back
-// #define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n"; 
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";}c cout<<"\n";
 #define all(x) (x).begin(), (x).end()
 #define reverse(a) reverse(a.begin(),a.end());
 #define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
@@ -49,6 +41,8 @@ void setIO(string name = "")
 	    freopen((name+".out").c_str(), "w", stdout);
     }
 }
+
+//https://codeforces.com/problemset/problem/1624/D
 
 ll solve(ll n,ll k,string &str)
 {

@@ -1,12 +1,8 @@
-# Find All Possible Paths from Start to End
+# Find All Possible Paths from start to end
 
-## Problem Description
+https://leetcode.com/problems/all-paths-from-source-to-target/submissions/
 
-This problem is available on LeetCode: [All Paths From Source to Target](https://leetcode.com/problems/all-paths-from-source-to-target/submissions/)
-
-This solution works for a directed acyclic graph.
-
-## C++ Solution
+//Works for directed acyclic graph
 
 ```cpp
 class Solution {

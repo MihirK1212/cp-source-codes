@@ -1,4 +1,4 @@
-# (Binary Search) Single Element in a Sorted Array
+# (Binary Search)Single Element in a Sorted Array
 
 ```cpp
 #include <bits/stdc++.h>
