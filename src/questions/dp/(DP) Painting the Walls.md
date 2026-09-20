@@ -1,6 +1,6 @@
 # (DP) Painting the Walls
 
-// https://leetcode.com/problems/painting-the-walls/
+// [https://leetcode.com/problems/painting-the-walls/](https://leetcode.com/problems/painting-the-walls/)
 
 ```cpp
 class Solution {

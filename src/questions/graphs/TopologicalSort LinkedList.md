@@ -1,6 +1,6 @@
 # TopologicalSort LinkedList
 
-
+```cpp
 Algorithm insertHead(L,u)
 {
     if(L->head == NULL){L->head = new Node(u); return;}
@@ -33,3 +33,4 @@ Algorithm Driver(G)
         if color[u]==WHITE:
             DFS(G,u)
 }
+```

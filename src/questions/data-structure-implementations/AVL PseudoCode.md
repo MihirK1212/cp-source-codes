@@ -1,5 +1,6 @@
 # AVL PseudoCode
 
+```cpp
 Algorithm getHeight(address)
 {
     if(address==NULL){return -1;}
@@ -135,3 +136,4 @@ Algorithm AVL_Deletion(root,data)
     
     return root
 }
+```

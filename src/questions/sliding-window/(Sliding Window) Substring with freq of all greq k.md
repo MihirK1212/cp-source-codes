@@ -1,7 +1,7 @@
 # (Sliding Window) Substring with freq of all greq k
 
 //Find the largest substring for which each character in it has frequency >= k
-// https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/
+// [https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/](https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/)
 
 ```cpp
 class Solution {

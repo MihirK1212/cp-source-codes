@@ -1,6 +1,6 @@
 # (Heaps) Sort according to Frequency
 
-// https://leetcode.com/problems/sort-array-by-increasing-frequency/
+// [https://leetcode.com/problems/sort-array-by-increasing-frequency/](https://leetcode.com/problems/sort-array-by-increasing-frequency/)
 
 ```cpp
 typedef pair<int,int> pii;

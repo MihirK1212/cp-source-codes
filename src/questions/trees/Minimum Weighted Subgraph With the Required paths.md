@@ -1,6 +1,6 @@
 # Minimum Weighted Subgraph With the Required paths
 
-https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths-ii/description/
+[https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths-ii/description/](https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths-ii/description/)
 
 You are given an undirected weighted tree with n nodes, numbered from 0 to n - 1. It is represented by a 2D integer array edges of length n - 1, where edges[i] = [ui, vi, wi] indicates that there is an edge between nodes ui and vi with weight wi.​
 

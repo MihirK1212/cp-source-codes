@@ -4,6 +4,3 @@ Length of LPS = LCS(str,reverse(str))
 
 No.Of Deletions required to make string palindrome = (length of string) - (lps)
 No.Of Insertions required to make string palindrome = No.Of Deletions
-
-
- 

@@ -1,6 +1,6 @@
 # Combination Sum With Repeated Elements Not Allowed
 
-https://leetcode.com/problems/combination-sum-ii/
+[https://leetcode.com/problems/combination-sum-ii/](https://leetcode.com/problems/combination-sum-ii/)
 
 ```cpp
 class Solution {

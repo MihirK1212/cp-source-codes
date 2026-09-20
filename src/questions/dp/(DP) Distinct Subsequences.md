@@ -1,6 +1,6 @@
 # (DP) Distinct Subsequences
 
-//https://www.interviewbit.com/problems/distinct-subsequences/
+//[https://www.interviewbit.com/problems/distinct-subsequences/](https://www.interviewbit.com/problems/distinct-subsequences/)
 
 ```cpp
 /*Given two sequences A, B, count number of unique ways in sequence A, 

@@ -1,6 +1,6 @@
 # (Binary Search) Infinite Array
 
-
+```cpp
 //Search an element in sorted array of infinite size
 
 initialize lb=0
@@ -14,3 +14,4 @@ while(srch_num>arr[ub])
 
 
 now we have start=lb and end=ub on which we can apply binary search
+```

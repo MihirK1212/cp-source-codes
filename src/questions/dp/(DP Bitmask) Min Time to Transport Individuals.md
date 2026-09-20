@@ -1,6 +1,6 @@
 # (DP Bitmask) Min Time to Transport Individuals
 
-// https://leetcode.com/problems/minimum-time-to-transport-all-individuals/description/
+// [https://leetcode.com/problems/minimum-time-to-transport-all-individuals/description/](https://leetcode.com/problems/minimum-time-to-transport-all-individuals/description/)
 
 ```cpp
 #include<iostream>

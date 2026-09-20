@@ -498,6 +498,8 @@
       path: "/src/questions/fenwick-and-segment-trees/%28Segment%20Tree%29%20Rooks%20Defenders.html"
     - label: "Practice Questions"
       path: "/src/questions/fenwick-and-segment-trees/Practice%20Questions.html"
+    - label: "[TODO] (Fenwick Tree) Count Shadow Pairs"
+      path: "/src/questions/fenwick-and-segment-trees/%5BTODO%5D%20%28Fenwick%20Tree%29%20Count%20Shadow%20Pairs.html"
 - label: "Graphs"
   path: "/src/questions/graphs/README.html"
   problems:

@@ -1,6 +1,6 @@
 # (DP) Number of Ways to get a sum (Order Doesnt Matter)
 
-// https://www.interviewbit.com/problems/coin-sum-infinite/
+// [https://www.interviewbit.com/problems/coin-sum-infinite/](https://www.interviewbit.com/problems/coin-sum-infinite/)
 //For getting sum using coins,order doesn't matter (i.e 1+2+1 and 1+1+2 are same)
 
 When order doesn't matter, finish each 'i' one by one

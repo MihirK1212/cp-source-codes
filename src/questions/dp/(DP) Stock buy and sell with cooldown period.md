@@ -1,6 +1,6 @@
 # (DP) Stock buy and sell with cooldown period
 
-https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+[https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
 
 ```cpp
 class Solution {

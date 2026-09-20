@@ -1,5 +1,6 @@
 # Divisors of n
 
+```cpp
 vll divisors(ll n,ll m)
 {
     vll res;
@@ -15,3 +16,4 @@ vll divisors(ll n,ll m)
 
     return res;
 }
+```

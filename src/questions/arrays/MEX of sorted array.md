@@ -1,6 +1,6 @@
 # MEX of sorted array
 
-https://www.techiedelight.com/find-smallest-missing-element-sorted-array/
+[https://www.techiedelight.com/find-smallest-missing-element-sorted-array/](https://www.techiedelight.com/find-smallest-missing-element-sorted-array/)
 
 ```cpp
 int findSmallestMissing(int nums[], int low, int high)

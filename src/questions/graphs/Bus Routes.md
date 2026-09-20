@@ -1,6 +1,6 @@
 # Bus Routes
 
-// https://leetcode.com/problems/bus-routes/
+// [https://leetcode.com/problems/bus-routes/](https://leetcode.com/problems/bus-routes/)
 
 ```cpp
 class Solution {

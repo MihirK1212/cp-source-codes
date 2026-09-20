@@ -1,6 +1,6 @@
 # Path Sum within Tree
 
-// https://leetcode.com/problems/path-sum-iii/
+// [https://leetcode.com/problems/path-sum-iii/](https://leetcode.com/problems/path-sum-iii/)
 
 ```cpp
 /**

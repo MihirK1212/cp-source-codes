@@ -1,6 +1,6 @@
 # (DP) Rod Cutting at Weak Points
 
-https://www.interviewbit.com/problems/rod-cutting/
+[https://www.interviewbit.com/problems/rod-cutting/](https://www.interviewbit.com/problems/rod-cutting/)
 
 ```cpp
 #define ll long long 

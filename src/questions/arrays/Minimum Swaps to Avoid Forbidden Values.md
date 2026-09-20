@@ -1,6 +1,6 @@
 # Minimum Swaps to Avoid Forbidden Values
 
-https://leetcode.com/problems/minimum-swaps-to-avoid-forbidden-values/description/
+[https://leetcode.com/problems/minimum-swaps-to-avoid-forbidden-values/description/](https://leetcode.com/problems/minimum-swaps-to-avoid-forbidden-values/description/)
 
 💡 Approach
 We're given two arrays a, f and we need to make swaps in a such that a[i] != f[i] holds for 0 <= i < n.

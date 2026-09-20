@@ -1,6 +1,6 @@
 # (DP) Maximum Size Square Sub-matrix
 
-//https://www.interviewbit.com/problems/maximum-size-square-sub-matrix/
+//[https://www.interviewbit.com/problems/maximum-size-square-sub-matrix/](https://www.interviewbit.com/problems/maximum-size-square-sub-matrix/)
 
 ```cpp
 int Solution::solve(vector<vector<int> > &A) 

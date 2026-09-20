@@ -1,6 +1,6 @@
 # (DP and Greedy) Tushar's Birthday Bombs
 
-// https://www.interviewbit.com/problems/tushars-birthday-bombs/
+// [https://www.interviewbit.com/problems/tushars-birthday-bombs/](https://www.interviewbit.com/problems/tushars-birthday-bombs/)
 
 ```cpp
 vector<int> Solution::solve(int limit, vector<int> &strength) 

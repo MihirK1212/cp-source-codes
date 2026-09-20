@@ -1,6 +1,6 @@
 # (DP) Why reverse iterate - Knapsack Memory Optimized 
 
-https://stackoverflow.com/questions/17246670/0-1-knapsack-dynamic-programming-optimization-from-2d-matrix-to-1d-matrix
+[https://stackoverflow.com/questions/17246670/0-1-knapsack-dynamic-programming-optimization-from-2d-matrix-to-1d-matrix](https://stackoverflow.com/questions/17246670/0-1-knapsack-dynamic-programming-optimization-from-2d-matrix-to-1d-matrix)
 
 I know this is an old question. But I had to spend some time searching for this and I'm just documenting the approaches here for anyone's future reference.
 

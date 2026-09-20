@@ -1,6 +1,6 @@
 # (DP) Min Points Req To Reach End
 
-// https://www.interviewbit.com/problems/dungeon-princess/
+// [https://www.interviewbit.com/problems/dungeon-princess/](https://www.interviewbit.com/problems/dungeon-princess/)
 
 ```cpp
 int Solution::calculateMinimumHP(vector<vector<int> >&A) 

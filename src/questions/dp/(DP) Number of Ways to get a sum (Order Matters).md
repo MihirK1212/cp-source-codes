@@ -1,6 +1,6 @@
 # (DP) Number of Ways to get a sum (Order Matters)
 
-// https://www.interviewbit.com/problems/dice-rolls/
+// [https://www.interviewbit.com/problems/dice-rolls/](https://www.interviewbit.com/problems/dice-rolls/)
 //For dice rolling order matters (i.e 1+2+1 and 1+1+2 are different)
 
 ```cpp

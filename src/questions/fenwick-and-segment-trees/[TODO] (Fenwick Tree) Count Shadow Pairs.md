@@ -1,4 +1,6 @@
-https://leetcode.com/problems/count-shadow-pairs-ii/description/
+# [TODO] (Fenwick Tree) Count Shadow Pairs
+
+[https://leetcode.com/problems/count-shadow-pairs-ii/description/](https://leetcode.com/problems/count-shadow-pairs-ii/description/)
 
 You are given an integer array nums of length n.
 

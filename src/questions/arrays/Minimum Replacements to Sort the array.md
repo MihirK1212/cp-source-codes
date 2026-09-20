@@ -1,6 +1,6 @@
 # Minimum Replacements to Sort the array
 
-// https://leetcode.com/problems/minimum-replacements-to-sort-the-array/
+// [https://leetcode.com/problems/minimum-replacements-to-sort-the-array/](https://leetcode.com/problems/minimum-replacements-to-sort-the-array/)
 
 ```cpp
 class Solution {

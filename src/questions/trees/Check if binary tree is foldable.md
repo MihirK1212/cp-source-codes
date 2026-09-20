@@ -1,7 +1,7 @@
 # Check if binary tree is foldable
 
 //Function to check whether a binary tree is foldable or not.
-//https://practice.geeksforgeeks.org/problems/foldable-binary-tree/1/?track=DSASP-Tree&batchId=154
+//[https://practice.geeksforgeeks.org/problems/foldable-binary-tree/1/?track=DSASP-Tree&batchId=154](https://practice.geeksforgeeks.org/problems/foldable-binary-tree/1/?track=DSASP-Tree&batchId=154)
 
 ```cpp
 bool equal(Node* r1,Node* r2)

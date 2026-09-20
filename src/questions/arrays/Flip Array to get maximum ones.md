@@ -3,7 +3,7 @@
 //We want to find the subarray with maximum difference of (white-black)
 //hence we treat white as 1 and black as -1
 //then we find the maximum subarray sum using kadane algorithm
-//https://www.interviewbit.com/problems/flip/
+//[https://www.interviewbit.com/problems/flip/](https://www.interviewbit.com/problems/flip/)
 
 ```cpp
 int find(string&A)

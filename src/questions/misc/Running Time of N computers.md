@@ -1,6 +1,6 @@
 # Running Time of N computers
 
-//https://leetcode.com/problems/maximum-running-time-of-n-computers
+//[https://leetcode.com/problems/maximum-running-time-of-n-computers](https://leetcode.com/problems/maximum-running-time-of-n-computers)
 
 
 Approach 1:

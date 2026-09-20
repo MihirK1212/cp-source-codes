@@ -21,3 +21,4 @@ layout: default
 - [(Segment Tree) Range Sum Query with Updates](./%28Segment%20Tree%29%20Range%20Sum%20Query%20with%20Updates.html)
 - [(Segment Tree) Rooks Defenders](./%28Segment%20Tree%29%20Rooks%20Defenders.html)
 - [Practice Questions](./Practice%20Questions.html)
+- [[TODO] (Fenwick Tree) Count Shadow Pairs](./%5BTODO%5D%20%28Fenwick%20Tree%29%20Count%20Shadow%20Pairs.html)
