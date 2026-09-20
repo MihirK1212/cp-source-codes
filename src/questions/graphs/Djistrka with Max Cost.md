@@ -79,7 +79,7 @@ int inf=std::numeric_limits<int>::max();
 
 int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 
-vector<pii> moves = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+vector<pii> moves = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
 class Compare{
 public:
