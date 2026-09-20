@@ -1,10 +1,4 @@
-# Minimum Window Substring (Sliding Window)
-
-## Problem Description
-
-Given two strings `S` and `T` of lengths `m` and `n` respectively, return the minimum window substring of `S` such that every character in `T` (including duplicates) is included in the window. If there is no such substring, return an empty string. The answer must be unique.
-
-## C++ Solution
+# (Sliding Window) Minimum Window Substring
 
 ```cpp
 string Solution::minWindow(string S, string T) 
@@ -19,7 +13,7 @@ string Solution::minWindow(string S, string T)
     
 
     if(freq_T.find(S[0])!=freq_T.end())
-    {g
+    {
         freq_T[S[0]]--; if(freq_T[S[0]]==0){count--;}
     }
 

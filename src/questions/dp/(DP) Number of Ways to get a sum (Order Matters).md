@@ -1,8 +1,9 @@
-# (DP) Number of Ways to Get a Sum (Order Matters)
+# (DP) Number of Ways to get a sum (Order Matters)
 
-```cpp
 // https://www.interviewbit.com/problems/dice-rolls/
 //For dice rolling order matters (i.e 1+2+1 and 1+1+2 are different)
+
+```cpp
 int Solution::solve(int M) 
 {
     vector<int> numWays(M+1,0);

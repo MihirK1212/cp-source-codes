@@ -1,15 +1,9 @@
-# Find Sum of Each Subsequence (DP with Bitmask)
+# (DP Bitmask) Find sum of each subsequence
 
-## Problem Description
-
-This problem aims to find all possible unique sums of subsequences from a given array of integers. This can be efficiently solved using dynamic programming with a bitset for optimization, especially when the maximum possible sum is within a reasonable range.
-
-## C++ Solution
-
-```cpp
 // C++ Program to Demonstrate Bitset Optimised Knapsack
 // Solution
 
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -22,7 +16,7 @@ int main()
 	// we have to make a constant size for bit-set
 	// and to be safe keep it significantly high
 	int n = a.size();
-	const int mx = 40; // Maximum possible sum expected
+	const int mx = 40;
 
 	// bitset of size mx, dp[i] is 1 if sum i is possible
 	// and 0 otherwise
@@ -41,6 +35,7 @@ int main()
 		if (dp[i] == 1)
 			cout << i << " ";
 	}
-	cout << endl;
 }
+
+// code is contributed by sarvjot singh
 ```

@@ -1,35 +1,33 @@
-# Binary Lifting - Maximum Edge Queries
-
-## Problem Description
-
-This problem involves a tree data structure where each edge has a weight. The goal is to efficiently answer queries about the maximum edge weight on the path between any two given nodes `u` and `v`. This can be solved using the Binary Lifting technique, which allows for fast LCA (Lowest Common Ancestor) and path queries.
-
-## C++ Solution
+# Binary Lifting - Max Edge Queries
 
 ```cpp
 #define f first
 #define s second
 
-int LOG = 15; // Max log(N) where N is the maximum number of nodes. Adjust as needed.
+/*
+12 3 10 6 42 3 2 18468 12 7 6335 9 5 26501 2 1 19170 8 3 15725 7 1 11479 4 2 29359 6 3 26963 11 4 24465 5 3 5706 13 11 28146
 
-// Function to find the maximum edge weight on the path between u and v
+1 2 13 5
+*/
+
+int LOG = 15;
+
 int findAns(int u,int v,vector<vector<int>>&parent,vector<vector<int>>&maxEdge,vector<int>&depth,int n,int LOG)
 {
     if(depth[u]<depth[v]){swap(u,v);}
     
-    int res = -1; // Stores the maximum edge weight found
+    int res = -1;
     
-    // Lift u to the same depth as v
     int k = depth[u]-depth[v];
     for(int j=0;j<LOG;j++)
     {
         if(k&(1<<j)){res=max(res,maxEdge[u][j]); u=parent[u][j];}    
     }
     
-    // If u and v are the same, we've found the LCA and path is traversed
+    //now u and v are at the same depth
+    
     if(u==v){return res;}
     
-    // Lift u and v simultaneously until their parents are the same (just below LCA)
     for(int j=LOG-1;j>=0;j--)
     {
         if(parent[u][j]!=parent[v][j]) //we take the maximum possible jump upwards such that paths dont cross
@@ -41,14 +39,13 @@ int findAns(int u,int v,vector<vector<int>>&parent,vector<vector<int>>&maxEdge,v
         }
     }
     
-    // The LCA is parent[u][0]. The maximum edge in the path also includes edges to the LCA.
-    res = max(res , maxEdge[u][0]);
+    res = max(res , maxEdge[u][0]);//since we were taking the maximum possible jumps, parent of current node wiint be lca
     res = max(res , maxEdge[v][0]);
     
     return res;
 }
 
-// Preprocessing step to fill parent and maxEdge tables
+
 void preprocess(vector<vector<int>>&parent,vector<vector<int>>&maxEdge,int n)
 {
     for(int j=1;j<LOG;j++)
@@ -72,7 +69,6 @@ void preprocess(vector<vector<int>>&parent,vector<vector<int>>&maxEdge,int n)
     }
 }
 
-// DFS to fill initial parent, maxEdge (for 2^0 ancestor), and depth values
 void dfs(map<int,vector<pair<int,int>>>&graph,int u,vector<vector<int>>&parent,int par,vector<vector<int>>&maxEdge,int pardEdge,vector<int>&depth,int d)
 {
     parent[u][0] = par;
@@ -87,21 +83,20 @@ void dfs(map<int,vector<pair<int,int>>>&graph,int u,vector<vector<int>>&parent,i
     }
 }
 
-// Debugging function (commented out in original)
-// void printMatrix(vector<vector<int>>&matrix,int il,int ih,int jl,int jh)
-// {
-//     cout<<"\n";
-//     for(int i=il;i<=ih;i++)
-//     {
-//         for(int j=jl;j<=jh;j++){cout<<matrix[i][j]<<" ";}
-//         cout<<"\n";
-//     }
-//     cout<<"\n";
-// }
+void printMatrix(vector<vector<int>>&matrix,int il,int ih,int jl,int jh)
+{
+    cout<<"\n";
+    for(int i=il;i<=ih;i++)
+    {
+        for(int j=jl;j<=jh;j++){cout<<matrix[i][j]<<" ";}
+        cout<<"\n";
+    }
+    cout<<"\n";
+}
 
 vector<int> Solution::solve(vector<vector<int>> &edges, vector<vector<int> > &B) {
     
-    int n = edges.size() + 1; // Assuming 1-indexed nodes from 1 to n
+    int n = edges.size() + 1;
     map<int,vector<pair<int,int>>> graph;
     
     for(auto e : edges)
@@ -114,8 +109,25 @@ vector<int> Solution::solve(vector<vector<int>> &edges, vector<vector<int> > &B)
     vector<vector<int>> maxEdge(n+1,vector<int>(LOG,-1));
     vector<int> depth(n+1);
     
-    dfs(graph,1,parent,-1,maxEdge,-1,depth,0); // Start DFS from root (assuming node 1 is root)
+    dfs(graph,1,parent,-1,maxEdge,-1,depth,0);
     preprocess(parent,maxEdge,n);
+    
+    // printMatrix(parent,1,n,0,LOG-1);
+    // printMatrix(maxEdge,1,n,0,LOG-1);
+    
+    // cout<<"Parent for 5 : ";
+    // for(int j=0;j<LOG;j++){cout<<parent[5][j]<<" ";} cout<<"\n";
+    // cout<<"Parent for 13 : ";
+    // for(int j=0;j<LOG;j++){cout<<parent[13][j]<<" ";} cout<<"\n";
+    // cout<<"\n";
+    
+    // cout<<"maxEdge for 5 :";
+    // for(int j=0;j<LOG;j++){cout<<maxEdge[5][j]<<" ";} cout<<"\n";
+    // cout<<"maxEdge for 13 :";
+    // for(int j=0;j<LOG;j++){cout<<maxEdge[13][j]<<" ";} cout<<"\n";
+    // cout<<"\n";
+    
+    // cout<<"Depth 5 : "<<depth[5]<<" "<<" Depth 13 : "<<depth[13]<<"\n\n";
     
     vector<int> ans;
     

@@ -1,25 +1,9 @@
-# Median of Medians Algorithm (kth Smallest Element)
+# MedianOfMedians
 
-## Problem Description
-
-This file implements the Median of Medians algorithm, a deterministic selection algorithm that finds the k-th smallest element in an unsorted array in worst-case linear time, O(N). It is primarily used as a pivot selection strategy in Quickselect to guarantee linear time complexity.
-
-The algorithm works as follows:
-
-1.  **Divide into groups:** Divide the `n` elements into `n/5` groups of 5 elements each (and one group with the remaining `n % 5` elements).
-2.  **Find medians of groups:** Find the median of each of these `n/5` groups.
-3.  **Find median of medians:** Recursively find the median of the medians found in step 2. Let this be `medOfMed`.
-4.  **Partition:** Partition the original array around `medOfMed`. This places `medOfMed` at its correct sorted position.
-5.  **Recurse:**
-    *   If `medOfMed`'s position is `k-1`, then it's the k-th smallest element.
-    *   If `medOfMed`'s position is greater than `k-1`, recurse on the left subarray.
-    *   Otherwise, recurse on the right subarray.
-
-## C++ Implementation
-
-```cpp
 // C++ implementation of worst case linear time algorithm
 // to find k'th smallest element
+
+```cpp
 #include<iostream>
 #include<algorithm>
 #include<climits>

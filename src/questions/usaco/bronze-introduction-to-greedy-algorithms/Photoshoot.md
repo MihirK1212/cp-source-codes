@@ -1,10 +1,4 @@
-# Photoshoot (USACO Bronze)
-
-## Problem Description
-
-*(The problem description is not provided in the original file. This solution appears to be for a USACO Bronze problem related to greedy algorithms. A more detailed problem description would need to be added manually or obtained from the USACO website.)*
-
-## C++ Solution
+# Photoshoot
 
 ```cpp
 #include <bits/stdc++.h>

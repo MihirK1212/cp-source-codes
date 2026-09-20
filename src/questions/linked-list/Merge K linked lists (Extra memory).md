@@ -1,10 +1,4 @@
-# Merge K Linked Lists (with Extra Memory)
-
-## Problem Description
-
-Given `k` sorted linked lists, merge them into one sorted linked list. This problem can be solved using a min-priority queue (min-heap) to keep track of the smallest element from all lists. This approach uses extra memory for the new merged list.
-
-## C++ Solution
+# Merge K linked lists (Extra memory)
 
 ```cpp
 /**

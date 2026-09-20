@@ -1,7 +1,8 @@
 # Count Nodes in complete binary tree
 
-```cpp
 // C++ program for the above approach
+
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 

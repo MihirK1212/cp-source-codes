@@ -1,10 +1,4 @@
-# Longest Increasing Subsequence (LIS) - DP (O(n^2))
-
-## Problem Description
-
-Given an unsorted array of integers, find the length of the longest increasing subsequence (LIS). An increasing subsequence is a sequence of numbers selected from the array that are strictly increasing. This solution uses dynamic programming with O(n^2) time complexity.
-
-## C++ Solution
+# (DP) Length of Longest Increasing Subsequence
 
 ```cpp
 #include <bits/stdc++.h>
@@ -31,7 +25,7 @@ int main()
        lis[i]=1;
        for(j=i-1;j>=0;j--)
        {
-         if(a[j]<=a[i]) // Should be strictly less than for increasing subsequence
+         if(a[j]<=a[i])
          {
             lis[i]=max(lis[i],(1+lis[j]));
          }

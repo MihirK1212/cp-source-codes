@@ -1,14 +1,9 @@
-# Find All Cycles in Undirected Graph
+# Finda all cycles in undirected graph
 
-## Problem Description
-
-This C++ program finds and prints all distinct cycles in a given undirected graph. It uses a Depth First Search (DFS) based approach to detect cycles and then reconstructs the paths that form these cycles.
-
-## C++ Solution
-
-```cpp
 // C++ program to print all the cycles
 // in an undirected graph
+
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 const int N = 100000;

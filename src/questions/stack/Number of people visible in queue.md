@@ -1,4 +1,4 @@
-# Number of People Visible in Queue
+# Number of people visible in queue
 
 ```cpp
 class Solution {

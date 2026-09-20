@@ -1,13 +1,5 @@
 # AVL Tree Deletion
 
-## Problem Description
-
-This document provides a C++ implementation of an AVL (Adelson-Velsky and Landis) tree, specifically focusing on the deletion of a node while maintaining the AVL tree properties (self-balancing binary search tree).
-
-An AVL tree is a self-balancing binary search tree where the difference between the heights of left and right subtrees for any node is not more than one. This property ensures that the tree remains balanced and operations like search, insertion, and deletion have a time complexity of O(log n).
-
-## C++ Implementation
-
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
@@ -173,23 +165,15 @@ Node* deleteNode(Node* root,int key)
         }
         else if((root->left)==NULL && (root->right)!=NULL)
         {
-            // Simplified handling for single child
-            Node* temp = root->right;
-            *root = *temp; // Copy content of child to current node
-            free(temp); // Delete the child node
-            root->right = NULL; // The original child's right should be null, as its content moved up
-                                // This line is actually incorrect. The content of temp (root->right) is copied
-                                // to root, then temp is freed. The new root's right child should be
-                                // temp->right. Let's fix this.
+            root->key = root->right->key;
+            root->right = NULL;
+            free(root->right);
         }
         else if((root->left)!=NULL && (root->right)==NULL)
         {
-            // Simplified handling for single child
-            Node* temp = root->left;
-            *root = *temp; // Copy content of child to current node
-            free(temp); // Delete the child node
-            root->left = NULL; // The original child's left should be null, as its content moved up
-                               // This line is also incorrect for the same reason.
+            root->key = root->left->key;
+            root->left = NULL;
+            free(root->left);
         }
         else
         {

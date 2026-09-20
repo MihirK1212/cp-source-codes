@@ -1,4 +1,4 @@
-# Missing Coin Sum (CSES Sorting and Searching)
+# Missing Coin Sum
 
 ```cpp
 #include<iostream>

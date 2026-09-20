@@ -1,11 +1,7 @@
-# Number of Digits in a Given Base
+# Number of Digits corresponding to a base
 
-## Explanation
+Let n be a positive integer. T
+he base b representation of n has d digits if b^(d−1)≤n<b^d, which is the case if d−1≤log(baseb)n<d, or ⌊logbn⌋=d−1. 
+The number of digits in the base b representation of n is therefore
 
-Let `n` be a positive integer. The base `b` representation of `n` has `d` digits if `b^(d-1) <= n < b^d`. This is equivalent to `d-1 <= log_b(n) < d`, or `floor(log_b(n)) = d-1`.
-
-Therefore, the number of digits `d` in the base `b` representation of `n` is:
-
-```
-floor(log_b(n)) + 1
-```
+floor(log(baseb)n)+1

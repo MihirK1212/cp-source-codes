@@ -1,10 +1,4 @@
-# Longest Common Substring (Dynamic Programming)
-
-## Problem Description
-
-Given two strings, `A` and `B`, find the longest common substring between them. A substring is a contiguous sequence of characters within a string.
-
-## C++ Solution
+# (DP) Find Longest Common Substring
 
 ```cpp
 string findLongestCommonSubstr(string&A,string&B)

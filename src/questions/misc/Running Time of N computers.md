@@ -1,6 +1,5 @@
 # Running Time of N computers
 
-```cpp
 //https://leetcode.com/problems/maximum-running-time-of-n-computers
 
 
@@ -28,6 +27,7 @@ In the end, we need to check if all cells in the grid have been filled, i.e. che
 
 Approach 2:
 
+```cpp
 long long maxRunTime(int n, vector<int>& bat) {
     long long sum = accumulate(begin(bat), end(bat), 0LL);
     priority_queue<int> pq(begin(bat), end(bat));

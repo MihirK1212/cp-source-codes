@@ -1,12 +1,13 @@
 # Find Lexicographical Rank in Permutation
 
-## Problem Description
-
-Given a string `S`, find its lexicographical rank among all its permutations. If the string contains duplicate characters, its rank is 0. The rank should be returned modulo 1000000007.
-
-## C++ Solution
-
 ```cpp
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+
 class Solution
 {
     public:
@@ -58,13 +59,8 @@ class Solution
         return (ans+1)%mod;
     }
 };
-```
 
-## Driver Code (C++)
-
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
+// { Driver Code Starts.
 
 
 int main()
@@ -80,4 +76,5 @@ int main()
         cout<<obj.findRank(S)<<endl;
     }
 }
+  // } Driver Code Ends
 ```

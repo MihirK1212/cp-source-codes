@@ -1,33 +1,4 @@
-# Livestock Lineup (USACO Bronze - Introduction to Graph Algorithms)
-
-## Problem Description
-
-This problem is from USACO: [Livestock Lineup](http://www.usaco.org/index.php?page=viewproblem2&cpid=965)
-
-The problem asks to arrange a list of 8 cows in a lineup based on a set of `N` constraints. Each constraint specifies that two particular cows must be next to each other in the lineup. The goal is to output *a* valid lineup (any one) in lexicographical order (i.e., if multiple valid lineups exist, the one that comes first alphabetically based on cow names).
-
-## C++ Solution
-
-This solution uses graph traversal (DFS) to determine the lineup order, respecting the "must be next to each other" constraints.
-
-**Algorithm:**
-
-1.  **Cow Names and Mapping:**
-    *   Define the 8 cow names and sort them lexicographically to ensure consistent output.
-    *   Create a `std::map<std::string, ll> cow_ind` to map cow names to 0-indexed integer IDs for easier graph processing.
-2.  **Build Adjacency List:**
-    *   Read `M` constraints.
-    *   For each constraint (e.g., "`A` must be next to `B`"), add an undirected edge between `A` and `B` in an adjacency list `graph`.
-3.  **Find Lineup Order using DFS:**
-    *   The problem implies that cows involved in constraints form connected components (lines or chains) where the relative order of adjacent cows is fixed within that component.
-    *   We need to find the starting points of these chains. A cow is a potential start/end of a chain if it has 0 or 1 neighbors in the `graph`.
-    *   Iterate through all cows (`u` from `0` to `n-1`):
-        *   If `u` has not been visited and its degree is 0 (isolated) or 1 (end of a chain):
-            *   Perform a Depth-First Search (DFS) starting from `u`.
-            *   The `dfs` function will add cows to the `order` vector in the sequence they are visited.
-    *   This ensures that connected components are traversed, and since we start from endpoints, the order is naturally generated.
-4.  **Output Result:**
-    *   Iterate through the `order` vector and print the cow names using the `cows` array.
+# Livestock Lineup
 
 ```cpp
 #include <bits/stdc++.h>

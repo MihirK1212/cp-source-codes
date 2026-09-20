@@ -1,4 +1,4 @@
-# Disjoint Set Union (DSU) Simple Implementation
+# DSU Simple
 
 ```cpp
 #include <bits/stdc++.h>

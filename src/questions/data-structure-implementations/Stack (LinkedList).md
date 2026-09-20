@@ -1,10 +1,4 @@
-# Stack Implementation (using Linked List)
-
-## Problem Description
-
-This code provides a basic implementation of a stack data structure using a singly linked list. A stack is a Last-In, First-Out (LIFO) data structure, supporting operations like `push` (add element to top), `pop` (remove element from top), `top` (view top element), and `isEmpty` (check if stack is empty).
-
-## C++ Implementation
+# Stack (LinkedList)
 
 ```cpp
 #include <bits/stdc++.h>
@@ -63,7 +57,6 @@ int top()
     else
     {
         cout<<"Stack is Empty...Cannot Return top element\n";
-        return -1; // Indicate error or empty stack
     }    
 }
 

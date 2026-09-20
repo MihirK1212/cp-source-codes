@@ -1,8 +1,9 @@
 # (DP) Count Distinct Subsequences
 
-```cpp
 // C++ program to count number of distinct
 // subsequences of a given string.
+
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 const int MAX_CHAR = 256;

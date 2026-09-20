@@ -1,11 +1,5 @@
 # Merge Sort Linked List
 
-## Problem Description
-
-Given the `head` of a singly linked list, sort it using merge sort and return the head of the sorted list. The solution should aim for O(n log n) time complexity and O(log n) space complexity (for recursion stack).
-
-## C++ Solution
-
 ```cpp
 /**
  * Definition for singly-linked list.

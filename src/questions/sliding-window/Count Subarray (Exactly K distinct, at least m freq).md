@@ -1,17 +1,21 @@
 # Count Subarray (Exactly K distinct, at least m freq)
 
-## Problem Description
-
-This problem is from LeetCode: [Count Subarrays With K Distinct Integers](https://leetcode.com/problems/count-subarrays-with-k-distinct-integers/description/)
-
-You are given an integer array `nums` and two integers `k` and `m`. Return an integer denoting the count of subarrays of `nums` such that:
-
-1.  The subarray contains exactly `k` distinct integers.
-2.  Within the subarray, each distinct integer appears at least `m` times.
-
-## C++ Solution
-
 ```cpp
+/*
+
+You are given an integer array nums and two integers k and m.
+
+Return an integer denoting the count of subarrays of nums such that:
+
+The subarray contains exactly k distinct integers.
+Within the subarray, each distinct integer appears at least m times.
+
+https://leetcode.com/problems/count-subarrays-with-k-distinct-integers/description/
+
+*/
+
+
+
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums, int k, int m) {

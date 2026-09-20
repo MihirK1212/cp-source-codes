@@ -1,10 +1,4 @@
-# Subarray (Length, Sum Greater Than or Equal to K)
-
-## Problem Description
-
-Given an array `a` of `n` long long integers and an integer `k`, find the minimum and maximum length of a contiguous subarray whose sum is greater than or equal to `k`. If no such subarray exists, output -1.
-
-## C++ Solution
+# Subarray (length, Sum great or equal to k)
 
 ```cpp
 #include <bits/stdc++.h>
@@ -57,7 +51,7 @@ int main()
     if(min_len>0 && min_len<=n){cout<<min_len<<"\n";}
     else{cout<<-1<<"\n";}
     
-    if(max_len>0 && max_len<=n){cout<<max_len<<"\n";}
+    if(max_len>0 && max_len<=n){cout<<min_len<<"\n";}
     else{cout<<-1<<"\n";}
     
     return 0;

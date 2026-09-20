@@ -1,8 +1,6 @@
 # (DP) Scrambled String
 
 ```cpp
-
-
 bool solve(string&A,string&B,unordered_map<string,int>&hash)
 {
     int len1 = A.size() , len2 = B.size();

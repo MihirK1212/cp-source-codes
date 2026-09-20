@@ -1,12 +1,4 @@
-# USACO Bronze: Blocked Billboard - 2
-
-## Problem Description
-
-This problem is from USACO: [Blocked Billboard II](http://www.usaco.org/index.php?page=viewproblem2&cpid=783)
-
-The problem involves two rectangular billboards. One billboard is covered by another. We need to calculate the area of the first billboard that is still visible.
-
-## C++ Solution
+# Blocked Billboard - 2
 
 ```cpp
 #include <bits/stdc++.h>
@@ -53,6 +45,7 @@ void setIO(string name = "")
 int main()
 {
     setIO("billboard");
+    //http://www.usaco.org/index.php?page=viewproblem2&cpid=783
     
     ll x1,y1,x2,y2;
     ll a1,b1,a2,b2;

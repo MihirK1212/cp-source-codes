@@ -1,11 +1,5 @@
 # Closest Point Pair
 
-## Problem Description
-
-This problem aims to find the pair of points (out of a given set of `n` points) that are closest to each other. This is a classic computational geometry problem often solved using a divide and conquer approach.
-
-## C++ Solution
-
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;

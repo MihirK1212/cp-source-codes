@@ -1,22 +1,5 @@
 # Open Up a Bracketed Expression
 
-## Problem Description
-
-Given a string `S` representing an arithmetic expression, where `?` denotes any positive integer. The task is to determine the sign (`+` or `-`) for each `?` if all brackets in the expression were opened up.
-
-For example:
-*   `?-(?+?)`  -> The signs are `+`, `-`, `-` because the expression after opening is `?-?-?`
-*   `?-(?+?)-?` -> The signs are `+`, `-`, `-`, `-`
-
-## C++ Solution
-
-This solution uses a stack to keep track of the current sign context within the nested brackets. A `current_sign_is_positive` variable is maintained: `true` for `+` and `false` for `-`.
-
-*   When a `?` is encountered, its sign is the current `current_sign_is_positive` value.
-*   When a `(` is encountered, the current `current_sign_is_positive` is pushed onto the stack to save the context.
-*   When a `)` is encountered, the `current_sign_is_positive` is restored from the stack.
-*   When a `+` or `-` is encountered, the `current_sign_is_positive` is updated based on the operator and the top of the stack (if not empty). If the stack is empty, it means we are at the top level, and `+` sets `current_sign_is_positive` to `true`, while `-` sets `current_sign_is_positive` to `false`.
-
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
@@ -42,46 +25,48 @@ int main()
     
     int len = S.length() , i;
     
-    stack<bool> status; // True for +, False for -
+    stack<bool> status;
     
-    vector<bool> ans; // Stores the sign for each '?'
+    vector<bool> ans;
     
-    bool current_sign_is_positive=true; // Represents the effective sign outside current context
+    bool flag=true;
     
     for(i=0;i<len;i++)
     {
         if(S[i]=='?')
         {
-            ans.push_back(current_sign_is_positive);
+            ans.push_back(flag);
         }
         
         else
         {
-            if(S[i]=='-')
+            if(S[i]=='-' && !status.empty())
             {
-                current_sign_is_positive = !current_sign_is_positive;
+                flag = !(status.top());
             }
-            // If S[i] is '+', current_sign_is_positive remains as is.
-
+            if(S[i]=='+' && !status.empty())
+            {
+                flag = (status.top());
+            }
+            
+            if(S[i]=='+' && status.empty()){flag=true;}
+            if(S[i]=='-' && status.empty()){flag=false;}
+            
             if(S[i]=='(')
             {
-                status.push(current_sign_is_positive);
+                status.push(flag);
             }
             
             if(S[i]==')')
             {
                 status.pop(); 
-                if(!status.empty()){current_sign_is_positive=status.top();}
-                else{current_sign_is_positive=true;} // If stack is empty, default to positive
+                if(!status.empty()){flag=status.top();}
+                else{flag=true;}
             }
         }
     }
     
-    // Output the signs (true for +, false for -)
-    for(bool sign : ans) {
-        cout << (sign ? "+" : "-") << " ";
-    }
-    cout << "\n";
+    printoneline(ans);
         
     
     

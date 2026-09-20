@@ -1,6 +1,6 @@
-# Regular Expression Match 2
+# (DP) Regular Expression Match 2
 
-[Problem Link](https://www.interviewbit.com/problems/regular-expression-ii/)
+// https://www.interviewbit.com/problems/regular-expression-ii/
 
 ```cpp
 int Solution::isMatch(const string A, const string B) 

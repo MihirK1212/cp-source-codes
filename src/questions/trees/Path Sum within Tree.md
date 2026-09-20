@@ -1,12 +1,6 @@
 # Path Sum within Tree
 
-## Problem Description
-
-This problem is from LeetCode: [Path Sum III](https://leetcode.com/problems/path-sum-iii/)
-
-Given the `root` of a binary tree and an integer `targetSum`, return the number of paths where the sum of the nodes along the path equals `targetSum`. The path does not need to start or end at the root or a leaf, but it must go downwards (traveling only from parent nodes to child nodes).
-
-## C++ Solution
+// https://leetcode.com/problems/path-sum-iii/
 
 ```cpp
 /**
@@ -38,7 +32,7 @@ public:
         freqPSums[currPSum]++;
         
         countPaths(root->left,freqPSums,currPSum,targetSum);
-        countPaths(root->right,freqPSums,currPSums,targetSum);
+        countPaths(root->right,freqPSums,currPSum,targetSum);
         
         freqPSums[currPSum]--;
     }

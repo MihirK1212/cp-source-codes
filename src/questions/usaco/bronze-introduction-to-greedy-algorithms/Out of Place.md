@@ -1,12 +1,4 @@
-# USACO Bronze: Out of Place
-
-## Problem Description
-
-This problem is from USACO: [Out of Place](http://www.usaco.org/index.php?page=viewproblem2&cpid=785)
-
-The problem usually involves an array of cow heights, and one cow is 'out of place', meaning if sorted, this cow would need to move. The goal is to determine the minimum number of swaps required to sort the array if only one contiguous block of cows is out of place.
-
-## C++ Solution
+# Out of Place
 
 ```cpp
 #include <bits/stdc++.h>
@@ -15,7 +7,7 @@ using namespace std;
 #define f first
 #define s second
 #define pb push_back
-#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";}c cout<<"\n";
 #define all(x) (x).begin(), (x).end()
 #define reverse(a) reverse(a.begin(),a.end());
 #define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
@@ -134,8 +126,12 @@ ll solve()
 int main()
 {
     setIO("outofplace");
+    // setIO("");
+    
+    //http://www.usaco.org/index.php?page=viewproblem2&cpid=785
     
     ll T = 1;
+    // cin>>T;
     
     while(T--)
     {

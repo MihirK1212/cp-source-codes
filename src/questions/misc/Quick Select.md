@@ -1,10 +1,4 @@
-# Quick Select Algorithm
-
-## Problem Description
-
-Quickselect is a selection algorithm to find the `k`-th smallest element in an unordered list. It is related to the quicksort sorting algorithm. Like quicksort, it uses a pivot and partitions the array around it. The average time complexity of Quickselect is O(n), making it very efficient for finding the k-th smallest (or largest) element.
-
-## C++ Solution
+# Quick Select
 
 ```cpp
 #include <bits/stdc++.h>

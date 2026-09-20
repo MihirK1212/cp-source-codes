@@ -1,10 +1,4 @@
-# Sliding Window: K-Unique Characters Max Length
-
-## Problem Description
-
-Given a string `str` and an integer `k`, find the length of the longest substring that contains exactly `k` unique characters. If no such substring exists, return -1.
-
-## C++ Solution
+# (Sliding Window) k-Unique Characters max length
 
 ```cpp
 #include <bits/stdc++.h>

@@ -1,4 +1,4 @@
-# (UNSOLVED) Rectangular Pasture (USACO Silver - Custom Comparators and Coordinate Compression)
+# (UNSOLVED) Rectangular Pasture
 
 ```cpp
 #include <bits/stdc++.h>
@@ -100,7 +100,7 @@ ll solve()
     {
         points[i][1] = i;
     }
-   
+    
     sort(all(points),cmp);
     
     vector<vll> A(n,vll(n,0));

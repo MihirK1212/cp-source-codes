@@ -1,6 +1,5 @@
 # TopologicalSort LinkedList
 
-```cpp
 
 Algorithm insertHead(L,u)
 {
@@ -34,4 +33,3 @@ Algorithm Driver(G)
         if color[u]==WHITE:
             DFS(G,u)
 }
-```

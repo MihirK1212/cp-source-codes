@@ -1,20 +1,20 @@
-# Coin Bags (Binary Search)
+# (Binary Search) Coin Bags 
 
-## Problem Description
+```cpp
+/*Problem
+There are  bags and each bag contains some coin(s). Your task is to select an integer  and remove all the bags in which the number of coins is equal to . Divide the remaining bags into two non-empty groups such that:
 
-This problem is from Hackerearth: [Bags of Coins](https://www.hackerearth.com/practice/algorithms/searching/binary-search/practice-problems/algorithm/bags-of-coins-7b1d612c/).
+ The number of coin(s) in each bag of the first group is strictly smaller than .
+The number of coin(s) in each bag of the second group is strictly larger than .
+The total number of coins of one group is equal to the other.
+Input Format:
 
-There are `N` bags, and each bag contains some coin(s). Your task is to select an integer `X` and remove all the bags in which the number of coins is equal to `X`. Divide the remaining bags into two non-empty groups such that:
+The first line contains an integer  denoting the number of bags.
+The second line contains  space-separated integers, denoting the number of coins in  bags. The  integer denotes the values of .
 
-1.  The number of coin(s) in each bag of the first group is strictly smaller than `X`.
-2.  The number of coin(s) in each bag of the second group is strictly larger than `X`.
-3.  The total number of coins of one group is equal to the other.
+Output Format:
 
-**Input Format:**
-
-*   The first line contains an integer `N` denoting the number of bags.
-*   The second line contains `N` space-separated integers, denoting the number of coins in `N` bags. The `i`-th integer denotes the value of `A[i]`.
-
-**Output Format:**
-
-Print `YES`, if it is possible to divide the bags into two groups, else print `NO`.
+Print , if it is possible to divide the bags into two groups, else print .
+https://www.hackerearth.com/practice/algorithms/searching/binary-search/practice-problems/algorithm/bags-of-coins-7b1d612c/
+*/
+```

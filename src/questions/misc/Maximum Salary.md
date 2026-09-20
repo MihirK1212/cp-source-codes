@@ -1,15 +1,22 @@
 # Maximum Salary
 
-## Problem Description
-
-As the last question of a successful interview, your boss gives you a few pieces of paper with numbers on it and asks you to compose the largest number from these numbers. The resulting number is going to be your salary, so you are very much interested in maximizing this number. How can you do this?
-
-## C++ Solution
-
 ```cpp
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
 #include <iostream>
 #include<cmath>
 using namespace std;
+
+/*As the last question of a successful interview, your boss gives you a few pieces of paper
+with numbers on it and asks you to compose a largest number from these numbers. The
+resulting number is going to be your salary, so you are very much interested in maximizing
+this number. How can you do this?*/
 
 int digits(int x)
 {

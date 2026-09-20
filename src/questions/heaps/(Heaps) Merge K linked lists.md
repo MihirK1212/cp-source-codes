@@ -1,10 +1,4 @@
-# Merge K Sorted Linked Lists (Heaps)
-
-## Problem Description
-
-Given `k` sorted linked lists, merge them into one sorted linked list. This problem can be efficiently solved using a min-priority queue (min-heap).
-
-## C++ Solution
+# (Heaps) Merge K linked lists
 
 ```cpp
 /**

@@ -1,9 +1,5 @@
 # Find Factors
 
-This code snippet provides a function to find all factors of a given integer `n`.
-
-## C++ Solution
-
 ```cpp
 void helper(vi&prime_factors, int ind, map<int,int>&freq, vi&factors, int curr)
 {

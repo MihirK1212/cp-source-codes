@@ -1,10 +1,4 @@
-# Find the Elements that Exist in at Least Two of the Three Arrays
-
-## Problem Description
-
-Given three integer arrays `A`, `B`, and `C`, return a list of all distinct numbers that are present in at least two of the three arrays. The output should be sorted in ascending order.
-
-## C++ Solution
+# Find the elements that exist in at least two of the three arrays
 
 ```cpp
 vector<int> findIntersection(vector<int>&A,vector<int>&B)

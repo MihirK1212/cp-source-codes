@@ -1,16 +1,4 @@
-# Replace MaxGCD (Maximize GCD by Replacing One Element)
-
-## Problem Description
-
-Given an array of integers, you are allowed to replace at most one element of the array with any positive integer. The goal is to maximize the Greatest Common Divisor (GCD) of all elements in the modified array.
-
-## Approach
-
-To maximize the GCD of the array by replacing at most one element, we can iterate through each possible element to be replaced. When an element `a[i]` is considered for replacement, the GCD of the remaining `n-1` elements effectively determines the maximum possible GCD for the array (if `a[i]` is replaced by a multiple of that GCD).
-
-We can precompute prefix GCDs (`gcd_l`) and suffix GCDs (`gcd_r`) of the array. Then, for each element `a[i]` to be replaced, the GCD of the remaining elements can be found by `gcd(gcd_l[i-1], gcd_r[n-i-2])`. We take the maximum of these GCDs.
-
-## C++ Solution
+# Replace MaxGCD
 
 ```cpp
 #include <bits/stdc++.h>
@@ -23,12 +11,14 @@ using namespace std;
 #define pb push_back
 #define printoneline(arr) for(long long i=0;i<arr.size();i++){cout<<arr[i]<<" ";} cout<<"\n";
 #define sort(a) sort(a.begin(),a.end());
-#define rsort(a) sort(a.rbegin(),a.rrend());
+#define rsort(a) sort(a.rbegin(),a.rend());
 #define reverse(a) reverse(a.begin(),a.end());
 #define input(arr) for(long long i=0;i<arr.size();i++){cin>>arr[i];}
 
 
-// Function to calculate GCD of two numbers
+//Replace at most one element of the array to get maximum gcd of the array
+
+
 ll gcd(ll x,ll y)
 {
     if(y==0)
@@ -66,37 +56,27 @@ int main()
     */
     
     gcd_l[0]=a[0];
-    // Populate gcd_l: gcd_l[i] stores GCD of a[0]...a[i]
+    gcd_r[0]=a[n-1];
+    
     for(i=1;i<n;i++)
     {
         gcd_l[i]=gcd(gcd_l[i-1],a[i]);
     }
     
-    // Populate gcd_r: gcd_r[i] stores GCD of a[i]...a[n-1]
-    // Note: The original code's logic for gcd_r was a bit off, it should be suffix GCD.
-    // Here we compute it as suffix_gcd[i] = gcd(a[i], suffix_gcd[i+1])
-    vll suffix_gcd(n);
-    suffix_gcd[n-1] = a[n-1];
     for(i=n-2;i>=0;i--)
     {
-        suffix_gcd[i] = gcd(a[i], suffix_gcd[i+1]);
-    }
-
-    ll ans = 0; // Initialize with 0 for finding maximum GCD
-
-    // Case 1: Replace a[0]
-    if (n > 1) ans = max(ans, suffix_gcd[1]);
-    else ans = a[0]; // If only one element, replacing it with itself gives the same GCD
-
-    // Case 2: Replace a[i] for 1 <= i < n-1
-    for(i=1;i<=(n-2);i++)
-    {
-        // GCD of elements to the left of i and to the right of i
-        ans=max(ans,gcd(gcd_l[i-1],suffix_gcd[i+1]));
+        gcd_r[n-1-i]=gcd(gcd_r[(n-1-i)-1],a[i]);
     }
     
-    // Case 3: Replace a[n-1]
-    if (n > 1) ans = max(ans, gcd_l[n-2]);
+    ll ans=-10;
+    
+    for(i=0;i<=(n-3);i++)
+    {
+        ans=max(ans,gcd(gcd_l[i],gcd_r[n-3-i]));
+    }
+    
+    ans=max(ans,gcd_r[n-2]);
+    ans=max(ans,gcd_l[n-2]);
     
     cout<<ans<<"\n";
     

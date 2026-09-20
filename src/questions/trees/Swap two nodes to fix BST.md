@@ -1,10 +1,4 @@
-# Swap Two Nodes to Fix BST
-
-## Problem Description
-
-Two nodes of a Binary Search Tree (BST) are swapped, which means the BST is no longer valid. The task is to correct the BST by swapping them back, without changing its structure. The goal is to restore the BST property, where the in-order traversal of the tree yields a sorted sequence.
-
-## C++ Solution
+# Swap two nodes to fix BST
 
 ```cpp
 class Solution {

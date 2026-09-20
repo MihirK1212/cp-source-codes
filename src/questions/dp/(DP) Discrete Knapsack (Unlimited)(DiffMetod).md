@@ -1,12 +1,15 @@
-# Discrete Knapsack (Unlimited Items) - Different Method (DP)
-
-## Problem Description
-
-This is a variation of the unbounded knapsack problem where we can use each item multiple times. Given `N` items, each with a `value` and `weight`, and a knapsack of capacity `W`, find the maximum total value that can be put into the knapsack.
-
-## C++ Solution
+# (DP) Discrete Knapsack (Unlimited)(DiffMetod)
 
 ```cpp
+// { Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
 class Solution{
 public:
     int knapSack(int N, int W, int val[], int wt[])
@@ -37,13 +40,8 @@ public:
         
     }
 };
-```
 
-## Driver Code (C++)
-
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
+// { Driver Code Starts.
 
 int main(){
     int t;
@@ -61,5 +59,5 @@ int main(){
         cout<<ob.knapSack(N, W, val, wt)<<endl;
     }
     return 0;
-} 
+}  // } Driver Code Ends
 ```

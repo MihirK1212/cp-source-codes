@@ -1,12 +1,4 @@
-# USACO Bronze: Traffic Measurement
-
-## Problem Description
-
-This problem is from USACO: [Traffic Measurement](http://www.usaco.org/index.php?page=viewproblem2&cpid=917)
-
-*(The problem description is not provided in the original file. This solution appears to be for a USACO Bronze simulation problem involving traffic flow and measurements. A more detailed problem description would need to be added manually or obtained from the USACO website.)*
-
-## C++ Solution
+# Traffic Measurement
 
 ```cpp
 #include <bits/stdc++.h>
@@ -55,6 +47,8 @@ void setIO(string name = "")
 int main()
 {
     setIO("traffic");
+    
+    //http://www.usaco.org/index.php?page=viewproblem2&cpid=917
     
     map<string,ll> typecode;
     typecode["off"] = -1;

@@ -1,4 +1,4 @@
-# Sieve of Eratosthenes (Odd Numbers Only)
+# Sieve of Er. Odd Only
 
 ```cpp
 #include <bits/stdc++.h>

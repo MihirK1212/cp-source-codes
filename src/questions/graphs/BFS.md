@@ -1,130 +1,69 @@
-# Breadth-First Search (BFS)
-
-## Overview
-
-Breadth-First Search (BFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root (or some arbitrary node of a graph, sometimes referred to as a 'search key') and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.
-
-### Key Characteristics:
-
-*   **Level-by-Level Traversal:** BFS explores all nodes at a given depth (distance from the source) before moving to nodes at the next depth. This guarantees that the shortest path in an unweighted graph is found first.
-*   **Queue Data Structure:** BFS uses a queue to manage which node to visit next, ensuring a FIFO (First-In, First-Out) order of processing.
-*   **Applications:** Widely used for finding the shortest path in unweighted graphs, finding connected components, network broadcasting, and more.
-
-### BFS Algorithm Steps:
-
-1.  **Start Node:** Begin by selecting a 'start' node. This node is at distance 0 from itself.
-2.  **Initialization:** Add the `start` node to a queue and mark it as visited.
-3.  **Traversal Loop:** While the queue is not empty:
-    a.  Dequeue a node `u` from the front of the queue.
-    b.  Process node `u` (e.g., print it, add it to a path, etc.).
-    c.  For each unvisited neighbor `v` of `u`:
-        i.  Mark `v` as visited.
-        ii. Enqueue `v`.
-
-### Visiting Order:
-
-1.  Visit the starting node.
-2.  Visit all nodes directly adjacent to the starting node.
-3.  Visit all unvisited nodes adjacent to the nodes visited in step 2.
-4.  Continue this process, layer by layer, until all reachable nodes are visited.
-
-## C++ Solution
-
-This C++ solution implements the BFS algorithm for graph traversal.
-
-**Graph Representation:**
-
-*   The graph is represented using an adjacency list: `std::map<ll, vll> graph`, where keys are nodes and values are vectors of their neighbors.
-
-**`bfs(map<ll, vll> &graph, ll start)` function:**
-
-*   **Parameters:**
-    *   `graph`: The adjacency list representing the graph.
-    *   `start`: The starting node for the BFS traversal.
-*   **Logic:**
-    1.  Create a `std::vector<bool> visited` to keep track of visited nodes, initialized to `false`.
-    2.  Create a `std::queue<ll> q` and push the `start` node onto it.
-    3.  While `q` is not empty:
-        *   Dequeue `u = q.front()` and pop it.
-        *   If `u` has not been visited (`!visited[u]`):
-            *   Mark `u` as visited (`visited[u] = true`).
-            *   Process `u` (e.g., print `Visited u`).
-            *   For each neighbor `x` of `u`:
-                *   If `x` has not been visited (`!visited[x]`), enqueue `x`.
-
-**`main()` function:**
-
-*   Demonstrates how to create a sample graph (undirected in this example).
-*   Prompts the user for a starting node.
-*   Calls the `bfs` function to perform the traversal and prints the visited nodes.
+# BFS
 
 ```cpp
-#include <iostream>  // Required for std::cin, std::cout
-#include <vector>    // Required for std::vector
-#include <queue>     // Required for std::queue
-#include <map>       // Required for std::map (for graph representation)
-#include <algorithm> // Not explicitly used but generally useful
-#include <limits>    // For std::numeric_limits (if ll inf needed)
+#include <bits/stdc++.h>
+using namespace std;
 
-// Using namespace std; // Commonly used in competitive programming, but explicit std:: is more robust
+/*
+#Point to Remember: Queue follows Fisrt In First Out Policy
+
+BFS Algorithm
+1)We begin by visiting a 'start' node (this node is at 0 distance from itself)
+2)We now add all nodes at distance 1 from this 'start' node into a queue
+3)Now we go into the queue and visit the node at the front of the queue (this node is at distance 1 from 'start')
+4)Let this node in the previous step be node 'x'
+5)Now we add all adjacent nodes of node 'x' into the queue...these added nodes will be visited after all the nodes 
+  in step 2 have been visited
+6)Queue follows Fisrt In First Out Policy,thus nodes added later to the queue will be visited later  
+7)Thus, the visiting order will be:
+
+i)Visit starting node
+ii)Visit all nodes adjacent to starting node
+iii)Visit all unvisited nodes adjacent to all the nodes in step ii
+iv)Visit all unvisited nodes adjacent to all the nodes in step iii
+...Continue the process
+*/
 
 #define ll long long 
-#define vll std::vector<long long>
-// #define f first // Avoiding conflicts with member access
-// #define s second // Avoiding conflicts with member access
+#define vll vector<long long>
+#define f first
+#define s second
 #define pb push_back
-#define printoneline(arr,a,b) for(long long i_idx=a;i_idx<=b;i_idx++){std::cout<<arr[i_idx]<<" ";} std::cout<<"\n";
-// #define sort(a) std::sort(a.begin(),a.end()); // Avoid macro conflict
-// #define rsort(a) std::sort(a.rbegin(),a.rend()); // Avoid macro conflict
-// #define reverse(a) std::reverse(a.begin(),a.end()); // Avoid macro conflict
+#define printoneline(arr,a,b) for(long long i=a;i<=b;i++){cout<<arr[i]<<" ";} cout<<"\n";
+#define sort(a) sort(a.begin(),a.end());
+#define rsort(a) sort(a.rbegin(),a.rend());
+#define reverse(a) reverse(a.begin(),a.end());
 
-// Function to perform Breadth-First Search (BFS) traversal of a graph
-// graph: adjacency list representation
-// start: starting node for traversal
-void bfs(std::map<ll, vll>& graph, ll start)
+void bfs(map<ll,vll> &graph,ll start)
 {
-    // visited array to keep track of visited nodes
-    // Size should be based on maximum node index, or use a map for sparse graphs.
-    // Assuming node IDs are 0-indexed and contiguous for vector<bool>.
-    // For map, graph.rbegin()->first + 1 could give a max, but map itself stores visited state implicitly.
-    // A safer way if nodes are arbitrary ints is to use std::map<ll, bool> visited;
-    std::vector<bool> visited(graph.size(), false);
+    vector<bool> visited(graph.size(),false);
+    queue<ll> q;
     
-    std::queue<ll> q; // Queue for BFS traversal
+    q.push(start);
     
-    q.push(start); // Add the starting node to the queue
-    visited[start] = true; // Mark the starting node as visited
-    
-    while(!q.empty()) // While there are nodes to visit
+    while(!q.empty())
     {
-        ll u = q.front(); // Get the front node
-        q.pop();          // Remove it from the queue
-        
-        std::cout << "Visited " << u << "\n"; // Process the node (e.g., print it)
-            
-        // Enqueue all unvisited neighbors of u
-        for(auto v : graph[u])
+        ll u=q.front();
+        q.pop();
+        if(!visited[u])
         {
-            if(!visited[v])
+            cout<<"Visited "<<u<<"\n";
+            visited[u]=true;
+            for(auto x:graph[u])
             {
-                visited[v] = true; // Mark neighbor as visited
-                q.push(v);         // Add neighbor to the queue
-            }
+                if(!visited[x]){q.push(x);}
+	    	}
         }
     }
     return;
 }
 
+
 int main()
 {
-    // Fast I/O setup
-    std::ios_base::sync_with_stdio(false); 
-    std::cin.tie(NULL);
+    map<ll,vll> graph;
     
-    // Sample graph representation using std::map for adjacency list
-    std::map<ll, vll> graph;
     
-    // Define graph edges
     graph[0]={1,4,5};
     graph[1]={0,2,3,4};
     graph[2]={1};
@@ -136,13 +75,13 @@ int main()
     graph[8]={7};
     graph[9]={5,6};
     
-    ll start_node;
+    ll start;
     
-    std::cout << "BFS...\n";
-    std::cout << "Enter starting node\n";
-    std::cin >> start_node;
+    cout<<"BFS...\n";
+    cout<<"Enter starting node\n";
+    cin>>start;
     
-    bfs(graph, start_node); // Perform BFS traversal
+    bfs(graph,start);
     
     return 0;
 }

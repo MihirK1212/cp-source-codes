@@ -1,12 +1,4 @@
-# Discrete Knapsack Problem (Recursive Dynamic Programming)
-
-## Problem Description
-
-The Knapsack problem is a classic optimization problem. Given a set of items, each with a weight and a value, determine the number of each item to include in a collection so that the total weight is less than or equal to a given limit and the total value is as large as possible.
-
-This implementation specifically addresses the **0/1 Knapsack problem** (also known as the discrete knapsack problem) using a recursive dynamic programming approach. Each item can either be entirely included or entirely excluded (i.e., you cannot take fractions of an item, and each item is unique and can only be used once).
-
-## C++ Solution
+# (DP Recursive) Discrete Knapsack (Limited)
 
 ```cpp
 #include <bits/stdc++.h>

@@ -1,6 +1,4 @@
-# DFS (Depth First Search)
-
-## C++ Implementation
+# DFS
 
 ```cpp
 #include <bits/stdc++.h>
@@ -16,33 +14,27 @@ using namespace std;
 #define rsort(a) sort(a.rbegin(),a.rend());
 #define reverse(a) reverse(a.begin(),a.end());
 
-// Recursive Depth First Search function
-// graph: adjacency list representation of the graph
-// node: current node being visited
-// visited: boolean vector to keep track of visited nodes
 ll dfs(map<ll,vll> &graph,ll node,vector<bool> &visited)
 {
-    visited[node]=true; // Mark current node as visited
-    ll numvisited=1;   // Count current node as visited
-    
-    // Traverse all neighbors of the current node
-    for(auto x : graph[node])
+    visited[node]=true;
+    ll numvisited=1;
+    for(auto x:graph[node])
     {
-        if(!visited[x]) // If neighbor has not been visited
+        if(!visited[x])
         {
-            //cout<<"Visited "<<x<<"\n"; // Debugging line (optional)
-            numvisited = numvisited + dfs(graph,x,visited); // Recursively call DFS for neighbor
+            //cout<<"Visited "<<x<<"\n";
+            numvisited=numvisited+dfs(graph,x,visited);
         }
     }
-    //cout<<"Dead-end "<<node<<"\n"; // Debugging line (optional)
-    return numvisited; // Return total number of nodes visited in this connected component
+    //cout<<"Dead-end "<<node<<"\n";
+    return numvisited;
 }
 
 
 int main()
 {
-    // Example graph represented using an adjacency list (map where key is node, value is list of neighbors)
     map<ll,vll> graph;
+    
     
     graph[0]={1,4,5};
     graph[1]={0,2,3,4};
@@ -55,15 +47,14 @@ int main()
     graph[8]={7};
     graph[9]={5,6};
     
-    // Initialize visited array for 10 nodes (adjust size based on max node ID)
+    
     vector<bool> visited(10,false);
     
-    ll start; // Starting node for DFS
+    ll start;
     
     cout<<"Enter starting node\n";
     cin>>start;
     
-    // Perform DFS starting from 'start' node and print the count of connected nodes
     cout<<"Number of connected nodes with node "<<start<<" are "<<dfs(graph,start,visited)<<"\n";
     
     return 0;

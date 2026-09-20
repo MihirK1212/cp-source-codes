@@ -1,12 +1,4 @@
-# Maximum Distance Node from Each Node (Tree Distances 1 - Up-Down Strategy)
-
-## Problem Description
-
-This problem is from CSES Problem Set: [Tree Distances I](https://cses.fi/problemset/task/1132/)
-
-Given a tree with `n` nodes, calculate for each node the maximum distance to any other node in the tree.
-
-## C++ Solution
+# (Up-down strategy) (Tree Distances 1) Maximum Distance Node from each node
 
 ```cpp
 #include <bits/stdc++.h>

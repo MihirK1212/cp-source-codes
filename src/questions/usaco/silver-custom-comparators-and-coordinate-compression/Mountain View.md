@@ -1,19 +1,4 @@
-# Mountain View (USACO Silver)
-
-## Problem Description
-
-This problem is from USACO: [Mountain View](http://www.usaco.org/index.php?page=viewproblem2&cpid=896).
-
-Given a set of `n` mountain peaks, each represented by its coordinates (x, y), determine how many peaks are "visible". A peak (x, y) is hidden if there exists another peak (x*, y*) such that:
-
-*   `(x* + y*) >= (x + y)`
-*   `(x* - y*) <= (x - y)`
-
-This geometric condition can be interpreted as: if we transform the coordinates such that `sum = x + y` and `diff = x - y`, then a peak `(sum, diff)` is hidden if there exists a peak `(sum*, diff*)` such that `sum* >= sum` and `diff* <= diff`.
-
-The task is to count the number of visible peaks.
-
-## C++ Solution
+# Mountain View
 
 ```cpp
 #include <bits/stdc++.h>

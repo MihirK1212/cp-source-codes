@@ -1,10 +1,4 @@
-# Simple Sieve of Eratosthenes
-
-## Problem Description
-
-This problem implements the Sieve of Eratosthenes algorithm to find all prime numbers up to a given integer `n`.
-
-## C++ Solution
+# Simple Sieve of Er.
 
 ```cpp
 #include <bits/stdc++.h>

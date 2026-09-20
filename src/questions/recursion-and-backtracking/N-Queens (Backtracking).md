@@ -1,11 +1,5 @@
 # N-Queens (Backtracking)
 
-## Problem Description
-
-The N-Queens puzzle is the problem of placing `N` queens on an `N x N` chessboard such that no two queens attack each other. This means no two queens share the same row, column, or diagonal. This solution finds one possible configuration for the N-Queens puzzle using a backtracking algorithm.
-
-## C++ Solution
-
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;

@@ -1,10 +1,4 @@
-# Ways to Color 3xN Board (DP)
-
-## Problem Description
-
-Given a 3xN board, find the number of ways to color it using three colors such that no two adjacent cells have the same color. The result should be returned modulo 1000000007.
-
-## C++ Solution
+# (DP) Ways to Color 3xN board
 
 ```cpp
 int Solution::solve(int N) 
@@ -14,8 +8,8 @@ int Solution::solve(int N)
     vector<long long> A(N+1,0);
     vector<long long> B(N+1,0);
 
-    //A[n] = last column is of the form x y z (all three colors different)
-    //B[n] = last column is of the form x y x (two colors same, one different)
+    //A[n] = last column is of the form x y z
+    //B[n] = last column is of the form x y x
 
     A[1] = 24;
     B[1] = 12;

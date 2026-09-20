@@ -1,7 +1,8 @@
-# (DP) Stock Buy and Sell at Most 2 Times
+# (DP) Stock Buy and Sell atmost 2 times
+
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/#/description
 
 ```cpp
-// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/#/description
 class Solution {
 public:
     int maxProfit(vector<int>& A) 
