@@ -561,8 +561,10 @@
       path: "/src/questions/graphs/Trapping%20Rain%20Water%20II.html"
     - label: "k-coloring"
       path: "/src/questions/graphs/k-coloring.html"
-    - label: "Djistrka with Cost Constraint"
-      path: "/src/questions/graphs/Djistrka%20with%20Cost%20Constraint.html"
+    - label: "Djistrka with Distance + Cost Constraint"
+      path: "/src/questions/graphs/Djistrka%20with%20Distance%20%2B%20Cost%20Constraint.html"
+    - label: "Djistrka with Max Cost"
+      path: "/src/questions/graphs/Djistrka%20with%20Max%20Cost.html"
 - label: "Heaps"
   path: "/src/questions/heaps/README.html"
   problems:
@@ -858,6 +860,8 @@
       path: "/src/questions/string-processing/Longest%20Palin%20Subarray%20-%20Manacher%20Algorithm.html"
     - label: "Z Algorithm String Matching"
       path: "/src/questions/string-processing/Z%20Algorithm%20String%20Matching.html"
+    - label: "RabinKarp"
+      path: "/src/questions/string-processing/RabinKarp.html"
 - label: "Subarray Hashing"
   path: "/src/questions/subarray-hashing/README.html"
   problems:
@@ -1034,6 +1038,8 @@
           path: "/src/questions/usaco/bronze-introduction-to-graph-algorithms/Livestock%20Lineup.html"
         - label: "Milk Factory"
           path: "/src/questions/usaco/bronze-introduction-to-graph-algorithms/Milk%20Factory.html"
+        - label: "Cow Evolution"
+          path: "/src/questions/usaco/bronze-introduction-to-graph-algorithms/Cow%20Evolution.html"
     - label: "Bronze — Intro to Greedy Algorithms"
       path: "/src/questions/usaco/bronze-introduction-to-greedy-algorithms/README.html"
       problems:

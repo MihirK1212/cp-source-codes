@@ -13,4 +13,5 @@ layout: default
 
 - [KMP String Matching](./KMP%20String%20Matching.html)
 - [Longest Palin Subarray - Manacher Algorithm](./Longest%20Palin%20Subarray%20-%20Manacher%20Algorithm.html)
+- [RabinKarp](./RabinKarp.html)
 - [Z Algorithm String Matching](./Z%20Algorithm%20String%20Matching.html)
